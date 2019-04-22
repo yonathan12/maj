@@ -25,8 +25,8 @@
                             <td><?php echo $no++;?></td>
                             <td><?php echo $beli['valas']; ?></td>
                             <td><?php echo $beli['rate_valas'];?></td>
-                            <td><?php echo $beli['JML'];?></td>
-                            <td><?php echo $beli['hasil']." ".$beli['valas'];?></td>
+                            <td><?php echo $beli['jumlah'];?></td>
+                            <td><?php echo "IDR ".$beli['hasil'];?></td>
                             <td><?= date('d F Y',$beli['date_created']);?></td>
                             <td style="text-align: center;">                                
                                 <a href="<?= base_url(); ?>admin/detail/<?= $beli['Id']; ?>" class="fas fa-info"></a>                             

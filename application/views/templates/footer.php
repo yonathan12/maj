@@ -82,18 +82,18 @@
     $('#table2').DataTable();
   } );
 
-  function hitung(){
+  function hitungBeli(){
 
-    var myForm = document.hitungRate;
+    var myForm = document.hitungRateBeli;
     var x=eval(myForm.rate_valas.value);
     var y=eval(myForm.jumlah.value);
     var z= x * y;
     myForm.hasil.value =  z.toFixed(0);
   }
 
-  function hitungBeli(){
+  function hitungJual(){
 
-  var myForm = document.hitungRateBeli;
+  var myForm = document.hitungRateJual;
   var x=eval(myForm.rate_valas.value);
   var y=eval(myForm.jumlah.value);
   var z= y / x;

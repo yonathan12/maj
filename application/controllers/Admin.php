@@ -82,7 +82,8 @@ class Admin extends CI_Controller
         
         $data['valas'] = $this->db->get('valas')->result_array();
 
-        $this->form_validation->set_rules('valas','Valas','required');
+        $this->form_validation->set_rules('valas','Valas','required|trim|is_unique[valas.valas]',[
+            'is_unique' => 'This valas has been registered!']);
 
         if ($this->form_validation->run()== FALSE) {
             # code...

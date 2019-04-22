@@ -25,8 +25,8 @@
                             <td><?php echo $no++;?></td>
                             <td><?php echo $jual['valas']; ?></td>
                             <td><?php echo $jual['rate_valas'];?></td>
-                            <td><?php echo $jual['jumlah'];?></td>
-                            <td><?php echo $jual['hasil'];?></td>
+                            <td><?php echo $jual['JML'];?></td>
+                            <td><?php echo $jual['hasil']." ".$jual['valas'];?></td>
                             <td><?= date('d F Y',$jual['date_created']);?></td>
                             <td style="text-align: center;">                                
                                 <a href="<?= base_url(); ?>admin/detail/<?= $jual['Id']; ?>" class="fas fa-info"></a>                             
@@ -37,7 +37,30 @@
                     <?php }?>
         </tbody>
     </table>
-    
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+    <h3 text-align="center">Stock</h3>
+    <table id="table2" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Valas</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php 
+                        $no = 1;
+                        foreach($stock as $s){
+                    ?>
+                        <tr>
+                            <td><?php echo $no++;?></td>
+                            <td><?php echo $s['valas']; ?></td>
+                            <td><?php echo $s['stock'];?></td>
+                        </tr>
+                    <?php }?>
+        </tbody>
+    </table>
 </div>
 
 
@@ -51,7 +74,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form name="hitungRate" action="<?= base_url()?>transaksi/penjualan" method="POST">
+      <form name="hitungRateJual" action="<?= base_url()?>transaksi/penjualan" method="POST">
         <div class="form-group">
             <label for="exampleFormControlInput1">Valas</label>
             <select name="valas" class="form-control">
@@ -74,7 +97,7 @@
             <label for="exampleFormControlInput1">Hasil</label>
             <input type="number" class="form-control" id="hasil" placeholder="Hasil" name="hasil">
         </div>
-        <input type=button name=submit onClick="hitung()" class="btn btn-primary" value="Hitung">
+        <input type=button name=submit onClick="hitungJual()" class="btn btn-primary" value="Hitung">
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     </div>

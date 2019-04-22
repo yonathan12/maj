@@ -7,7 +7,7 @@
         
         <div class="row">
         <div class="col-lg-6">
-        <?php echo form_error('menu', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
+        <?php echo form_error('valas', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
         <?= $this->session->flashdata('message');?>
         <a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal">Add New Valas</a>
         <table class="table table-hover">

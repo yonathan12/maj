@@ -14,15 +14,18 @@ class Transaksi extends CI_Controller
         $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
         $this->form_validation->set_rules('valas','Valas','required');
 
-        $data['valas'] = $this->db->get('valas')->result_array();
+        $data['valas'] = $this->db->get('valas')->result_array();        
 
-        $query = "SELECT transaksi.*, valas.*
+        $query = "SELECT transaksi.rate_valas,transaksi.hasil,transaksi.date_created,
+        transaksi.rate_valas * transaksi.hasil AS JML, valas.*
         FROM transaksi JOIN valas
         ON transaksi.id_valas = valas.Id
-        WHERE transaksi.trx = 1 
-        ORDER BY transaksi.Id DESC";
+        WHERE transaksi.trx = 1";
         $data['penjualan'] = $this->db->query($query)->result_array();
 
+        $data['stock'] = $this->db->get('valas')->result_array();
+        
+        
         if ($this->form_validation->run()== FALSE) {
             # code...
             $data['title'] = 'Transaksi Penjualan';
@@ -47,11 +50,31 @@ class Transaksi extends CI_Controller
                 'date_created' => time()
             ];
 
+            $queryStock ="SELECT stock FROM valas WHERE Id = $valas ";
+            $dataStock['data'] = $this->db->query($queryStock)->row();            
+            $stock = $dataStock['data'];
+            $sisa = $stock->stock;
+
+            if ($hasil <= $sisa) {
+                # code...
+            $sisaStock = $sisa - $hasil;
+
+            $this->db->set('stock',$sisaStock);
+            $this->db->where('Id',$valas);
+            $this->db->update('valas');
+
             $this->db->insert('transaksi',$data);
             $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
             Data Tersimpan!
           </div>');
-            redirect('transaksi/penjualan');            
+            redirect('transaksi/penjualan');  
+            } else {
+                # code...
+            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+            Stock Kurang !
+          </div>');
+            redirect('transaksi/penjualan');
+            }         
         }        
     }
 
@@ -63,7 +86,7 @@ class Transaksi extends CI_Controller
         $data['valas'] = $this->db->get('valas')->result_array();        
 
         $query = "SELECT transaksi.rate_valas,transaksi.hasil,transaksi.date_created,
-        transaksi.rate_valas * transaksi.hasil AS JML, valas.*
+        transaksi.jumlah, valas.*
         FROM transaksi JOIN valas
         ON transaksi.id_valas = valas.Id
         WHERE transaksi.trx = 2";
@@ -100,10 +123,7 @@ class Transaksi extends CI_Controller
             $dataStock['data'] = $this->db->query($queryStock)->row();            
             $stock = $dataStock['data'];
             $sisa = $stock->stock;
-
-            if ($hasil <= $sisa) {
-                # code...
-            $sisaStock = $sisa - $hasil;
+            $sisaStock = $sisa + $jumlah;
 
             $this->db->set('stock',$sisaStock);
             $this->db->where('Id',$valas);
@@ -113,17 +133,7 @@ class Transaksi extends CI_Controller
             $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
             Data Tersimpan!
           </div>');
-            redirect('transaksi/pembelian');  
-            } else {
-                # code...
-            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-            Stock Kurang !
-          </div>');
-            redirect('transaksi/pembelian');
-            }
-            
-
-                      
-        }        
+            redirect('transaksi/pembelian');                      
+        }
     }
 }

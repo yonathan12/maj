@@ -20,7 +20,7 @@ class Transaksi extends CI_Controller
         transaksi.rate_valas * transaksi.hasil AS JML, valas.*
         FROM transaksi JOIN valas
         ON transaksi.id_valas = valas.Id
-        WHERE transaksi.trx = 1";
+        WHERE transaksi.trx = 1 AND transaksi.status= 1";
         $data['penjualan'] = $this->db->query($query)->result_array();
 
         $data['stock'] = $this->db->get('valas')->result_array();
@@ -89,7 +89,7 @@ class Transaksi extends CI_Controller
         transaksi.jumlah, valas.*
         FROM transaksi JOIN valas
         ON transaksi.id_valas = valas.Id
-        WHERE transaksi.trx = 2";
+        WHERE transaksi.trx = 2 AND transaksi.status= 1";
         $data['pembelian'] = $this->db->query($query)->result_array();
 
         $data['stock'] = $this->db->get('valas')->result_array();

@@ -80,6 +80,7 @@ class Admin extends CI_Controller
     {
         $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
         
+        $this->db->where('status',1);
         $data['valas'] = $this->db->get('valas')->result_array();
 
         $this->form_validation->set_rules('valas','Valas','required|trim|is_unique[valas.valas]',[

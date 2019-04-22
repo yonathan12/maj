@@ -3,10 +3,7 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800"><?= $title;?></h1>
-          
-          
-        
+        <h1 class="h3 mb-4 text-gray-800"><?= $title;?></h1>
         <div class="row">
         <div class="col-lg">
         <?php if(validation_errors()) : ?>
@@ -15,38 +12,39 @@
         
         <?= $this->session->flashdata('message');?>
         <a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal">Add New SubMenu</a>
-        <table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Title</th>
-      <th scope="col">Menu</th>
-      <th scope="col">Url</th>
-      <th scope="col">Icon</th>
-      <th scope="col">Active</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-  <tbody>
-  <?php $i = 1; ?> 
-  <?php foreach ($subMenu as $sm) : ?>
-    <tr>
-      <th scope="row"><?= $i;?></th>
-      <td><?= $sm['title']; ?></td>
-      <td><?= $sm['menu']; ?></td>
-      <td><?= $sm['url']; ?></td>
-      <td><?= $sm['icon']; ?></td>
-      <td><?= $sm['is_active']; ?></td>
-      <td>
-      <a href="#" class="badge badge-success">Edit</a>
-      <a href="#" class="badge badge-danger">Delete</a>
-      </td>
-    </tr>
-    <?php $i++; ?>
-  <?php  endforeach; ?>  
-  </tbody>
-</table>
-        </div>
+        <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Title</th>
+              <th scope="col">Menu</th>
+              <th scope="col">Url</th>
+              <th scope="col">Icon</th>
+              <th scope="col">Active</th>
+              <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php 
+                        $no = 1;
+                        foreach($subMenu as $sm){
+                    ?>
+                        <tr>
+                        <th scope="row"><?= $no++;?></th>
+                          <td><?= $sm['title']; ?></td>
+                          <td><?= $sm['menu']; ?></td>
+                          <td><?= $sm['url']; ?></td>
+                          <td><?= $sm['icon']; ?></td>
+                          <td><?= $sm['is_active']; ?></td>
+                          <td>
+                            <a href="#" class="badge badge-success">Edit</a>
+                            <a href="#" class="badge badge-danger">Delete</a>
+                          </td>
+                        </tr>
+                    <?php }?>
+        </tbody>
+    </table>
+  </div>
         </div>
          
         </div>

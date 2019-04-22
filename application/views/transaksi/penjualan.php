@@ -4,7 +4,7 @@
     <?= $this->session->flashdata('message');?>    
     </div>
     <a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal">New Transaction</a>
-<table id="example" class="table table-striped table-bordered" style="width:100%">
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>

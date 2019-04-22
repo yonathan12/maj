@@ -28,7 +28,8 @@
                             <td><?php echo $jual['JML'];?></td>
                             <td><?php echo $jual['hasil']." ".$jual['valas'];?></td>
                             <td><?= date('d F Y',$jual['date_created']);?></td>
-                            <td style="text-align: center;">                                
+                            <td>       
+                                <a href="<?= base_url(); ?>admin/print/<?= $jual['Id']; ?>" class="fas fa-print"></a>                     
                                 <a href="<?= base_url(); ?>admin/detail/<?= $jual['Id']; ?>" class="fas fa-info"></a>                             
                                 <a href="<?= base_url(); ?>admin/ubah/<?= $jual['Id']; ?>" class="fas fa-edit" ></a>
                                 <a href="<?= base_url(); ?>admin/hapus/<?= $jual['Id']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a>

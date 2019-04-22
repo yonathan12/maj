@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 22, 2019 at 02:42 AM
+-- Generation Time: Apr 22, 2019 at 03:13 AM
 -- Server version: 10.1.32-MariaDB
 -- PHP Version: 5.6.36
 
@@ -35,28 +35,29 @@ CREATE TABLE `transaksi` (
   `jumlah` varchar(150) NOT NULL,
   `hasil` varchar(150) NOT NULL,
   `trx` int(11) NOT NULL,
-  `date_created` int(11) NOT NULL
+  `date_created` int(11) NOT NULL,
+  `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `transaksi`
 --
 
-INSERT INTO `transaksi` (`Id`, `id_valas`, `rate_valas`, `jumlah`, `hasil`, `trx`, `date_created`) VALUES
-(14, 1, '14500', '1500000', '103', 1, 1555861577),
-(15, 2, '10500', '1000000', '95', 1, 1555862050),
-(16, 5, '16500', '500000', '30', 1, 1555862203),
-(17, 1, '14400', '1000000', '69', 1, 1555862483),
-(18, 2, '10500', '1000000', '95', 1, 1555862602),
-(19, 2, '10500', '5000000', '476', 1, 1555862622),
-(20, 1, '14700', '15000000', '1020', 1, 1555862704),
-(21, 5, '16000', '100000', '6', 1, 1555862731),
-(22, 2, '10300', '5000000', '485', 1, 1555862753),
-(23, 5, '17000', '200000', '12', 1, 1555862779),
-(24, 5, '16000', '32000', '2', 1, 1555862795),
-(26, 1, '14500', '100', '1450000', 2, 1555892826),
-(27, 5, '16500', '1000', '16500000', 2, 1555892922),
-(28, 1, '14300', '1000000', '70', 1, 1555892990);
+INSERT INTO `transaksi` (`Id`, `id_valas`, `rate_valas`, `jumlah`, `hasil`, `trx`, `date_created`, `status`) VALUES
+(14, 1, '14500', '1500000', '103', 1, 1555861577, 1),
+(15, 2, '10500', '1000000', '95', 1, 1555862050, 1),
+(16, 5, '16500', '500000', '30', 1, 1555862203, 1),
+(17, 1, '14400', '1000000', '69', 1, 1555862483, 1),
+(18, 2, '10500', '1000000', '95', 1, 1555862602, 1),
+(19, 2, '10500', '5000000', '476', 1, 1555862622, 1),
+(20, 1, '14700', '15000000', '1020', 1, 1555862704, 1),
+(21, 5, '16000', '100000', '6', 1, 1555862731, 1),
+(22, 2, '10300', '5000000', '485', 1, 1555862753, 1),
+(23, 5, '17000', '200000', '12', 1, 1555862779, 1),
+(24, 5, '16000', '32000', '2', 1, 1555862795, 1),
+(26, 1, '14500', '100', '1450000', 2, 1555892826, 1),
+(27, 5, '16500', '1000', '16500000', 2, 1555892922, 1),
+(28, 1, '14300', '1000000', '70', 1, 1555892990, 1);
 
 -- --------------------------------------------------------
 
@@ -181,7 +182,7 @@ INSERT INTO `user_sub_menu` (`Id`, `menu_id`, `title`, `url`, `icon`, `is_active
 (13, 10, 'Transaksi Penjualan', 'transaksi/penjualan', 'fas fa-money-bill-alt', 1),
 (14, 10, 'Transaksi Pembelian', 'transaksi/pembelian', 'fas fa-money-check-alt', 1),
 (15, 1, 'All User', 'admin/user', 'fas fa-fw fa-user-tie', 1),
-(16, 1, 'Stock', 'admin/stock', 'fas fa-wallet', 1),
+(16, 1, 'Stock', 'admin/stock', 'fas fa-fw fa-wallet', 1),
 (17, 11, 'Rate', 'rate', 'fas fa-fw-youtube', 1);
 
 -- --------------------------------------------------------
@@ -193,17 +194,18 @@ INSERT INTO `user_sub_menu` (`Id`, `menu_id`, `title`, `url`, `icon`, `is_active
 CREATE TABLE `valas` (
   `Id` int(11) NOT NULL,
   `valas` varchar(50) NOT NULL,
-  `stock` varchar(150) NOT NULL
+  `stock` varchar(150) NOT NULL,
+  `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `valas`
 --
 
-INSERT INTO `valas` (`Id`, `valas`, `stock`) VALUES
-(1, 'USD', '238'),
-(2, 'SGD', '3849'),
-(5, 'EUR', '1000');
+INSERT INTO `valas` (`Id`, `valas`, `stock`, `status`) VALUES
+(1, 'USD', '238', 1),
+(2, 'SGD', '3849', 1),
+(5, 'EUR', '1000', 1);
 
 --
 -- Indexes for dumped tables

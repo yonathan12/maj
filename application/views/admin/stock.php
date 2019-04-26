@@ -22,9 +22,9 @@
                         <tr>
                             <td><?php echo $no++;?></td>
                             <td><?php echo $stock['valas']; ?></td>
-                            <td><?php echo $stock['stock'];?>
+                            <td><?php echo $stock['sa'];?>
                             <td>                          
-                                <a href="<?= base_url(); ?>admin/ubah/<?= $stock['Id']; ?>" class="fas fa-edit" ></a>
+                                <a href="<?= base_url(); ?>admin/ubah/<?= $stock['Id_valas']; ?>" class="fas fa-edit" ></a>
                             </td>
                         </tr>
                     <?php }?>
@@ -50,7 +50,7 @@
             <select name="valas" class="form-control">
             <option value="">Select Valas</option>
             <?php foreach ($valas as $v) : ?> 
-            <option value="<?= $v['Id'] ?>"><?= $v['valas'] ?></option>
+            <option value="<?= $v['Id_valas'] ?>"><?= $v['valas'] ?></option>
             <?php endforeach; ?>
             </select>
         </div>

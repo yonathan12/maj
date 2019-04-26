@@ -27,12 +27,12 @@
                             <td><?php echo $jual['rate_valas'];?></td>
                             <td><?php echo $jual['JML'];?></td>
                             <td><?php echo $jual['hasil']." ".$jual['valas'];?></td>
-                            <td><?= date('d F Y',$jual['date_created']);?></td>
+                            <td><?=  $jual['date_created'];?></td>
                             <td>       
-                                <a href="<?= base_url(); ?>admin/print/<?= $jual['Id']; ?>" class="fas fa-print"></a>                     
-                                <a href="<?= base_url(); ?>admin/detail/<?= $jual['Id']; ?>" class="fas fa-info"></a>                             
-                                <a href="<?= base_url(); ?>admin/ubah/<?= $jual['Id']; ?>" class="fas fa-edit" ></a>
-                                <a href="<?= base_url(); ?>admin/hapus/<?= $jual['Id']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a>
+                                <a href="<?= base_url(); ?>admin/print/<?= $jual['Id_valas']; ?>" class="fas fa-print"></a>                     
+                                <a href="<?= base_url(); ?>admin/detail/<?= $jual['Id_valas']; ?>" class="fas fa-info"></a>                             
+                                <a href="<?= base_url(); ?>admin/ubah/<?= $jual['Id_valas']; ?>" class="fas fa-edit" ></a>
+                                <a href="<?= base_url(); ?>admin/hapus/<?= $jual['Id_valas']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a>
                             </td>
                         </tr>
                     <?php }?>
@@ -57,7 +57,7 @@
                         <tr>
                             <td><?php echo $no++;?></td>
                             <td><?php echo $s['valas']; ?></td>
-                            <td><?php echo $s['stock'];?></td>
+                            <td><?php echo $s['sa'];?></td>
                         </tr>
                     <?php }?>
         </tbody>
@@ -81,7 +81,7 @@
             <select name="valas" class="form-control">
             <option value="">Select Menu</option>
             <?php foreach ($valas as $v) : ?> 
-            <option value="<?= $v['Id'] ?>"><?= $v['valas'] ?></option>
+            <option value="<?= $v['Id_valas'] ?>"><?= $v['valas'] ?></option>
             <?php endforeach; ?>
             </select>
         </div>

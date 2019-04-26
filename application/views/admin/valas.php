@@ -59,6 +59,7 @@
       </div>
       <form action="<?= base_url();?>admin/valas" method="POST">
       <div class="modal-body">
+      <input type="text" value="<?= $kode; ?>" hidden name="kode">
       <input type="text" class="form-control" id="role" name="valas" placeholder="Valas">
       </div>
       <div class="modal-footer">

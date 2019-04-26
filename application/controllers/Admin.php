@@ -7,6 +7,7 @@ class Admin extends CI_Controller
     {
         parent::__construct();
         is_logged_in();
+        $this->load->model('Kode_model','kode');
     }
     public function index()
     {
@@ -83,6 +84,8 @@ class Admin extends CI_Controller
         $this->db->where('status',1);
         $data['valas'] = $this->db->get('valas')->result_array();
 
+        $data['kode'] = $this->kode->get_kode();
+
         $this->form_validation->set_rules('valas','Valas','required|trim|is_unique[valas.valas]',[
             'is_unique' => 'This valas has been registered!']);
 
@@ -97,11 +100,26 @@ class Admin extends CI_Controller
         } else {
             # code...
             $valas = $this->input->post('valas');
+            $kode = $this->input->post('kode');
             $data = [
+                'Id_valas' => $kode,
                 'valas' => $valas,
-                'stock' => 0
+                'date_created' => date('Y-m-d'),
+                'time_created' => date('H:i:s'),
+                'status' => 1
             ];
+
+            $dataStock = [
+                'id_valas' => $kode,
+                'stock_awal' => 0,
+                'stock_akhir' => 0,
+                'date_created' => date('Y-m-d'),
+                'time_created' => date('H:i:s'),
+                'status' => 1
+            ];
+
             $this->db->insert('valas',$data);
+            $this->db->insert('stock',$dataStock);
 
             $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
                     New Valas Added!
@@ -127,7 +145,14 @@ class Admin extends CI_Controller
             $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
             $data['title'] = 'Stock';
 
-            $data['valas'] = $this->db->get('valas')->result_array();
+            // $data['valas'] = $this->db->get('valas')->result_array();
+
+            $queryDataStock = "SELECT stock.*,SUM(stock.stock_akhir - stock.stock_awal) AS sa, valas.*
+            FROM stock JOIN valas
+            WHERE stock.id_valas = valas.Id_valas
+            GROUP BY stock.id_valas ORDER BY stock.time_created";
+            $data['valas'] = $this->db->query($queryDataStock)->result_array();
+
 
             $this->form_validation->set_rules('valas','Valas','required');
             $this->form_validation->set_rules('stock','Stock','required');
@@ -143,15 +168,22 @@ class Admin extends CI_Controller
                 $valas = $this->input->post('valas');
                 $addStock = $this->input->post('stock');
 
-                $queryStock ="SELECT stock FROM valas WHERE Id = $valas ";
-                $dataStock['data'] = $this->db->query($queryStock)->row();            
+                $queryStock = "SELECT * FROM stock WHERE id_valas = '$valas' ORDER BY stock.time_created DESC  ";
+                $dataStock['data'] = $this->db->query($queryStock)->row();                
                 $stock = $dataStock['data'];
-                $sisa = $stock->stock;
-                $sisaStock = $sisa + $addStock;
-
-                $this->db->set('stock',$sisaStock);
-                $this->db->where('Id',$valas);
-                $this->db->update('valas');
+                $stockAwal = $stock->stock_akhir;
+                $stockAkhir = $stockAwal + $addStock;
+                
+                $data = [
+                    'id_valas' => $valas,
+                    'stock_awal' => $stockAwal,
+                    'trx_in' => $addStock,
+                    'stock_akhir' => $stockAkhir,
+                    'date_created' => date('Y-m-d'),
+                    'time_created' => date('H:i:s'),
+                    'status' => 1
+                ];
+                $this->db->insert('stock',$data);
 
                 $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
                 Stock Added!

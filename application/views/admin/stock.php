@@ -44,7 +44,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form action="<?= base_url()?>admin/stock" method="POST">
+      <form action="<?= base_url()?>admin/stock" method="POST" name="stock">
         <div class="form-group">
             <label for="exampleFormControlInput1">Valas</label>
             <select name="valas" class="form-control">
@@ -56,9 +56,20 @@
         </div>
         <div class="form-group">
             <label for="exampleFormControlInput1">Stock</label>
-            <input type="number" class="form-control" id="valas" name="stock" placeholder="Qty Stock">
+            <input type="number" class="form-control" id="stock" name="stock" placeholder="Qty Stock">
             <?= form_error('stock','<small class="text-danger pl-3">','</small>'); ?>
         </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Rate</label>
+            <input type="number" class="form-control" id="rate" name="rate" placeholder="Rate">
+            <?= form_error('rate','<small class="text-danger pl-3">','</small>'); ?>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Total</label>
+            <input type="number" class="form-control" id="total" name="total" placeholder="Total">
+            <?= form_error('total','<small class="text-danger pl-3">','</small>'); ?>
+        </div>
+        <input type=button name=submit onClick="hitungTotalTambahStock()" class="btn btn-primary" value="Hitung">
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     </div>

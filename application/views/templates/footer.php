@@ -88,7 +88,7 @@
     var x=eval(myForm.rate_valas.value);
     var y=eval(myForm.jumlah.value);
     var z= x * y;
-    myForm.hasil.value =  z.toFixed(0);
+    myForm.total.value =  z.toFixed(0);
   }
 
   function hitungJual(){
@@ -96,8 +96,17 @@
   var myForm = document.hitungRateJual;
   var x=eval(myForm.rate_valas.value);
   var y=eval(myForm.jumlah.value);
-  var z= y / x;
-  myForm.hasil.value = z.toFixed(0);
+  var z= y * x;
+  myForm.total.value = z.toFixed(0);
+  }
+
+  function hitungTotalTambahStock(){
+
+  var myForm = document.stock;
+  var x=eval(myForm.stock.value);
+  var y=eval(myForm.rate.value);
+  var z= y * x;
+  myForm.total.value = z.toFixed(0);
   }
   </script>
 

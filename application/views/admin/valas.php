@@ -26,7 +26,7 @@
       <td><?= $v['valas']; ?></td>
       <td>
       <a href="#" class="badge badge-success">Edit</a>
-      <a href="#" class="badge badge-danger">Delete</a>
+      <a href="<?= base_url();?>admin/deleteValas/<?= $v['Id_valas']; ?>" class="badge badge-danger">Delete</a>
       </td>
     </tr>
     <?php $i++; ?>

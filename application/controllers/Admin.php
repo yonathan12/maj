@@ -8,6 +8,7 @@ class Admin extends CI_Controller
         parent::__construct();
         is_logged_in();
         $this->load->model('Kode_model','kode');
+        $this->load->model('Valas_model');
     }
     public function index()
     {
@@ -77,6 +78,18 @@ class Admin extends CI_Controller
           </div>');
     }
 
+    public function user()
+    {
+            $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
+            $data['title'] = 'All User';
+            $data['AllData'] = $this->db->get('user')->result_array();
+            $this->load->view('templates/header',$data);
+            $this->load->view('templates/sidebar',$data);
+            $this->load->view('templates/topbar',$data);
+            $this->load->view('admin/user',$data);
+            $this->load->view('templates/footer');
+    }
+
     public function valas()
     {
         $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
@@ -99,27 +112,7 @@ class Admin extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             # code...
-            $valas = $this->input->post('valas');
-            $kode = $this->input->post('kode');
-            $data = [
-                'Id_valas' => $kode,
-                'valas' => $valas,
-                'date_created' => date('Y-m-d'),
-                'time_created' => date('H:i:s'),
-                'status' => 1
-            ];
-
-            $dataStock = [
-                'id_valas' => $kode,
-                'stock_awal' => 0,
-                'stock_akhir' => 0,
-                'date_created' => date('Y-m-d'),
-                'time_created' => date('H:i:s'),
-                'status' => 1
-            ];
-
-            $this->db->insert('valas',$data);
-            $this->db->insert('stock',$dataStock);
+            $this->Valas_model->addValas();
 
             $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
                     New Valas Added!
@@ -128,17 +121,14 @@ class Admin extends CI_Controller
         }             
     }
 
-    public function user()
+    public function deleteValas($id)
     {
-            $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
-            $data['title'] = 'All User';
-            $data['AllData'] = $this->db->get('user')->result_array();
-            $this->load->view('templates/header',$data);
-            $this->load->view('templates/sidebar',$data);
-            $this->load->view('templates/topbar',$data);
-            $this->load->view('admin/user',$data);
-            $this->load->view('templates/footer');
+        $this->Valas_model->hapusValas($id);
+        $this->session->set_flashdata('message','DiHapus');
+        redirect('admin/valas');
     }
+
+    
 
     public function stock()
     {
@@ -149,13 +139,15 @@ class Admin extends CI_Controller
 
             $queryDataStock = "SELECT stock.*,SUM(stock.stock_akhir - stock.stock_awal) AS sa, valas.*
             FROM stock JOIN valas
-            WHERE stock.id_valas = valas.Id_valas
+            WHERE stock.id_valas = valas.Id_valas AND stock.status = 1
             GROUP BY stock.id_valas ORDER BY stock.time_created";
             $data['valas'] = $this->db->query($queryDataStock)->result_array();
 
 
             $this->form_validation->set_rules('valas','Valas','required');
             $this->form_validation->set_rules('stock','Stock','required');
+            $this->form_validation->set_rules('rate','Rate','required');
+            $this->form_validation->set_rules('total','Total','required');
 
             if ($this->form_validation->run() == FALSE) {
                 $this->load->view('templates/header',$data);
@@ -167,6 +159,8 @@ class Admin extends CI_Controller
                 # code...
                 $valas = $this->input->post('valas');
                 $addStock = $this->input->post('stock');
+                $rate = $this->input->post('rate');
+                $total = $this->input->post('total');
 
                 $queryStock = "SELECT * FROM stock WHERE id_valas = '$valas' ORDER BY stock.time_created DESC  ";
                 $dataStock['data'] = $this->db->query($queryStock)->row();                
@@ -176,9 +170,12 @@ class Admin extends CI_Controller
                 
                 $data = [
                     'id_valas' => $valas,
+                    'nr' => $rate,
                     'stock_awal' => $stockAwal,
-                    'trx_in' => $addStock,
+                    'trx_in' => 1,
                     'stock_akhir' => $stockAkhir,
+                    'jumlah' => $addStock,
+                    'total' => $total,
                     'date_created' => date('Y-m-d'),
                     'time_created' => date('H:i:s'),
                     'status' => 1
@@ -189,11 +186,7 @@ class Admin extends CI_Controller
                 Stock Added!
                 </div>');
                 redirect('admin/stock');
-            }
-            
-
-
-            
+            }         
     }
 }
 ?>

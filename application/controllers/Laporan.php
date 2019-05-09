@@ -16,10 +16,16 @@ class Laporan extends CI_Controller
 
             $data['valas'] = $this->db->get('valas')->result_array();
 
+            $query = "SELECT SUM(laba.total) as Total, laba.date_created, valas.valas
+            FROM laba JOIN valas
+            ON laba.id_valas = valas.Id_valas
+            GROUP BY  laba.date_created";
+            $data['laba'] = $this->db->query($query)->result_array();
+
             $this->form_validation->set_rules('valas','Valas','required');
             if ($this->form_validation->run() == FALSE ) {
                 # code...
-                $data['title'] = 'Laporan Laba Rugi';
+                $data['title'] = 'Laba Rugi';
                 $this->load->view('templates/header',$data);
                 $this->load->view('templates/sidebar',$data);
                 $this->load->view('templates/topbar',$data);
@@ -53,18 +59,51 @@ class Laporan extends CI_Controller
 
                 $hitungLaba = ($jual + $Total) - $x;
 
-                $laba ['hasil'] = $hitungLaba;
+                if ($hitungLaba <= 0) {
+                    # code...
+                    $laba['hasil'] = '0';
+                    $laba['valas'] = $valas = $this->input->post('valas');
+                } else {
+                    # code...
+                    $laba['hasil'] = $hitungLaba;
+                    $laba['valas'] = $valas = $this->input->post('valas');
+                }               
 
-                $data['title'] = 'Laporan Laba Rugi';
+                $data['title'] = 'Laba Rugi';
                 $this->load->view('templates/header',$data);
                 $this->load->view('templates/sidebar',$data);
                 $this->load->view('templates/topbar',$data);
                 $this->load->view('laporan/hasil',$laba);
                 $this->load->view('templates/footer');
             }
-            
+        }
 
-            
+    public function laporanlaba()
+    {
+        $valas = $this->input->post('valas');
+        $total = $this->input->post('total');
 
+        $data = 
+        [
+            'id_valas' => $valas,
+            'total' => $total,
+            'date_created' => date('Y-m-d')
+        ];
+        $this->db->insert('laba',$data);
+
+        $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
+            Data Tersimpan!
+          </div>');
+        redirect('laporan/labarugi'); 
+    }
+    public function hapus($date_created)
+    {
+        $this->db->where('date_created', $date_created);
+        $this->db->delete('laba');
+
+        $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
+            Data Dihapus!
+          </div>');
+        redirect('laporan/labarugi'); 
     }
 }

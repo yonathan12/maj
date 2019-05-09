@@ -222,54 +222,10 @@ class Transaksi extends CI_Controller
             Data Tersimpan!
           </div>');
             redirect('transaksi/pembelian'); 
-        }
-        
-        
-            
-
-            
-            
-        
+        }        
     }
 
-    public function beli()
-    {
-        $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
-
-        $data['valas'] = $this->db->get('valas')->result_array();        
-
-        $data['title'] = 'Transaksi Pembelian';
-        $this->load->view('templates/header',$data);
-        $this->load->view('templates/sidebar',$data);
-        $this->load->view('templates/topbar',$data);
-        $this->load->view('transaksi/pembelian',$data);
-        $this->load->view('templates/footer');
-
-        $customer = $this->input->post('customer');
-            $valas = $this->input->post('valas');
-            $rate_valas = $this->input->post('rate_valas');
-            $jumlah = $this->input->post('jumlah');
-            $total = $this->input->post('total');
-            $hasil = [ 
-                'customer' => $customer,
-                'id_valas' => $valas,
-                'rate_valas' => $rate_valas,
-                'jumlah' => $jumlah,
-                'total' => $total,
-                'date_created' => date('Y-m-d'),
-                'status' => 1
-            ];
-
-                $this->db->insert('transaksi',$hasil);
-            $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
-            Data Tersimpan!
-          </div>');
-            redirect('transaksi/pembelian'); 
-        
-
-
-        
-    }
+    
     
     function cetak($id){
         $pdf = new FPDF('l','mm','A4');
@@ -284,18 +240,25 @@ class Transaksi extends CI_Controller
         // Memberikan space kebawah agar tidak terlalu rapat
         $pdf->Cell(10,7,'',0,1);
         $pdf->SetFont('Arial','B',10);
+        $pdf->Cell(40,6,'Customer',1,0);
         $pdf->Cell(20,6,'Valas',1,0);
-        $pdf->Cell(85,6,'Jumlah',1,0);
+        $pdf->Cell(35,6,'Jumlah',1,0);
         $pdf->Cell(37,6,'Hasil',1,0);
         $pdf->Cell(45,6,'Tanggal Dibuat',1,1);
         $pdf->SetFont('Arial','',10);
         
-        $trx['data'] = $this->db->get_where('transaksi',['id_valas' => $id])->row();
+        $query = "SELECT transaksi.customer,transaksi.rate_valas,transaksi.jumlah,transaksi.total,transaksi.date_created, valas.valas, valas.Id_valas
+        FROM transaksi JOIN valas
+        ON transaksi.id_valas = valas.Id_valas
+        WHERE valas.id_valas = '$id'";
+        
+        $trx['data'] = $this->db->query($query)->row();
         $print = $trx['data'];
         
-        $pdf->Cell(20,6,$print->id_valas,1,0);
-        $pdf->Cell(85,6,$print->jumlah,1,0);
-        $pdf->Cell(37,6,$print->hasil,1,0);
+        $pdf->Cell(40,6,$print->customer,1,0);
+        $pdf->Cell(20,6,$print->valas,1,0);
+        $pdf->Cell(35,6,$print->jumlah,1,0);
+        $pdf->Cell(37,6,$print->total,1,0);
         $pdf->Cell(45,6,$print->date_created,1,1); 
 
         $pdf->Output();

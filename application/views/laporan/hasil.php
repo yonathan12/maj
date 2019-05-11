@@ -15,7 +15,7 @@
             <input type="number" class="form-control" id="total" name="total" placeholder="Total" readonly value="<?= $hasil;
             ?>">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" onclick="return confirm('Yakin');">Simpan</button>
     </form>    <!-- Divider -->
 </div>
 

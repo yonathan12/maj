@@ -198,7 +198,7 @@ class Transaksi extends CI_Controller
             $Rate = $x / $y;         
             $newRate = round($Rate);
 
-            $totalStock = $newRate * $jumlah;
+            $totalStock = $newRate * $sisaStock;
 
             // insert ke database stock
             $stockValas = [

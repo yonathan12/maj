@@ -16,7 +16,7 @@
             </select>
          <?= form_error('valas','<small class="text-danger pl-3">','</small>'); ?>
         </div>
-        <button type="submit" class="btn btn-primary col-sm-2">Submit</button>
+        <button type="submit" class="btn btn-primary col-sm-2">Simpan</button>
     </div>
     </form>
     <hr class="sidebar-divider">

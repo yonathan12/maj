@@ -82,12 +82,44 @@ class Admin extends CI_Controller
     {
             $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
             $data['title'] = 'All User';
-            $data['AllData'] = $this->db->get('user')->result_array();
-            $this->load->view('templates/header',$data);
-            $this->load->view('templates/sidebar',$data);
-            $this->load->view('templates/topbar',$data);
-            $this->load->view('admin/user',$data);
-            $this->load->view('templates/footer');
+            $queryUser = "SELECT * FROM user ORDER BY is_active DESC";
+
+            $data['AllData'] = $this->db->query($queryUser)->result_array();
+
+            $this->form_validation->set_rules('name','Name','required|trim');
+            $this->form_validation->set_rules('email','Email','required|trim|valid_email|is_unique[user.email]',[
+                'is_unique' => 'This email has been registered!'
+            ]);
+            $this->form_validation->set_rules('password','Password','required|trim|min_length[3]',
+            [
+            'min_length' => 'Password to short!'
+            ]);
+            $this->form_validation->set_rules('role_id','Level','required');
+
+            if ($this->form_validation->run()== FALSE) {
+                # code...
+                $this->load->view('templates/header',$data);
+                $this->load->view('templates/sidebar',$data);
+                $this->load->view('templates/topbar',$data);
+                $this->load->view('admin/user',$data);
+                $this->load->view('templates/footer');
+            }else{
+                $data = [
+                    'name' => htmlspecialchars($this->input->post('name',true)),
+                    'email' => htmlspecialchars($this->input->post('email',true)),
+                    'image' => 'default.jpg',
+                    'password' => password_hash($this->input->post('password'),PASSWORD_DEFAULT),
+                    'role_id' => $this->input->post('role_id'),
+                    'is_active' => 1,
+                    'date_created' => time()
+                ];
+    
+                $this->db->insert('user',$data);
+                $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
+                Your account has been created!
+              </div>');
+                redirect('admin/user');
+            }               
     }
 
     public function valas()
@@ -101,6 +133,7 @@ class Admin extends CI_Controller
 
         $this->form_validation->set_rules('valas','Valas','required|trim|is_unique[valas.valas]',[
             'is_unique' => 'This valas has been registered!']);
+        $this->form_validation->set_rules('description','Description','required');
 
         if ($this->form_validation->run()== FALSE) {
             # code...
@@ -187,6 +220,23 @@ class Admin extends CI_Controller
                 </div>');
                 redirect('admin/stock');
             }         
+    }
+
+
+    public function hapusUser($id)
+    {
+        $data = array
+        (
+            'is_active' => 0
+        );
+
+        $this->db->where('Id',$id);
+        $this->db->update('user',$data);
+
+        $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
+            Account has been delete!
+          </div>');
+            redirect('admin/user');
     }
 }
 ?>

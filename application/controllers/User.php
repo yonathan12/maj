@@ -67,7 +67,6 @@ class User extends CI_Controller
                 }
             } 
             
-
             $this->db->set('name', $name);
             $this->db->where('email',$email);
             $this->db->update('user');
@@ -76,9 +75,6 @@ class User extends CI_Controller
           </div>');
             redirect('user');
         }
-        
-
-        
     }
 }
 ?>

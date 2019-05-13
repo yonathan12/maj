@@ -33,10 +33,10 @@
                             <td><?php echo "IDR ".number_format($beli['total']);?></td>
                             <td><?= $beli['date_created'];?></td>
                             <td>                                
-                                <a href="<?= base_url(); ?>transaksi/cetak/<?= $beli['Id_valas']; ?>" class="fas fa-print"></a>
-                                <a href="<?= base_url(); ?>admin/detail/<?= $beli['Id_valas']; ?>" class="fas fa-info"></a>                             
-                                <a href="<?= base_url(); ?>admin/ubah/<?= $beli['Id_valas']; ?>" class="fas fa-edit" ></a>
-                                <a href="<?= base_url(); ?>admin/hapus/<?= $beli['Id_valas']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a>
+                                <a href="<?= base_url(); ?>transaksi/cetak/<?= $beli['kd_trx']; ?>" class="fas fa-print"></a>
+                                <a href="<?= base_url(); ?>admin/detail/<?= $beli['kd_trx']; ?>" class="fas fa-info"></a>                             
+                                <a href="<?= base_url(); ?>admin/ubah/<?= $beli['kd_trx']; ?>" class="fas fa-edit" ></a>
+                                <a href="<?= base_url(); ?>transaksi/hapusBeli/<?= $beli['kd_trx']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a>
                             </td>
                         </tr>
                     <?php }?>
@@ -83,6 +83,7 @@
         <div class="form-group">
             <label for="exampleFormControlInput1">Customer</label>
             <input type="text" class="form-control" id="customer" name="customer" placeholder="Customer">
+            <input type="text" value="<?= $kode; ?>" hidden name="kode">
             <?= form_error('customer','<small class="text-danger pl-3">','</small>'); ?>
         </div>
         <div class="form-group">

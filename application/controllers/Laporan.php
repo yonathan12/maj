@@ -37,21 +37,21 @@ class Laporan extends CI_Controller
                 $valas = $this->input->post('valas');
                 $hariini = date("Y-m-d");
 
-                $queryTotalStock = "SELECT total FROM stock WHERE id_valas = '$valas' ORDER BY date_created DESC, time_created DESC";
+                $queryTotalStock = "SELECT total FROM stock WHERE id_valas = '$valas' AND status = 1 ORDER BY date_created DESC, time_created DESC";
                 $dataStock['data'] = $this->db->query($queryTotalStock)->row();                
                 $dts = $dataStock['data'];
                 $Total = $dts->total;
 
-                $queryTotalJual = "SELECT SUM(total) TTL FROM transaksi WHERE date_created='$hariini' AND trx = 2 AND id_valas = '$valas'";
+                $queryTotalJual = "SELECT SUM(total) TTL FROM transaksi WHERE date_created='$hariini' AND trx = 2 AND id_valas = '$valas' AND status = 1";
                 $dataJual['data'] = $this->db->query($queryTotalJual)->row();                
                 $dtj = $dataJual['data'];
                 $jual = $dtj->TTL;
 
-                $TY['data'] = $this->db->query("SELECT total FROM stock WHERE id_valas = '$valas' AND trx_in = 1 ORDER BY date_created ASC, time_created DESC ")->row();
+                $TY['data'] = $this->db->query("SELECT total FROM stock WHERE id_valas = '$valas' AND date_created != '$hariini' AND status = 1 ORDER BY date_created DESC, time_created DESC ")->row();
                 $dataTY = $TY['data'];
                 $totalY = $dataTY->total;
 
-                $totalBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$hariini' AND trx = 1 AND id_valas = '$valas'")->row();
+                $totalBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$hariini' AND trx = 1 AND id_valas = '$valas' AND status = 1")->row();
                 $dataTotalBeli = $totalBeli['data'];
                 $totalPembelian = $dataTotalBeli->TBeli;
 

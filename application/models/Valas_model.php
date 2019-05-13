@@ -22,9 +22,11 @@ class Valas_model extends CI_Model
     {
             $kode = $this->input->post('kode');
             $valas = $this->input->post('valas');
+            $description = $this->input->post('description');
             $data = [
                 'Id_valas' => $kode,
                 'valas' => $valas,
+                'description' => $description,
                 'date_created' => date('Y-m-d'),
                 'time_created' => date('H:i:s'),
                 'status' => 1

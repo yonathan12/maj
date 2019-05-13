@@ -34,7 +34,7 @@
                                 <a href="<?= base_url(); ?>transaksi/cetak/<?= $jual['Id_valas']; ?>" class="fas fa-print"></a>
                                 <a href="<?= base_url(); ?>admin/detail/<?= $jual['Id_valas']; ?>" class="fas fa-info"></a>                             
                                 <a href="<?= base_url(); ?>admin/ubah/<?= $jual['Id_valas']; ?>" class="fas fa-edit" ></a>
-                                <a href="<?= base_url(); ?>admin/hapus/<?= $jual['Id_valas']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a>
+                                <a href="<?= base_url(); ?>transaksi/hapusJual/<?= $jual['kd_trx']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a>
                             </td>
                         </tr>
                     <?php }?>
@@ -72,7 +72,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add New Sub Menu</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Add New Penjualan</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -80,6 +80,7 @@
       <form name="hitungRateJual" action="<?= base_url()?>transaksi/penjualan" method="POST">
       <div class="form-group">
             <label for="exampleFormControlInput1">Customer</label>
+            <input type="text" value="<?= $kode; ?>" hidden name="kode">
             <input type="text" class="form-control" id="customer" name="customer" placeholder="Customer">
             <?= form_error('customer','<small class="text-danger pl-3">','</small>'); ?>
         </div>

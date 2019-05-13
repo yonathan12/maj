@@ -6,47 +6,38 @@
           <h1 class="h3 mb-4 text-gray-800"><?= $title;?></h1>
         
         <div class="row">
-        <div class="col-lg-6">
-        <?php echo form_error('valas', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
+        <div class="col-lg-12">
+        
+       
         <?= $this->session->flashdata('message');?>
         <a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal">Add New Valas</a>
-        <table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Valas</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-  <tbody>
-  <?php $i = 1; ?> 
-  <?php foreach ($valas as $v) : ?>
-    <tr>
-      <th scope="row"><?= $i;?></th>
-      <td><?= $v['valas']; ?></td>
-      <td>
-      <a href="#" class="badge badge-success">Edit</a>
-      <a href="<?= base_url();?>admin/deleteValas/<?= $v['Id_valas']; ?>" class="badge badge-danger">Delete</a>
-      </td>
-    </tr>
-    <?php $i++; ?>
-  <?php  endforeach; ?>  
-  </tbody>
-</table>
-        </div>
-        </div>
-         
-        </div>
-        <!-- /.container-fluid -->
 
-      </div>
-      <!-- End of Main Content -->
-
-      <!-- Modal -->
-
-      <!-- Button trigger modal -->
-
-
+        <h3 text-align="center">Data Valas</h3>
+        <table id="table2" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Valas</th>
+                    <th>Description</th>
+                    <th>Date Created</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?
+            $no = 1;
+                            foreach($valas as $v){
+                        ?>
+                            <tr>
+                                <td><?php echo $no++;?></td>
+                                <td><?= $v['valas'];?></td>
+                                <td><?= $v['description'];?></td>
+                                <td><?php echo $v['date_created']; ?></td> 
+                                <td><a href="<?= base_url(); ?>laporan/hapus/<?= $v['Id_valas']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a></td>                           
+                            </tr>
+                            <?php }?>
+            </tbody>
+        </table>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -61,10 +52,15 @@
       <div class="modal-body">
       <input type="text" value="<?= $kode; ?>" hidden name="kode">
       <input type="text" class="form-control" id="role" name="valas" placeholder="Valas">
+      <?php echo form_error('valas', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
+      </div>
+      <div class="modal-body">
+      <input type="text" class="form-control" id="role" name="description" placeholder="Description">
+      <?php echo form_error('description', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Add</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
       </div>
       </form>
     </div>

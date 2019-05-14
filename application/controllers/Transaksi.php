@@ -272,6 +272,23 @@ class Transaksi extends CI_Controller
             redirect('transaksi/penjualan'); 
     }
 
+    public function printInvoice($id)
+    {
+     
+        $data['title'] = 'Invoice';
+
+        $query = "SELECT transaksi.*, valas.*
+        FROM transaksi JOIN valas
+        ON transaksi.id_valas = valas.Id_valas
+        WHERE transaksi.kd_trx = '$id'";
+        
+        $trx['data'] = $this->db->query($query)->row_array();
+
+        $this->load->view('templates/header',$data);
+        $this->load->view('transaksi/print',$trx);
+
+    }
+
     
     
     function cetak($id){
@@ -297,7 +314,7 @@ class Transaksi extends CI_Controller
         $query = "SELECT transaksi.customer,transaksi.rate_valas,transaksi.jumlah,transaksi.total,transaksi.date_created, valas.valas, valas.Id_valas
         FROM transaksi JOIN valas
         ON transaksi.id_valas = valas.Id_valas
-        WHERE valas.id_valas = '$id'";
+        WHERE transaksi.kd_trx = '$id'";
         
         $trx['data'] = $this->db->query($query)->row();
         $print = $trx['data'];

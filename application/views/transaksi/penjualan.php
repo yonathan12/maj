@@ -31,8 +31,8 @@
                             <td><?php echo "IDR ".number_format($jual['total']);?></td>
                             <td><?= $jual['date_created'];?></td>
                             <td>                                
-                                <a href="<?= base_url(); ?>transaksi/cetak/<?= $jual['Id_valas']; ?>" class="fas fa-print"></a>
-                                <a href="<?= base_url(); ?>admin/detail/<?= $jual['Id_valas']; ?>" class="fas fa-info"></a>                             
+                                <a href="<?= base_url(); ?>transaksi/printInvoice/<?= $jual['kd_trx']; ?>" class="fas fa-print"></a>
+                                <a href="<?= base_url(); ?>admin/detail/<?= $jual['kd_trx']; ?>" class="fas fa-info"></a>                             
                                 <a href="<?= base_url(); ?>admin/ubah/<?= $jual['Id_valas']; ?>" class="fas fa-edit" ></a>
                                 <a href="<?= base_url(); ?>transaksi/hapusJual/<?= $jual['kd_trx']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a>
                             </td>

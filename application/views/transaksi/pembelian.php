@@ -33,7 +33,7 @@
                             <td><?php echo "IDR ".number_format($beli['total']);?></td>
                             <td><?= $beli['date_created'];?></td>
                             <td>                                
-                                <a href="<?= base_url(); ?>transaksi/cetak/<?= $beli['kd_trx']; ?>" class="fas fa-print"></a>
+                                <a href="<?= base_url(); ?>transaksi/printInvoice/<?= $beli['kd_trx']; ?>" class="fas fa-print"></a>
                                 <a href="<?= base_url(); ?>admin/detail/<?= $beli['kd_trx']; ?>" class="fas fa-info"></a>                             
                                 <a href="<?= base_url(); ?>admin/ubah/<?= $beli['kd_trx']; ?>" class="fas fa-edit" ></a>
                                 <a href="<?= base_url(); ?>transaksi/hapusBeli/<?= $beli['kd_trx']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a>

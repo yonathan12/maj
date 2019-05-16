@@ -1,18 +1,17 @@
 <div class="container-fluid">
 
-<div class="col-lg-3">
+    <div class="col-lg-3">
     <?= $this->session->flashdata('message');?>    
     </div>
     <?= validation_errors(); ?>
     <a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal">New Transaction</a>
+    <a href="<?= base_url();?>transaksi/beli" class="btn btn-primary mb-3">New Transaction</a>
 <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>
+                <th>Invoice</th>
                 <th>Customer</th>
-                <th>Valas</th>
-                <th>Rate Valas</th>
-                <th>Jumlah</th>
                 <th>Total</th>
                 <th>Date Created</th>
                 <th>Action</th>
@@ -26,11 +25,9 @@
                         <tr>
                         
                             <td><?php echo $no++;?></td>
+                            <td><?php echo $beli['kd_trx']; ?></td>
                             <td><?php echo $beli['customer']; ?></td>
-                            <td><?php echo $beli['valas']; ?></td>
-                            <td><?php echo number_format($beli['rate_valas']);?></td>
-                            <td><?php echo number_format($beli['jumlah']);?></td>
-                            <td><?php echo "IDR ".number_format($beli['total']);?></td>
+                            <td><?php echo "IDR ".number_format($beli['Total']);?></td>
                             <td><?= $beli['date_created'];?></td>
                             <td>                                
                                 <a href="<?= base_url(); ?>transaksi/printInvoice/<?= $beli['kd_trx']; ?>" class="fas fa-print"></a>

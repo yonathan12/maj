@@ -9,6 +9,7 @@ class Admin extends CI_Controller
         is_logged_in();
         $this->load->model('Kode_model','kode');
         $this->load->model('Valas_model');
+        $this->load->model('Admin_model');
     }
     public function index()
     {
@@ -159,9 +160,7 @@ class Admin extends CI_Controller
         $this->Valas_model->hapusValas($id);
         $this->session->set_flashdata('message','DiHapus');
         redirect('admin/valas');
-    }
-
-    
+    }    
 
     public function stock()
     {
@@ -169,13 +168,7 @@ class Admin extends CI_Controller
             $data['title'] = 'Stock';
 
             // $data['valas'] = $this->db->get('valas')->result_array();
-
-            $queryDataStock = "SELECT stock.*,SUM(stock.stock_akhir - stock.stock_awal) AS sa, valas.*
-            FROM stock JOIN valas
-            WHERE stock.id_valas = valas.Id_valas AND stock.status = 1
-            GROUP BY stock.id_valas ORDER BY stock.time_created";
-            $data['valas'] = $this->db->query($queryDataStock)->result_array();
-
+            $data['valas'] = $this->Admin_model->getStock();
 
             $this->form_validation->set_rules('valas','Valas','required');
             $this->form_validation->set_rules('stock','Stock','required');
@@ -190,30 +183,8 @@ class Admin extends CI_Controller
                 $this->load->view('templates/footer');
             } else {
                 # code...
-                $valas = $this->input->post('valas');
-                $addStock = $this->input->post('stock');
-                $rate = $this->input->post('rate');
-                $total = $this->input->post('total');
-
-                $queryStock = "SELECT * FROM stock WHERE id_valas = '$valas' ORDER BY stock.time_created DESC  ";
-                $dataStock['data'] = $this->db->query($queryStock)->row();                
-                $stock = $dataStock['data'];
-                $stockAwal = $stock->stock_akhir;
-                $stockAkhir = $stockAwal + $addStock;
                 
-                $data = [
-                    'id_valas' => $valas,
-                    'nr' => $rate,
-                    'stock_awal' => $stockAwal,
-                    'trx_in' => 1,
-                    'stock_akhir' => $stockAkhir,
-                    'jumlah' => $addStock,
-                    'total' => $total,
-                    'date_created' => date('Y-m-d'),
-                    'time_created' => date('H:i:s'),
-                    'status' => 1
-                ];
-                $this->db->insert('stock',$data);
+                $this->Admin_model->addStock();
 
                 $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
                 Stock Added!
@@ -225,13 +196,7 @@ class Admin extends CI_Controller
 
     public function hapusUser($id)
     {
-        $data = array
-        (
-            'is_active' => 0
-        );
-
-        $this->db->where('Id',$id);
-        $this->db->update('user',$data);
+        $this->Admin_model->hapusUser($id);
 
         $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
             Account has been delete!

@@ -1,5 +1,4 @@
 <div class="container-fluid">
-
 <div class="col-lg-3">
     <?= $this->session->flashdata('message');?>    
     </div>
@@ -9,6 +8,7 @@
             <label for="exampleFormControlInput1">Valas</label>
             <input type="text" class="form-control" id="valas" name="valas" placeholder="Valas" readonly value="<?= $valas;
             ?>">
+            <input type="text" hidden name="tanggal" value="<?= $tanggal;?>">
         </div>
     <div class="form-group">
             <label for="exampleFormControlInput1">Total</label>

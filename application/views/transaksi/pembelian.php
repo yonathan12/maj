@@ -1,9 +1,8 @@
 <div class="container-fluid">
-
     <div class="col-lg-3">
     <?= $this->session->flashdata('message');?>    
     </div>
-    <?= validation_errors(); ?>
+    <?= validation_errors(); ?>    
     <a href="<?= base_url();?>transaksi/beli" class="btn btn-primary mb-3">New Transaction</a>
 <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
@@ -62,11 +61,4 @@
                     <?php }?>
         </tbody>
     </table>
-</div>
-
-
-   
-  </div>
-</div>
-
-     
+</div>   

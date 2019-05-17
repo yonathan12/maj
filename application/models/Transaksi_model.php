@@ -5,10 +5,12 @@ class Transaksi_model extends CI_Model
 {
     public function getTransaksiPenjualan()
     {
-        $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,transaksi.jumlah,transaksi.total,transaksi.date_created, valas.valas, valas.Id_valas
+        $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,SUM(transaksi.total) AS Total,transaksi.jumlah,transaksi.total,transaksi.date_created, valas.valas, valas.Id_valas
         FROM transaksi JOIN valas
         ON transaksi.id_valas = valas.Id_valas
-        WHERE transaksi.status = 1 AND transaksi.trx = 2 ORDER BY transaksi.date_created DESC, transaksi.Id DESC";
+        WHERE transaksi.status = 1 AND transaksi.trx = 2 
+        GROUP BY transaksi.kd_trx
+        ORDER BY transaksi.date_created DESC, transaksi.Id DESC";
         return $this->db->query($query)->result_array();
     }
 

@@ -7,13 +7,17 @@
     <form action="<?= base_url('laporan/labarugi')?>" method="POST">
     <div class="form-group row">
         <label for="Valas" class="col-sm-2 col-form-label">Valas</label>
-        <div class="col-sm-4">
+        <div class="col-sm-2">
             <select name="valas" class="form-control">
                 <option value="">Pilih Valas</option>
                 <?php foreach ($valas as $v) : ?> 
                 <option value="<?= $v['Id_valas'] ?>"><?= $v['valas'] ?></option>
                 <?php endforeach; ?>
             </select>
+         <?= form_error('valas','<small class="text-danger pl-3">','</small>'); ?>
+        </div>
+        <div class="col-sm-3">
+            <input type="date" class="form-control" name="tanggal">
          <?= form_error('valas','<small class="text-danger pl-3">','</small>'); ?>
         </div>
         <button type="submit" class="btn btn-primary col-sm-2">Simpan</button>
@@ -39,7 +43,8 @@
                             <td><?php echo $no++;?></td>
                             <td><?php  echo "IDR ".number_format($s['Total']);?></td>
                             <td><?php echo $s['date_created']; ?></td> 
-                            <td><a href="<?= base_url(); ?>laporan/hapus/<?= $s['date_created']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a></td>                           
+                            <td><a href="<?= base_url(); ?>laporan/hapus/<?= $s['date_created']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a>
+                            <a href="<?= base_url(); ?>laporan/detail/<?= $s['date_created']; ?>" class="fas fa-info" ></a></td>
                         </tr>
                         <?php }?>
         </tbody>

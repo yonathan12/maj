@@ -29,7 +29,7 @@ class Admin_model extends CI_Model
                     'id_valas' => $valas,
                     'nr' => $rate,
                     'stock_awal' => $stockAwal,
-                    'trx' => 1,
+                    'trx' => 0,
                     'stock_akhir' => $stockAkhir,
                     'jumlah' => $addStock,
                     'total' => $total,

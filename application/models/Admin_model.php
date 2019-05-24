@@ -14,30 +14,30 @@ class Admin_model extends CI_Model
 
     public function addStock()
     {
-                $valas = $this->input->post('valas');
-                $addStock = $this->input->post('stock');
-                $rate = $this->input->post('rate');
-                $total = $this->input->post('total');
+        $valas = $this->input->post('valas');
+        $addStock = $this->input->post('stock');
+        $rate = $this->input->post('rate');
+        $total = $this->input->post('total');
 
-                $queryStock = "SELECT * FROM stock WHERE id_valas = '$valas' ORDER BY stock.time_created DESC  ";
-                $dataStock['data'] = $this->db->query($queryStock)->row();                
-                $stock = $dataStock['data'];
-                $stockAwal = $stock->stock_akhir;
-                $stockAkhir = $stockAwal + $addStock;
-                
-                $data = [
-                    'id_valas' => $valas,
-                    'nr' => $rate,
-                    'stock_awal' => $stockAwal,
-                    'trx' => 0,
-                    'stock_akhir' => $stockAkhir,
-                    'jumlah' => $addStock,
-                    'total' => $total,
-                    'date_created' => date('Y-m-d'),
-                    'time_created' => date('H:i:s'),
-                    'status' => 1
-                ];
-                $this->db->insert('stock',$data);
+        $queryStock = "SELECT * FROM stock WHERE id_valas = '$valas' ORDER BY stock.time_created DESC  ";
+        $dataStock['data'] = $this->db->query($queryStock)->row();                
+        $stock = $dataStock['data'];
+        $stockAwal = $stock->stock_akhir;
+        $stockAkhir = $stockAwal + $addStock;
+        
+        $data = [
+            'id_valas' => $valas,
+            'nr' => $rate,
+            'stock_awal' => $stockAwal,
+            'trx' => 0,
+            'stock_akhir' => $stockAkhir,
+            'jumlah' => $addStock,
+            'total' => $total,
+            'date_created' => date('Y-m-d'),
+            'time_created' => date('H:i:s'),
+            'status' => 1
+        ];
+        $this->db->insert('stock',$data);
     }
     
     public function hapusUser($id)
@@ -49,6 +49,23 @@ class Admin_model extends CI_Model
 
         $this->db->where('Id',$id);
         $this->db->update('user',$data);
+    }
+
+    public function simpanRole()
+    {
+        $role = $this->input->post('role');
+        $data = [
+            'role' => $role
+        ];
+        $this->db->insert('user_role',$data);
+        redirect('admin/role');
+    }
+    
+    public function deleteRole($id)
+    {
+        $this->db->where('Id',$id);
+        $this->db->delete('user_role');
+        redirect('admin/role');
     }
 
 }

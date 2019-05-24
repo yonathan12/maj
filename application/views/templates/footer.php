@@ -1,11 +1,11 @@
  <!-- Footer -->
- <footer class="sticky-footer bg-white">
+ <!-- <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
             <span>Copyright &copy; Yonathan Rizky <?= date('Y');?></span>
           </div>
         </div>
-      </footer>
+      </footer> -->
       <!-- End of Footer -->
 
     </div>
@@ -52,62 +52,85 @@
 
   <script>
 
-  $('.custom-file-input').on('change', function(){
-    let fileName = $(this).val().split('\\').pop();
-    $(this).next('.custom-file-label').addClass("selected").html(fileName);
-  });
-
-  $('.form-check-input').on('click',function()
-  {
-    const menuId = $(this).data('menu');
-    const roleId = $(this).data('role');
-
-    $.ajax({
-      url: "<?= base_url('admin/changeAccess'); ?>",
-      type: 'post',
-      data: {
-        menuId: menuId,
-        roleId : roleId
-      },
-      success: function(){
-        document.location.href ="<?= base_url('admin/roleAccess/'); ?>" + roleId;
-      }
+    $('.custom-file-input').on('change', function(){
+      let fileName = $(this).val().split('\\').pop();
+      $(this).next('.custom-file-label').addClass("selected").html(fileName);
     });
-  });
+
+    $('.form-check-input').on('click',function()
+    {
+      const menuId = $(this).data('menu');
+      const roleId = $(this).data('role');
+
+      $.ajax({
+        url: "<?= base_url('admin/changeAccess'); ?>",
+        type: 'POST',
+        data: {
+          menuId: menuId,
+          roleId : roleId
+        },
+        success: function(){
+          document.location.href ="<?= base_url('admin/roleAccess/'); ?>" + roleId;
+        }
+      });
+    });
+
+    var table;
+    $(document).ready(function() { 
+        //datatables
+        table = $('#table').DataTable({ 
+            "processing": true, 
+            "serverSide": true, 
+            "order": [], 
+             
+            "ajax": {
+                "url": "<?= base_url('customer/get_data')?>",
+                "type": "POST"
+            },
+             
+            "columnDefs": [
+            { 
+                "targets": [ 0 ], 
+                "orderable": false, 
+            },
+            ], 
+        }); 
+    });
   
-  $(document).ready(function() {
-    $('#example').DataTable();
-  } );
-  $(document).ready(function() {
-    $('#table2').DataTable();
-  } );
+    $(document).ready(function() {
+      $('#example').DataTable();
+    } );
+    
+    $(document).ready(function() {
+      $('#table2').DataTable();
+    } );
 
-  function hitungBeli(){
+    function hitungBeli(){
 
-    var myForm = document.hitungRateBeli;
+      var myForm = document.hitungRateBeli;
+      var x=eval(myForm.rate_valas.value);
+      var y=eval(myForm.jumlah.value);
+      var z= x * y;
+      myForm.total.value =  z.toFixed(0);
+    }
+
+    function hitungJual(){
+
+    var myForm = document.hitungRateJual;
     var x=eval(myForm.rate_valas.value);
     var y=eval(myForm.jumlah.value);
-    var z= x * y;
-    myForm.total.value =  z.toFixed(0);
-  }
+    var z= y * x;
+    myForm.total.value = z.toFixed(0);
+    }
 
-  function hitungJual(){
+    function hitungTotalTambahStock(){
 
-  var myForm = document.hitungRateJual;
-  var x=eval(myForm.rate_valas.value);
-  var y=eval(myForm.jumlah.value);
-  var z= y * x;
-  myForm.total.value = z.toFixed(0);
-  }
-
-  function hitungTotalTambahStock(){
-
-  var myForm = document.stock;
-  var x=eval(myForm.stock.value);
-  var y=eval(myForm.rate.value);
-  var z= y * x;
-  myForm.total.value = z.toFixed(0);
-  }
+    var myForm = document.stock;
+    var x=eval(myForm.stock.value);
+    var y=eval(myForm.rate.value);
+    var z= y * x;
+    myForm.total.value = z.toFixed(0);
+    }
   </script>
 
 </body>

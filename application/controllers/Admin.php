@@ -31,11 +31,19 @@ class Admin extends CI_Controller
 
         $data['role'] = $this->db->get('user_role')->result_array();
 
-        $this->load->view('templates/header',$data);
-        $this->load->view('templates/sidebar',$data);
-        $this->load->view('templates/topbar',$data);
-        $this->load->view('admin/role',$data);
-        $this->load->view('templates/footer');
+        $this->form_validation->set_rules('role','Role','required|trim');
+
+        if ($this->form_validation->run() == FALSE) {
+            # code...
+            $this->load->view('templates/header',$data);
+            $this->load->view('templates/sidebar',$data);
+            $this->load->view('templates/topbar',$data);
+            $this->load->view('admin/role',$data);
+            $this->load->view('templates/footer');
+        } else {
+            # code...
+            $this->Admin_model->simpanRole();
+        }
     }
 
     public function roleAccess($role_id)
@@ -54,6 +62,11 @@ class Admin extends CI_Controller
         $this->load->view('templates/topbar',$data);
         $this->load->view('admin/roleaccess',$data);
         $this->load->view('templates/footer');
+    }
+
+    public function deleteRoleAccess($Id)
+    {
+        $this->Admin_model->deleteRole($Id);
     }
 
     public function changeAccess()

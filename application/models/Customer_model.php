@@ -91,10 +91,33 @@ class Customer_model extends CI_Model
         ];
 
         $this->db->insert('customer',$data);
-        $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
-            Customer Added!
-          </div>');
-        redirect('customer');
     }
 
+    function delete_data($Id)  
+      {  
+           $this->db->where("Id", $Id);  
+           $this->db->delete("customer");
+      }
+
+    function editCustomer()
+    {
+        $Id = $this->input->post('id');
+        $nama = $this->input->post('nama');
+        $ktp = $this->input->post('ktp');
+        $alamat = $this->input->post('alamat');
+        $email = $this->input->post('email');
+        $telp = $this->input->post('telp');
+
+        $data = [
+            'nama' => $nama,
+            'alamat' => $alamat,
+            'no_ktp' => $ktp,
+            'email' => $email,
+            'telp' => $telp,
+            'status' => 1
+        ];
+
+        $this->db->where('Id',$Id);
+        $this->db->update('customer',$data);        
+    }
 }

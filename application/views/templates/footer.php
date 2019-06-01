@@ -46,6 +46,8 @@
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
   <!-- Core plugin JavaScript-->
   <script src="<?= base_url();?>assets/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
   <!-- Custom scripts for all pages-->
   <script src="<?= base_url();?>assets/js/sb-admin-2.min.js"></script>
@@ -96,6 +98,25 @@
             ], 
         }); 
     });
+
+    $(document).on("click", ".delete", function(e) {
+           var id = $(this).attr("Id"); 
+           e.preventDefault();
+           bootbox.confirm("Are you sure delete ?", function(result) {
+               if (result) {
+                     $.ajax({  
+                     url:"<?= base_url(); ?>customer/delete",  
+                     method:"POST",  
+                     data:{Id:id},  //Id memanggil database dengan kolom Id, id memanggil variable dengan attr Id
+                     success:function(data)  
+                     {                            
+                          table.ajax.reload();  
+                     }  
+                });
+
+               }   
+           });
+       });
   
     $(document).ready(function() {
       $('#example').DataTable();

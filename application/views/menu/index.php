@@ -1,17 +1,8 @@
-
-
-   
-
-   
-
         <!-- Begin Page Content -->
         <div class="container-fluid">
 
           <!-- Page Heading -->
           <h1 class="h3 mb-4 text-gray-800"><?= $title;?></h1>
-          
-          
-        
         <div class="row">
         <div class="col-lg-6">
         <?php echo form_error('menu', '<div class="alert alert-danger" role="alert">', '</div>'); ?>
@@ -32,8 +23,7 @@
       <th scope="row"><?= $i;?></th>
       <td><?= $m['menu']; ?></td>
       <td>
-      <a href="#" class="badge badge-success">Edit</a>
-      <a href="#" class="badge badge-danger">Delete</a>
+      <a href="menu/deleteMenu/<?= $m['Id']; ?>" class="badge badge-danger" onclick="return confirm('Yakin');">Delete</a>
       </td>
     </tr>
     <?php $i++; ?>

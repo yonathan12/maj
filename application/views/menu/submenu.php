@@ -25,24 +25,30 @@
             </tr>
         </thead>
         <tbody>
-        <?php 
-                        $no = 1;
-                        foreach($subMenu as $sm){
-                    ?>
-                        <tr>
-                        <th scope="row"><?= $no++;?></th>
-                          <td><?= $sm['title']; ?></td>
-                          <td><?= $sm['menu']; ?></td>
-                          <td><?= $sm['url']; ?></td>
-                          <td><?= $sm['icon']; ?></td>
-                          <td><?= $sm['is_active']; ?></td>
-                          <td>
-                            <a href="#" class="badge badge-success">Edit</a>
-                            <a href="#" class="badge badge-danger">Delete</a>
-                          </td>
-                        </tr>
-                    <?php }?>
-        </tbody>
+            <?php 
+            $no = 1;
+            foreach($subMenu as $sm){
+            ?>
+            <tr>
+            <th scope="row"><?= $no++;?></th>
+              <td><?= $sm['title']; ?></td>
+              <td><?= $sm['menu']; ?></td>
+              <td><?= $sm['url']; ?></td>
+              <td><?= $sm['icon']; ?></td>
+              <td><?php if ($sm['is_active'] == 1) {
+                echo 'Active';
+              } else {
+                echo 'Not Active';
+              }
+              ?>
+              </td>
+              <td>
+                <a href="<?= base_url(); ?>menu/editSubmenu/<?= $sm['Id']; ?>" class="badge badge-success">Edit</a>
+                <a href="<?= base_url(); ?>menu/deleteSubmenu/<?= $sm['Id']; ?>" onclick="return confirm('Yakin');" class="badge badge-danger">Delete</a>
+              </td>
+            </tr>
+        <?php }?>
+      </tbody>
     </table>
   </div>
         </div>

@@ -24,7 +24,7 @@
                         
                             <td><?php echo $no++;?></td>
                             <td><?php echo $beli['kd_trx']; ?></td>
-                            <td><?php echo $beli['customer']; ?></td>
+                            <td><?php echo $beli['nama']; ?></td>
                             <td><?php echo "IDR ".number_format($beli['Total']);?></td>
                             <td><?= $beli['date_created'];?></td>
                             <td>                                

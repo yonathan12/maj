@@ -57,8 +57,6 @@ class User extends CI_Controller
                         # code...
                         unlink('FCPATH'.'./assets/img/profile/'.$oldImage);
                     }
-
-
                     $newImage = $this->upload->data('file_name');
                     $this->db->set('image', $newImage);
                 }else{

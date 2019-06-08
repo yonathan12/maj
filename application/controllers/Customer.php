@@ -8,6 +8,7 @@ class Customer extends CI_Controller
      parent::__construct(); 
      is_logged_in();  
      $this->load->model('Customer_model');
+     $this->load->model('Kode_model');
     }
 
     public function index()
@@ -55,6 +56,7 @@ class Customer extends CI_Controller
     public function addCustomer()
     {
         $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
+        $data['kode'] = $this->Kode_model->get_kodeCustomer();
 
         $this->form_validation->set_rules('nama','Nama','required|trim');
         $this->form_validation->set_rules('ktp','No Ktp','required|trim|numeric');

@@ -7,6 +7,7 @@
             
             <div class="form-group">
                 <label for="exampleFormControlInput1">Nama</label>
+                <input type="text" hidden="" class="form-control" id="kode" name="kode" value="<?= $kode; ?>">
                 <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama">
                 <?= form_error('nama','<small class="text-danger pl-3">','</small>'); ?>
             </div>

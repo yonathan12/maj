@@ -39,11 +39,9 @@
     <div class="form-group mb-2">
         <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="Customer">
     </div>
-    <div class="form-group mx-sm-3 mb-2">
-        <label for="inputPassword2" class="sr-only">Customer</label>
-        <input type="text" class="form-control" id="inputPassword2" placeholder="Customer" name="customer">
-        <?= form_error('customer','<small class="text-danger pl-3">','</small>'); ?>
+    <div class="form-group">
         <input type="text" value="<?= $kode; ?>" hidden name="kode">
+        <input type="text" class="form-control" id="customer" placeholder="Customer" name="customer">
     </div>
     <button type="submit" class="btn btn-primary mb-2">Simpan</button>
     </form>
@@ -60,21 +58,20 @@
         </thead>
         <tbody>
         <?php 
-                        $no = 1;
-                        foreach($temp as $t){
-                    ?>
-                        <tr>
-                        
-                            <td><?php echo $no++;?></td>
-                            <td><?php echo $t['valas']; ?></td>
-                            <td><?php echo number_format($t['rate_valas']);?></td>
-                            <td><?php echo number_format($t['jumlah']);?></td>
-                            <td><?php echo "IDR ".number_format($t['total']);?></td>
-                            <td>              
-                                <a href="<?= base_url(); ?>transaksi/tempHapusBeli/<?= $t['id_valas']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a>
-                            </td>
-                        </tr>
-                    <?php }?>
+        $no = 1;
+        foreach($temp as $t){
+        ?>
+            <tr>                        
+                <td><?php echo $no++;?></td>
+                <td><?php echo $t['valas']; ?></td>
+                <td><?php echo number_format($t['rate_valas']);?></td>
+                <td><?php echo number_format($t['jumlah']);?></td>
+                <td><?php echo "IDR ".number_format($t['total']);?></td>
+                <td>              
+                    <a href="<?= base_url(); ?>transaksi/tempHapusBeli/<?= $t['id_valas']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a>
+                </td>
+            </tr>
+        <?php }?>
         </tbody>
     </table>
 </div>

@@ -161,6 +161,16 @@ class Transaksi extends CI_Controller
         
     }
 
+    public function get_autocomplete(){
+        if (isset($_GET['term'])) {
+            $result = $this->Transaksi_model->search_blog($_GET['term']);
+            if (count($result) > 0) {
+            foreach ($result as $row)
+                $arr_result[] = $row->nama.' - '.$row->kd_cst;
+                echo json_encode($arr_result);
+            }
+        }
+    }
 
     public function prosesPembelian()
     {
@@ -169,6 +179,7 @@ class Transaksi extends CI_Controller
         $data['kode'] = $this->kode->get_kodeTrx();
         $data['valas'] = $this->db->get('valas')->result_array();
 
+        $kd_trx = $this->session->userdata('email');
         $tempTransaksi = "SELECT temp_transaksi.*, valas.* 
         FROM temp_transaksi JOIN valas
         ON temp_transaksi.id_valas = valas.Id_valas
@@ -188,6 +199,7 @@ class Transaksi extends CI_Controller
         } else {
             # code...
             $this->Transaksi_model->prosesTransaksiPembelian();
+            
             $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
             Data Tersimpan!
           </div>');
@@ -275,12 +287,17 @@ class Transaksi extends CI_Controller
      
         $data['title'] = 'Invoice';
 
-        $query = "SELECT transaksi.*, valas.*
+        $query = "SELECT transaksi.*, valas.*,customer.*
         FROM transaksi JOIN valas
         ON transaksi.id_valas = valas.Id_valas
+        JOIN customer
+        ON transaksi.customer = customer.kd_cst
         WHERE transaksi.kd_trx = '$id'";
 
-        $queryINV = "SELECT *,SUM(total) AS TTL FROM transaksi WHERE kd_trx = '$id' ";
+        $queryINV = "SELECT transaksi.*,SUM(transaksi.total) AS TTL, customer.nama
+        FROM transaksi JOIN customer
+        ON transaksi.customer = customer.kd_cst
+        WHERE kd_trx = '$id' ";
         
         $trx['data'] = $this->db->query($query)->result_array();
         $trx['inv'] = $this->db->query($queryINV)->row_array();

@@ -17,7 +17,7 @@
 
         <div class="col-sm-6">
             <h6 class="mb-3">Customer:</h6>
-            <div><?= $inv['customer']?></div>
+            <div><?= $inv['nama']?></div>
         </div>
 </div>
 

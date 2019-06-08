@@ -6,9 +6,11 @@ class Transaksi_model extends CI_Model
     public function getTransaksiPenjualan()
     {
         $tanggal = date('Y-m-d');
-        $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,SUM(transaksi.total) AS Total,transaksi.jumlah,transaksi.total,transaksi.date_created, valas.valas, valas.Id_valas
+        $query = "SELECT transaksi.kd_trx,transaksi.rate_valas,SUM(transaksi.total) AS Total,transaksi.jumlah,transaksi.total,transaksi.date_created, valas.valas, valas.Id_valas, customer.nama as customer
         FROM transaksi JOIN valas
         ON transaksi.id_valas = valas.Id_valas
+        JOIN customer 
+        ON transaksi.customer = customer.kd_cst
         WHERE transaksi.status = 1 AND transaksi.trx = 2 AND transaksi.date_created = '$tanggal'
         GROUP BY transaksi.kd_trx
         ORDER BY transaksi.date_created DESC, transaksi.Id DESC";
@@ -84,7 +86,7 @@ class Transaksi_model extends CI_Model
     {
         $kd_trx = $this->session->userdata('email');
         $kode = $this->input->post('kode');
-        $customer = $this->input->post('customer');
+        $customer = substr($this->input->post('customer'),-9);
         $hariini = date('Y-m-d');
         $waktu = date('H:i:s');
         
@@ -138,9 +140,11 @@ class Transaksi_model extends CI_Model
     public function getTransaksiPembelian()
     {
         $tanggal = date('Y-m-d');
-        $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,transaksi.jumlah,SUM(transaksi.total) AS Total,transaksi.date_created, valas.valas, valas.Id_valas
+        $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,transaksi.jumlah,SUM(transaksi.total) AS Total,transaksi.date_created, valas.valas, valas.Id_valas, customer.nama
         FROM transaksi JOIN valas
         ON transaksi.id_valas = valas.Id_valas
+        JOIN customer
+       	ON transaksi.customer = customer.kd_cst
         WHERE transaksi.status= 1 AND transaksi.trx = 1  AND transaksi.date_created = '$tanggal'
         GROUP BY transaksi.kd_trx
         ORDER BY transaksi.date_created DESC, transaksi.Id DESC
@@ -233,7 +237,7 @@ class Transaksi_model extends CI_Model
     {   
         $kd_trx = $this->session->userdata('email');
         $kode = $this->input->post('kode');
-        $customer = $this->input->post('customer');
+        $customer = substr($this->input->post('customer'),-9);
         $hariini = date('Y-m-d');
         $waktu = date('H:i:s');
         
@@ -283,5 +287,12 @@ class Transaksi_model extends CI_Model
            $this->db->where('kd_trx',$kd_trx);
            $this->db->delete('temp_stock');
         }            
+    }
+
+    function search_blog($customer){
+        $this->db->like('nama', $customer , 'both');
+        $this->db->order_by('nama', 'ASC');
+        $this->db->limit(10);
+        return $this->db->get('customer')->result();
     }
 }

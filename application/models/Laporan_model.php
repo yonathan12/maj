@@ -101,12 +101,7 @@ class Laporan_model extends CI_Model
             'total' => $total,
             'date_created' => date('Y-m-d')
         ];
-        $this->db->insert('laba',$data);
-
-        $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
-            Data Tersimpan!
-          </div>');
-        redirect('laporan/labarugi'); 
+        $this->db->insert('laba',$data);        
     }
 
     public function detailLaporan($id)
@@ -122,8 +117,6 @@ class Laporan_model extends CI_Model
     {
         $this->db->where('date_created', $date_created);
         $this->db->delete('laba');
-
-        
     }
 
     public function lapPenjualan()

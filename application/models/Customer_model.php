@@ -75,6 +75,7 @@ class Customer_model extends CI_Model
 
     public function addCustomer()
     {
+        $kode = $this->input->post('kode');
         $nama = $this->input->post('nama');
         $ktp = $this->input->post('ktp');
         $alamat = $this->input->post('alamat');
@@ -83,6 +84,7 @@ class Customer_model extends CI_Model
         $tgl = date('Y-m-d');
 
         $data = [
+            'kd_cst' => $kode,
             'nama' => $nama,
             'alamat' => $alamat,
             'no_ktp' => $ktp,

@@ -53,7 +53,7 @@ class Laporan_model extends CI_Model
         $dataTotalBeli = $totalBeli['data'];
         $totalPembelian = $dataTotalBeli['TBeli'];
 
-        if ($totalPembelian == '') {
+        if ($totalPembelian == '' || $jual == '') {
             $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
             Data Tidak Ada!
             </div>');
@@ -123,10 +123,7 @@ class Laporan_model extends CI_Model
         $this->db->where('date_created', $date_created);
         $this->db->delete('laba');
 
-        $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
-            Data Dihapus!
-          </div>');
-        redirect('laporan/labarugi'); 
+        
     }
 
     public function lapPenjualan()

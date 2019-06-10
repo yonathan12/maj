@@ -80,6 +80,7 @@ class Customer_model extends CI_Model
         $alamat = $this->input->post('alamat');
         $email = $this->input->post('email');
         $telp = $this->input->post('telp');
+        $tgl = date('Y-m-d');
 
         $data = [
             'nama' => $nama,
@@ -87,7 +88,8 @@ class Customer_model extends CI_Model
             'no_ktp' => $ktp,
             'email' => $email,
             'telp' => $telp,
-            'status' => 1
+            'status' => 1,
+            'date_created' => $tgl
         ];
 
         $this->db->insert('customer',$data);
@@ -107,6 +109,7 @@ class Customer_model extends CI_Model
         $alamat = $this->input->post('alamat');
         $email = $this->input->post('email');
         $telp = $this->input->post('telp');
+        $tgl = date('Y-m-d');
 
         $data = [
             'nama' => $nama,
@@ -114,7 +117,8 @@ class Customer_model extends CI_Model
             'no_ktp' => $ktp,
             'email' => $email,
             'telp' => $telp,
-            'status' => 1
+            'status' => 1,
+            'date_created' => $tgl
         ];
 
         $this->db->where('Id',$Id);

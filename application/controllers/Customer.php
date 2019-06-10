@@ -36,10 +36,9 @@ class Customer extends CI_Controller
             $row[] = $no;
             $row[] = $field->nama;
             $row[] = $field->no_ktp;
-            $row[] = $field->alamat;
 			$row[] = $field->telp;
             $row[] = '
-            <a href="customer/edit/'.$field->Id.'" class="btn btn-primary">Edit</a>
+            <a href="customer/detail/'.$field->Id.'" class="btn btn-success">Detail</a> <a href="customer/edit/'.$field->Id.'" class="btn btn-primary">Edit</a>
             <button type="button" name="delete" id="'.$field->Id.'" class="btn btn-danger btn-xs delete">Delete</button> ';  
             $data[] = $row;
         }
@@ -80,6 +79,19 @@ class Customer extends CI_Controller
             </div>');
             redirect('customer');
         }              
+    }
+
+    public function detail($Id)
+    {
+        $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
+        $data['detail'] = $this->db->get_where('customer',['Id' => $Id])->row_array();
+
+        $data['title'] = 'Customer';
+        $this->load->view('templates/header',$data);
+        $this->load->view('templates/sidebar',$data);
+        $this->load->view('templates/topbar',$data);
+        $this->load->view('customer/detail',$data);
+        $this->load->view('templates/footer');
     }
 
     function delete()  

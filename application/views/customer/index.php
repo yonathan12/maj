@@ -6,7 +6,6 @@
                 <th>Nomor</th>
                 <th>Nama</th>
                 <th>No KTP</th>
-                <th>Alamat</th>
                 <th>Telp</th>
                 <th>Action</th>
             </tr>

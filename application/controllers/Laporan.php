@@ -34,6 +34,62 @@ class Laporan extends CI_Controller
         }
     }
 
+    public function penjualan()
+    {
+        $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
+
+        $data['penjualan'] = $this->Laporan_model->lapPenjualan();
+
+        $data['title'] = 'Laporan Penjualan';
+        $this->load->view('templates/header',$data);
+        $this->load->view('templates/sidebar',$data);
+        $this->load->view('templates/topbar',$data);
+        $this->load->view('laporan/lap_penjualan',$data);
+        $this->load->view('templates/footer');
+    }
+
+    public function detailPenjualan()
+    {
+        $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
+
+        $data['penjualan'] = $this->Laporan_model->d_LapPenjualan();
+
+        $data['title'] = 'Laporan Penjualan';
+        $this->load->view('templates/header',$data);
+        $this->load->view('templates/sidebar',$data);
+        $this->load->view('templates/topbar',$data);
+        $this->load->view('laporan/d_LapPenjualan',$data);
+        $this->load->view('templates/footer');
+    }
+
+    public function pembelian()
+    {
+        $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
+
+        $data['pembelian'] = $this->Laporan_model->lapPembelian();
+
+        $data['title'] = 'Laporan Pembelian';
+        $this->load->view('templates/header',$data);
+        $this->load->view('templates/sidebar',$data);
+        $this->load->view('templates/topbar',$data);
+        $this->load->view('laporan/lap_pembelian',$data);
+        $this->load->view('templates/footer');
+    }
+
+    public function detailPembelian()
+    {
+        $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
+
+        $data['pembelian'] = $this->Laporan_model->d_LapPembelian();
+
+        $data['title'] = 'Laporan Pembelian';
+        $this->load->view('templates/header',$data);
+        $this->load->view('templates/sidebar',$data);
+        $this->load->view('templates/topbar',$data);
+        $this->load->view('laporan/d_lapPembelian',$data);
+        $this->load->view('templates/footer');
+    }
+
     public function laporanlaba()
     {
         $this->Laporan_model->simpanLaporan();

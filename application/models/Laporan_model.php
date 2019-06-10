@@ -128,4 +128,54 @@ class Laporan_model extends CI_Model
           </div>');
         redirect('laporan/labarugi'); 
     }
+
+    public function lapPenjualan()
+    {        
+        $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,transaksi.jumlah,transaksi.total,transaksi.date_created , valas.valas, customer.nama
+        FROM transaksi JOIN valas
+        ON transaksi.id_valas = valas.Id_valas
+        JOIN customer 
+        ON transaksi.customer = customer.kd_cst
+        WHERE transaksi.trx = 2 AND transaksi.status = 1 ORDER BY transaksi.date_created DESC";
+        return $this->db->query($query)->result_array();
+    }
+
+    public function d_LapPenjualan()
+    {
+        $tanggal1 = $this->input->post('tanggal1');
+        $tanggal2 = $this->input->post('tanggal2');
+
+        $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,transaksi.jumlah,transaksi.total,transaksi.date_created , valas.valas, customer.nama
+        FROM transaksi JOIN valas
+        ON transaksi.id_valas = valas.Id_valas
+        JOIN customer 
+        ON transaksi.customer = customer.kd_cst
+        WHERE transaksi.trx = 2 AND transaksi.status = 1 AND transaksi.date_created BETWEEN '$tanggal1' AND '$tanggal2'";
+        return $this->db->query($query)->result_array();
+    }
+
+    public function lapPembelian()
+    {        
+        $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,transaksi.jumlah,transaksi.total,transaksi.date_created , valas.valas, customer.nama
+        FROM transaksi JOIN valas
+        ON transaksi.id_valas = valas.Id_valas
+        JOIN customer 
+        ON transaksi.customer = customer.kd_cst
+        WHERE transaksi.trx = 1 AND transaksi.status = 1 ORDER BY transaksi.date_created DESC";
+        return $this->db->query($query)->result_array();
+    }
+
+    public function d_LapPembelian()
+    {
+        $tanggal1 = $this->input->post('tanggal1');
+        $tanggal2 = $this->input->post('tanggal2');
+
+        $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,transaksi.jumlah,transaksi.total,transaksi.date_created , valas.valas, customer.nama
+        FROM transaksi JOIN valas
+        ON transaksi.id_valas = valas.Id_valas
+        JOIN customer 
+        ON transaksi.customer = customer.kd_cst
+        WHERE transaksi.trx = 1 AND transaksi.status = 1 AND transaksi.date_created BETWEEN '$tanggal1' AND '$tanggal2'";
+        return $this->db->query($query)->result_array();
+    }
 }

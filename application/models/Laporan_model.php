@@ -53,7 +53,7 @@ class Laporan_model extends CI_Model
         $dataTotalBeli = $totalBeli['data'];
         $totalPembelian = $dataTotalBeli['TBeli'];
 
-        if ($totalPembelian == '' || $jual == '') {
+        if ($totalPembelian == '' && $jual == '') {
             $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
             Data Tidak Ada!
             </div>');

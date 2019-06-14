@@ -99,6 +99,7 @@ class Admin extends CI_Controller
             $queryUser = "SELECT * FROM user ORDER BY is_active DESC";
 
             $data['AllData'] = $this->db->query($queryUser)->result_array();
+            $data['role'] = $this->db->get('user_role')->result_array();
 
             $this->form_validation->set_rules('name','Name','required|trim');
             $this->form_validation->set_rules('email','Email','required|trim|valid_email|is_unique[user.email]',[

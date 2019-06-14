@@ -85,11 +85,13 @@
       <input type="password" class="form-control" id="role" name="password" placeholder="Password">
       </div>
       <div class="modal-body">
-        <select class="custom-select" name="role_id">
+        <select class="custom-select" name="role_id">        
         <option selected value="">Pilih Level</option>
-        <option value="1">Admin</option>
-        <option value="2">Staff</option>
-        </select>
+          <?php foreach ($role as $r) {         
+          ?>
+          <option value="<?= $r['Id']; ?>"><?= $r['role']; ?></option>        
+          <?php } ?>
+      </select>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -15,8 +15,20 @@
                     <td><?= $detail['nama']; ?></td>
                 </tr>
                 <tr>
+                    <td>Tempat Lahir :</td>
+                    <td><?= $detail['tempat_lahir']; ?></td>
+                </tr>
+                <tr>
+                    <td>Umur :</td>
+                    <td><?= $detail['umur'].' Tahun'; ?></td>
+                </tr>
+                <tr>
                     <td>KTP :</td>
                     <td><?= $detail['no_ktp']; ?></td>
+                </tr>
+                <tr>
+                    <td>NPWP :</td>
+                    <td><?= $detail['no_npwp']; ?></td>
                 </tr>
                 <tr>
                     <tr>
@@ -24,8 +36,12 @@
                         <td><?= $detail['alamat']; ?></td>
                     </tr>
                     <tr>
-                        <td>Email :</td>
-                        <td><a href="mailto:<?= $detail['email']; ?>"><?= $detail['email']; ?></a></td>
+                        <td>Pekerjaan :</td>
+                        <td><?= $detail['pekerjaan']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Kewarganegaraan :</td>
+                        <td><?= $detail['kewarganegaraan']; ?></td>
                     </tr>
                     <td>Phone Number :</td>
                     <td><?= $detail['telp']; ?></td>                    
@@ -33,6 +49,10 @@
                     <tr>
                         <td>Dibuat :</td>
                         <td><?= $detail['date_created']; ?></td>
+                    </tr>
+                    <tr>
+                        <td>Diubah :</td>
+                        <td><?= $detail['date_changed']; ?></td>
                     </tr>
                     <tr>                        
                         <td><a href="<?= base_url('customer'); ?>" class="btn btn-success">Kembali</a></td>

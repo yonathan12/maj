@@ -13,6 +13,16 @@
                 <?= form_error('nama','<small class="text-danger pl-3">','</small>'); ?>
             </div>
             <div class="form-group">
+                <label for="exampleFormControlInput1">Tempat Lahir</label>
+                <input type="text" class="form-control" id="tempat_lhr" name="tempat_lhr" placeholder="Tempat Lahir" value="<?= $customer['tempat_lahir']; ?>">
+                <?= form_error('tempat_lhr','<small class="text-danger pl-3">','</small>'); ?>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Tanggal Lahir</label>
+                <input type="date" class="form-control" id="tgl_lhr" name="tgl_lhr" value="<?= $customer['tgl_lahir']; ?>">
+                <?= form_error('tgl_lhr','<small class="text-danger pl-3">','</small>'); ?>
+            </div>
+            <div class="form-group">
                 <label for="exampleFormControlInput1">No Ktp</label>
                 <input type="number" class="form-control" id="ktp" name="ktp" placeholder="No KTP" value="<?= $customer['no_ktp']; ?>">
                 <?= form_error('ktp','<small class="text-danger pl-3">','</small>'); ?>
@@ -28,9 +38,18 @@
                 <?= form_error('telp','<small class="text-danger pl-3">','</small>'); ?>
             </div>
             <div class="form-group">
-                <label for="exampleFormControlInput1">Email</label>
-                <input type="email" class="form-control" id="email" placeholder="Email" name="email" value="<?= $customer['email']; ?>">
-                <?= form_error('email','<small class="text-danger pl-3">','</small>'); ?>
+                <label for="exampleFormControlInput1">No NPWP</label>
+                <input type="number" class="form-control" id="npwp" name="npwp" placeholder="No NPWP" value="<?= $customer['no_npwp']; ?>">            
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Pekerjaan</label>
+                <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" placeholder="Pekerjaan" value="<?= $customer['pekerjaan']; ?>">
+                <?= form_error('pekerjaan','<small class="text-danger pl-3">','</small>'); ?>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Kewarganegaraan</label>
+                <input type="text" class="form-control" id="kewarganegaraan" name="kewarganegaraan" placeholder="Kewarganegaraan" value="<?= $customer['kewarganegaraan']; ?>">
+                <?= form_error('kewarganegaraan','<small class="text-danger pl-3">','</small>'); ?>
             </div>
             
             <button type="submit" class="btn btn-success">Simpan</button>

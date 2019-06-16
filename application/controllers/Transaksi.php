@@ -294,7 +294,7 @@ class Transaksi extends CI_Controller
         ON transaksi.customer = customer.kd_cst
         WHERE transaksi.kd_trx = '$id'";
 
-        $queryINV = "SELECT transaksi.*,SUM(transaksi.total) AS TTL, customer.nama
+        $queryINV = "SELECT transaksi.*,SUM(transaksi.total) AS TTL, customer.nama, customer.no_npwp
         FROM transaksi JOIN customer
         ON transaksi.customer = customer.kd_cst
         WHERE kd_trx = '$id' ";

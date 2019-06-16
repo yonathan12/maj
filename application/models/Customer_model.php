@@ -77,19 +77,27 @@ class Customer_model extends CI_Model
     {
         $kode = $this->input->post('kode');
         $nama = $this->input->post('nama');
+        $tempat_lahir = $this->input->post('tempat_lhr');
+        $tgl_lhr = $this->input->post('tgl_lhr');
         $ktp = $this->input->post('ktp');
         $alamat = $this->input->post('alamat');
-        $email = $this->input->post('email');
         $telp = $this->input->post('telp');
+        $npwp = $this->input->post('npwp');
+        $pekerjaan = $this->input->post('pekerjaan');
+        $warganegara = $this->input->post('kewarganegaraan');
         $tgl = date('Y-m-d');
 
         $data = [
             'kd_cst' => $kode,
             'nama' => $nama,
+            'tempat_lahir' => $tempat_lahir,
+            'tgl_lahir' => $tgl_lhr,
             'alamat' => $alamat,
             'no_ktp' => $ktp,
-            'email' => $email,
+            'no_npwp' => $npwp,
             'telp' => $telp,
+            'pekerjaan' => $pekerjaan,
+            'kewarganegaraan' => $warganegara,
             'status' => 1,
             'date_created' => $tgl
         ];
@@ -103,24 +111,32 @@ class Customer_model extends CI_Model
            $this->db->delete("customer");
       }
 
-    function editCustomer()
+    function editCustomer($Id)
     {
         $Id = $this->input->post('id');
         $nama = $this->input->post('nama');
+        $tempat_lahir = $this->input->post('tempat_lhr');
+        $tgl_lhr = $this->input->post('tgl_lhr');
         $ktp = $this->input->post('ktp');
         $alamat = $this->input->post('alamat');
-        $email = $this->input->post('email');
         $telp = $this->input->post('telp');
+        $npwp = $this->input->post('npwp');
+        $pekerjaan = $this->input->post('pekerjaan');
+        $warganegara = $this->input->post('kewarganegaraan');
         $tgl = date('Y-m-d');
 
         $data = [
             'nama' => $nama,
+            'tempat_lahir' => $tempat_lahir,
+            'tgl_lahir' => $tgl_lhr,
             'alamat' => $alamat,
             'no_ktp' => $ktp,
-            'email' => $email,
+            'no_npwp' => $npwp,
             'telp' => $telp,
+            'pekerjaan' => $pekerjaan,
+            'kewarganegaraan' => $warganegara,
             'status' => 1,
-            'date_created' => $tgl
+            'date_changed' => $tgl
         ];
 
         $this->db->where('Id',$Id);

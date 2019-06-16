@@ -58,9 +58,13 @@ class Customer extends CI_Controller
         $data['kode'] = $this->Kode_model->get_kodeCustomer();
 
         $this->form_validation->set_rules('nama','Nama','required|trim');
-        $this->form_validation->set_rules('ktp','No Ktp','required|trim|numeric');
-        $this->form_validation->set_rules('alamat','Alamat','required|trim');
-        $this->form_validation->set_rules('email','Email','required|trim|valid_email');
+        $this->form_validation->set_rules('tempat_lhr','Tempat Lahir','required|trim');
+        $this->form_validation->set_rules('tgl_lhr','Tanggal Lahir','required|trim');
+        $this->form_validation->set_rules('ktp','No KTP','required|trim|numeric');
+        $this->form_validation->set_rules('npwp','No NPWP','trim|numeric');
+        $this->form_validation->set_rules('alamat','Alamat','required|trim');        
+        $this->form_validation->set_rules('pekerjaan','Pekerjaan','required|trim');
+        $this->form_validation->set_rules('kewarganegaraan','Kewarganegaraan','required|trim');
         $this->form_validation->set_rules('telp','Telp','required|trim|numeric');
 
         if ($this->form_validation->run()== FALSE) {
@@ -84,7 +88,8 @@ class Customer extends CI_Controller
     public function detail($Id)
     {
         $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
-        $data['detail'] = $this->db->get_where('customer',['Id' => $Id])->row_array();
+        $query = "SELECT *, YEAR(curdate()) - YEAR(tgl_lahir) AS umur FROM `customer` WHERE Id = $Id";
+        $data['detail'] = $this->db->query($query)->row_array();
 
         $data['title'] = 'Customer';
         $this->load->view('templates/header',$data);
@@ -110,9 +115,13 @@ class Customer extends CI_Controller
         $data['customer'] = $this->db->get_where('customer',['Id' => $Id])->row_array();       
 
         $this->form_validation->set_rules('nama','Nama','required|trim');
-        $this->form_validation->set_rules('ktp','No Ktp','required|trim|numeric');
-        $this->form_validation->set_rules('alamat','Alamat','required|trim');
-        $this->form_validation->set_rules('email','Email','required|trim|valid_email');
+        $this->form_validation->set_rules('tempat_lhr','Tempat Lahir','required|trim');
+        $this->form_validation->set_rules('tgl_lhr','Tanggal Lahir','required|trim');
+        $this->form_validation->set_rules('ktp','No KTP','required|trim|numeric');
+        $this->form_validation->set_rules('npwp','No NPWP','trim|numeric');
+        $this->form_validation->set_rules('alamat','Alamat','required|trim');        
+        $this->form_validation->set_rules('pekerjaan','Pekerjaan','required|trim');
+        $this->form_validation->set_rules('kewarganegaraan','Kewarganegaraan','required|trim');
         $this->form_validation->set_rules('telp','Telp','required|trim|numeric');
 
         if ($this->form_validation->run()== FALSE) {

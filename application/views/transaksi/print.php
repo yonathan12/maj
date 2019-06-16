@@ -17,7 +17,8 @@
 
         <div class="col-sm-6">
             <h6 class="mb-3">Customer:</h6>
-            <div><?= $inv['nama']?></div>
+            <div>Nama : <?= $inv['nama'];?></div>
+            <div>NPWP : <?= $inv['no_npwp'];?></div>
         </div>
 </div>
 

@@ -58,7 +58,7 @@ class Laporan extends CI_Controller
         $this->load->view('templates/header',$data);
         $this->load->view('templates/sidebar',$data);
         $this->load->view('templates/topbar',$data);
-        $this->load->view('laporan/d_LapPenjualan',$data);
+        $this->load->view('laporan/d_lapPenjualan',$data);
         $this->load->view('templates/footer');
     }
 

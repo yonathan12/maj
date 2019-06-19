@@ -142,4 +142,9 @@ class Customer_model extends CI_Model
         $this->db->where('Id',$Id);
         $this->db->update('customer',$data);        
     }
+
+    function uploadCustomer($data)
+    {
+        $this->db->insert_batch('customer', $data);
+    }
 }

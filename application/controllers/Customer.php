@@ -9,6 +9,7 @@ class Customer extends CI_Controller
      is_logged_in();  
      $this->load->model('Customer_model');
      $this->load->model('Kode_model');
+     $this->load->library('excel');
     }
 
     public function index()
@@ -65,7 +66,7 @@ class Customer extends CI_Controller
         $this->form_validation->set_rules('alamat','Alamat','required|trim');        
         $this->form_validation->set_rules('pekerjaan','Pekerjaan','required|trim');
         $this->form_validation->set_rules('kewarganegaraan','Kewarganegaraan','required|trim');
-        $this->form_validation->set_rules('telp','Telp','required|trim|numeric');
+        $this->form_validation->set_rules('telp','Telp','trim|numeric');
 
         if ($this->form_validation->run()== FALSE) {
             # code...
@@ -122,7 +123,7 @@ class Customer extends CI_Controller
         $this->form_validation->set_rules('alamat','Alamat','required|trim');        
         $this->form_validation->set_rules('pekerjaan','Pekerjaan','required|trim');
         $this->form_validation->set_rules('kewarganegaraan','Kewarganegaraan','required|trim');
-        $this->form_validation->set_rules('telp','Telp','required|trim|numeric');
+        $this->form_validation->set_rules('telp','Telp','trim|numeric');
 
         if ($this->form_validation->run()== FALSE) {
             # code...
@@ -140,5 +141,48 @@ class Customer extends CI_Controller
             </div>');
             redirect('customer');
         }              
+    }
+
+    function upload() {
+        
+        if(isset($_FILES["file"]["name"]))
+        {	
+            $id_daftar_detail=$this->Kode_model->get_kodeCustomer();
+            $daftarid_array = substr($id_daftar_detail,-6);
+            
+            $path = $_FILES["file"]["tmp_name"];
+            $object = PHPExcel_IOFactory::load($path);
+            foreach($object->getWorksheetIterator() as $worksheet)
+            {                
+                $highestRow = $worksheet->getHighestRow();
+                $highestColumn = $worksheet->getHighestColumn();
+                $endid = 0;
+                for($row=2; $row<=$highestRow; $row++)
+                {
+                    $id_daftar = 'CST'.str_pad(($daftarid_array+$endid),6, "0", STR_PAD_LEFT);
+                    $endid++;
+                                
+                    $data []= array(                                                     
+                    // Sesuaikan sama nama kolom tabel di database
+                                "kd_cst" => $id_daftar,
+                                "nama" => $worksheet->getCellByColumnAndRow(0, $row)->getValue(),
+                                "tempat_lahir" => $worksheet->getCellByColumnAndRow(1, $row)->getValue(),
+                                "tgl_lahir" => $worksheet->getCellByColumnAndRow(2, $row)->getValue(),
+                                "alamat" => $worksheet->getCellByColumnAndRow(3, $row)->getValue(),
+                                "no_ktp" => $worksheet->getCellByColumnAndRow(4, $row)->getValue(),
+                                "no_npwp" => $worksheet->getCellByColumnAndRow(5, $row)->getValue(),
+                                "email" => $worksheet->getCellByColumnAndRow(6, $row)->getValue(),
+                                "telp" => $worksheet->getCellByColumnAndRow(7, $row)->getValue(),
+                                "pekerjaan" => $worksheet->getCellByColumnAndRow(8, $row)->getValue(),
+                                "kewarganegaraan" => $worksheet->getCellByColumnAndRow(9, $row)->getValue(),
+                                "status" => 1,
+                                "date_created" => date("Y-m-d")
+                                
+                            );
+                }
+                    $this->Customer_model->uploadCustomer($data);
+            }
+            redirect(base_url('customer'));
+        }
     }
 }

@@ -22,15 +22,18 @@ class Laporan_model extends CI_Model
         $queryTotalStock = "SELECT nr * stock_akhir AS total FROM stock WHERE id_valas = '$valas' AND status = 1 ORDER BY date_created DESC, time_created DESC";
         $dataStock['data'] = $this->db->query($queryTotalStock)->row();                
         $dts = $dataStock['data'];
-        $Total = $dts->total;   
+        $Total = $dts->total;         
 
-        $queryTotalJual = "SELECT SUM(total) TTL FROM transaksi WHERE date_created='$tanggal' AND trx = 2 OR trx = 4 AND id_valas = '$valas' AND status = 1";
+        $queryTotalJual = "SELECT SUM(total) TTL FROM transaksi WHERE date_created='$tanggal' AND trx = 2 AND id_valas = '$valas' AND status = 1";
         $dataJual['data'] = $this->db->query($queryTotalJual)->row();                
         $dtj = $dataJual['data'];
-        $jual = $dtj->TTL;
-        
-        
+        $jual = $dtj->TTL;       
 
+        $queryTotalVoidJual = "SELECT SUM(total) TTL FROM transaksi WHERE date_created='$tanggal' AND trx = 4 AND id_valas = '$valas' AND status = 1";
+        $dataVoidJual['data'] = $this->db->query($queryTotalVoidJual)->row();                
+        $dtvj = $dataVoidJual['data'];
+        $voidjual = $dtvj->TTL;       
+        
         $TY['data'] = $this->db->query("SELECT nr * jumlah AS total FROM stock WHERE id_valas = '$valas' AND date_created != '$tanggal' AND status = 1 ORDER BY date_created DESC, time_created DESC ")->row_array();
         $dataTY = $TY['data'];
         $totalY = $dataTY['total'];
@@ -52,9 +55,13 @@ class Laporan_model extends CI_Model
         $dataReport = $reportResult['dataReport'];
         $lapLaba = $dataReport['id_valas'];
 
-        $totalBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$tanggal' AND trx = 1 OR trx = 3 AND id_valas = '$valas' AND status = 1")->row_array();
+        $totalBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$tanggal' AND trx = 1 AND id_valas = '$valas' AND status = 1")->row_array();
         $dataTotalBeli = $totalBeli['data'];
         $totalPembelian = $dataTotalBeli['TBeli'];
+
+        $totalVoidBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$tanggal' AND trx = 3 AND id_valas = '$valas' AND status = 1")->row_array();
+        $dataTotalVoidBeli = $totalVoidBeli['data'];
+        $totalVoidPembelian = $dataTotalVoidBeli['TBeli'];
         
 
         if ($totalPembelian == '' && $jual == '') {
@@ -64,9 +71,9 @@ class Laporan_model extends CI_Model
             redirect('laporan/labarugi'); 
         } elseif ($lapLaba == '' ) {
             # code...
-            $x = $result + $totalPembelian;
+            $x = $result + $totalPembelian + $totalVoidPembelian;
 
-            $hitungLaba = ($jual + $Total) - $x;            
+            $hitungLaba = ($jual + $voidjual + $Total) - $x;                       
 
             if ($hitungLaba <= 0) {
                 # code...

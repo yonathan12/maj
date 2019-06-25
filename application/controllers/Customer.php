@@ -185,4 +185,73 @@ class Customer extends CI_Controller
             redirect(base_url('customer'));
         }
     }
+
+    public function export()
+    {
+        $object = new PHPExcel();
+
+        $table_columns = array(
+            "Kode Customer",
+            "Nama",
+            "Tempat Lahir",
+            "Tanggal Lahir",
+            "Alamat",
+            "Nomor KTP",
+            "Nomor NPWP",
+            "Email",
+            "Telp",
+            "Pekerjaan",
+            "Kewarganegaraan",
+            "Tanggal Dibuat"
+        );
+
+        $column = 0;
+        for ($col='A'; $col !=='L' ; $col++) { 
+            $object->getActiveSheet()->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        $object->getActiveSheet()->mergeCells('A1:L1');
+        $object->getActiveSheet()->mergeCells('A2:L2');
+        $object->getActiveSheet()->getStyle("A1:A2")->getFont()->setSize(14);
+ 
+
+        $object->getActiveSheet()->getStyle( "A1" )->getFont()->setBold( true );
+        $object->getActiveSheet()->getStyle( "A2" )->getFont()->setBold( true );
+
+        $object->getActiveSheet()->setCellValueByColumnAndRow("A1", 1, "Data Customer");
+        $object->getActiveSheet()->setCellValueByColumnAndRow("A2", 2, "PT Muchad Artha Jaya");
+
+        $object->getActiveSheet()->getStyle('A4:L4')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('F28A8C'); 
+        
+        $row_judul = 4;
+
+        foreach($table_columns as $field)
+        {
+        $object->getActiveSheet()->setCellValueByColumnAndRow($column, $row_judul, $field);
+        $column++;
+        }
+
+        $data = $this->Customer_model->exportData();
+        $excel_row = 5;
+        foreach ($data as $row) {
+            $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row->kd_cst);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->nama);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $row->tempat_lahir);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $row->tgl_lahir);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row->alamat);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row->no_ktp);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(6, $excel_row, $row->no_npwp);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(7, $excel_row, $row->email);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(8, $excel_row, $row->telp);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row, $row->pekerjaan);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, $row->kewarganegaraan);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row, $row->date_created);
+
+            $excel_row++;
+        }
+        $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="Export Data Customer.xls"');
+        $object_writer->save('php://output');
+    }
 }

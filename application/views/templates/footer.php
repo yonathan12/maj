@@ -153,9 +153,19 @@
             $( "#customer" ).autocomplete({
               source: "<?= base_url('transaksi/get_autocomplete/?');?>"
             });
-        });
+        });    
 
-    
+    $(document).ready(function(){
+        $( "#kd_trx_beli" ).autocomplete({
+          source: "<?= base_url('void/get_autocomplete/?');?>"
+        });
+    });    
+
+    $(document).ready(function(){
+        $( "#kd_trx_jual" ).autocomplete({
+          source: "<?= base_url('void/get_autocompleteJual/?');?>"
+        });
+    });   
   
     $(document).ready(function() {
       $('#example').DataTable();

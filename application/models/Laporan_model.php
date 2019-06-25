@@ -19,23 +19,26 @@ class Laporan_model extends CI_Model
         $valas = $this->input->post('valas');
         $tanggal = $this->input->post('tanggal');                
 
-        $queryTotalStock = "SELECT total FROM stock WHERE id_valas = '$valas' AND status = 1 ORDER BY date_created DESC, time_created DESC";
+        $queryTotalStock = "SELECT nr * stock_akhir AS total FROM stock WHERE id_valas = '$valas' AND status = 1 ORDER BY date_created DESC, time_created DESC";
         $dataStock['data'] = $this->db->query($queryTotalStock)->row();                
         $dts = $dataStock['data'];
-        $Total = $dts->total;                
+        $Total = $dts->total;   
 
-        $queryTotalJual = "SELECT SUM(total) TTL FROM transaksi WHERE date_created='$tanggal' AND trx = 2 AND id_valas = '$valas' AND status = 1";
+        $queryTotalJual = "SELECT SUM(total) TTL FROM transaksi WHERE date_created='$tanggal' AND trx = 2 OR trx = 4 AND id_valas = '$valas' AND status = 1";
         $dataJual['data'] = $this->db->query($queryTotalJual)->row();                
         $dtj = $dataJual['data'];
         $jual = $dtj->TTL;
+        
+        
 
-        $TY['data'] = $this->db->query("SELECT total FROM stock WHERE id_valas = '$valas' AND date_created != '$tanggal' AND status = 1 ORDER BY date_created DESC, time_created DESC ")->row_array();
+        $TY['data'] = $this->db->query("SELECT nr * jumlah AS total FROM stock WHERE id_valas = '$valas' AND date_created != '$tanggal' AND status = 1 ORDER BY date_created DESC, time_created DESC ")->row_array();
         $dataTY = $TY['data'];
         $totalY = $dataTY['total'];
+        
 
         if ($totalY == '') {
             # code...
-            $TY['data'] = $this->db->query("SELECT * FROM stock WHERE id_valas = '$valas'  AND status = 1 AND trx = 0 ORDER BY time_created DESC")->row_array();
+            $TY['data'] = $this->db->query("SELECT nr * jumlah AS total FROM stock WHERE id_valas = '$valas'  AND status = 1 AND trx = 0 ORDER BY time_created DESC")->row_array();
             $dataTY = $TY['data'];
             $totalYR = $dataTY['total'];
 
@@ -49,9 +52,10 @@ class Laporan_model extends CI_Model
         $dataReport = $reportResult['dataReport'];
         $lapLaba = $dataReport['id_valas'];
 
-        $totalBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$tanggal' AND trx = 1 AND id_valas = '$valas' AND status = 1")->row_array();
+        $totalBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$tanggal' AND trx = 1 OR trx = 3 AND id_valas = '$valas' AND status = 1")->row_array();
         $dataTotalBeli = $totalBeli['data'];
         $totalPembelian = $dataTotalBeli['TBeli'];
+        
 
         if ($totalPembelian == '' && $jual == '') {
             $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
@@ -62,7 +66,7 @@ class Laporan_model extends CI_Model
             # code...
             $x = $result + $totalPembelian;
 
-            $hitungLaba = ($jual + $Total) - $x;
+            $hitungLaba = ($jual + $Total) - $x;            
 
             if ($hitungLaba <= 0) {
                 # code...
@@ -70,7 +74,7 @@ class Laporan_model extends CI_Model
                 $laba['valas'] = $valas = $this->input->post('valas');
             } else {
                 # code...
-                $laba['hasil'] = $hitungLaba;
+                $laba['hasil'] = round($hitungLaba);
                 $laba['valas'] = $valas = $this->input->post('valas');
             }               
 

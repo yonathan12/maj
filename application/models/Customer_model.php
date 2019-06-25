@@ -147,4 +147,10 @@ class Customer_model extends CI_Model
     {
         $this->db->insert_batch('customer', $data);
     }
+
+    public function exportData()
+    {
+        $this->db->order_by("kd_cst","ASC");
+        return $this->db->get("customer")->result();
+    }
 }

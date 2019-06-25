@@ -169,7 +169,7 @@ class Transaksi_model extends CI_Model
         ];
         $hariini = date("Y-m-d");           
 
-        $queryStock = "SELECT * FROM stock WHERE id_valas = '$valas' AND status = 1 ORDER BY date_created DESC, time_created DESC";
+        $queryStock = "SELECT SUM(stock_akhir - stock_awal) AS stock_akhir FROM stock WHERE id_valas = '$valas' AND status = 1 ORDER BY date_created DESC, time_created DESC";
         $dataStock['data'] = $this->db->query($queryStock)->row();                
         $stock = $dataStock['data'];
         $stockAwal = $stock->stock_akhir;
@@ -181,21 +181,21 @@ class Transaksi_model extends CI_Model
         $jumlahPembelian = $dataTotalBeli->JBeli;
         
         //Olah New Rate                        
-        $SSY['data'] = $this->db->query("SELECT stock_akhir FROM stock WHERE id_valas = '$valas' AND status = 1 AND date_created != '$hariini' ORDER BY date_created DESC, time_created DESC")->row_array();
+        $SSY['data'] = $this->db->query("SELECT SUM(stock_akhir - stock_awal) AS stock_akhir FROM stock WHERE id_valas = '$valas' AND status = 1 AND date_created != '$hariini' ORDER BY date_created DESC, time_created DESC")->row_array();
         $dataSSY = $SSY['data'];
         $stockSSY = $dataSSY['stock_akhir'];            
 
-        $TY['data'] = $this->db->query("SELECT * FROM stock WHERE id_valas = '$valas'  AND status = 1 AND date_created != '$hariini'  ORDER BY date_created DESC, time_created DESC LIMIT 1")->row_array();
+        $TY['data'] = $this->db->query("SELECT nr * jumlah AS total FROM stock WHERE id_valas = '$valas'  AND status = 1 AND date_created != '$hariini'  ORDER BY date_created DESC, time_created DESC LIMIT 1")->row_array();
         $dataTY = $TY['data'];
         $totalY = $dataTY['total'];
 
         if ($totalY == '') {
             # code...
-            $SSY['data'] = $this->db->query("SELECT stock_akhir FROM stock WHERE id_valas = '$valas' AND status = 1 AND trx = 0 ORDER BY time_created DESC")->row_array();
+            $SSY['data'] = $this->db->query("SELECT SUM(stock_akhir - stock_awal) AS stock_akhir FROM stock WHERE id_valas = '$valas' AND status = 1 AND trx = 0 ORDER BY time_created DESC")->row_array();
             $dataSSY = $SSY['data'];
             $stockSSYR = $dataSSY['stock_akhir'];            
 
-            $TY['data'] = $this->db->query("SELECT * FROM stock WHERE id_valas = '$valas'  AND status = 1 AND trx = 0 ORDER BY time_created DESC")->row_array();
+            $TY['data'] = $this->db->query("SELECT nr * jumlah AS total FROM stock WHERE id_valas = '$valas'  AND status = 1 AND trx = 0 ORDER BY time_created DESC")->row_array();
             $dataTY = $TY['data'];
             $totalYR = $dataTY['total'];
 
@@ -211,7 +211,7 @@ class Transaksi_model extends CI_Model
         $y = $resultStock + $jumlahPembelian + $jumlah;
 
         $Rate = $x / $y;         
-        $newRate = round($Rate);
+        $newRate = $Rate;
 
         $totalStock = $newRate * $sisaStock;
 

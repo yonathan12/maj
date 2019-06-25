@@ -3,13 +3,13 @@
     <?= $this->session->flashdata('message');?>    
     </div>
     <?= validation_errors(); ?>    
-    <a href="<?= base_url();?>transaksi/jual" class="btn btn-primary mb-3">New Transaction</a>
+    <a href="<?= base_url();?>void/beli" class="btn btn-primary mb-3">New Void</a>
 <table id="example" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
                 <th>No</th>
-                <th>Invoice</th>
-                <th>Customer</th>
+                <th>Kode Transaksi</th>
+                <th>Nomor Transaksi</th>
                 <th>Total</th>
                 <th>Date Created</th>
                 <th>Action</th>
@@ -18,20 +18,17 @@
         <tbody>
         <?php 
                         $no = 1;
-                        foreach($penjualan as $jual){
+                        foreach($pembelian as $beli){
                     ?>
                         <tr>
                         
                             <td><?php echo $no++;?></td>
-                            <td><?php echo $jual['kd_trx']; ?></td>
-                            <td><?php echo $jual['customer']; ?></td>
-                            <td><?php echo "IDR ".number_format($jual['Total']);?></td>
-                            <td><?= $jual['date_created'];?></td>
+                            <td><?php echo $beli['kd_trx']; ?></td>
+                            <td><?php echo $beli['customer']; ?></td>
+                            <td><?php echo "IDR ".number_format($beli['Total']);?></td>
+                            <td><?= $beli['date_created'];?></td>
                             <td>                                
-                                <a href="<?= base_url(); ?>transaksi/printInvoice/<?= $jual['kd_trx']; ?>" class="fas fa-print"></a>
-                                <a href="<?= base_url(); ?>admin/detail/<?= $jual['kd_trx']; ?>" class="fas fa-info"></a>                             
-                                <a href="<?= base_url(); ?>admin/ubah/<?= $jual['kd_trx']; ?>" class="fas fa-edit" ></a>
-                                <a href="<?= base_url(); ?>transaksi/hapusJual/<?= $jual['kd_trx']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a>
+                                <a href="<?= base_url(); ?>transaksi/printInvoice/<?= $beli['kd_trx']; ?>" class="fas fa-print"></a>                                
                             </td>
                         </tr>
                     <?php }?>

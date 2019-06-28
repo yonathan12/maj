@@ -36,9 +36,11 @@
                                 <?php
                                     if ($usr['role_id'] == 1) {
                                         echo 'Admin';
-                                    } else {
-                                        echo 'Staff';
-                                }
+                                    } elseif ($usr['role_id'] == 5) {
+                                        echo 'Direktur';
+                                    }else {
+                                      echo 'Staff';
+                              }
                                 ?>
                             </td>
                             <td>

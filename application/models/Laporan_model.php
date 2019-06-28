@@ -83,7 +83,7 @@ class Laporan_model extends CI_Model
                 # code...
                 $laba['hasil'] = round($hitungLaba);
                 $laba['valas'] = $valas = $this->input->post('valas');
-            }               
+            }   
 
             $data['title'] = 'Laba Rugi';
             $data['tanggal'] = $this->input->post('tanggal');

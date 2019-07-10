@@ -68,10 +68,8 @@
   <!-- Bootstrap core JavaScript-->
   <script src="<?= base_url();?>assets/vendor/jquery/jquery.min.js"></script>
   <script src="<?= base_url();?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-  <!-- <script src="https://code.jquery.com/jquery-1.12.4.js"></script> -->
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>  
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 

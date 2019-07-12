@@ -238,6 +238,9 @@ class Auth extends CI_Controller {
             $this->db->where('email',$email);
             $this->db->update('user');
 
+            $this->db->where('email',$email);
+            $this->db->delete('user_token');
+
             $this->session->unset_userdata('reset_email');
 
             $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">

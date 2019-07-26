@@ -99,9 +99,9 @@ class Laporan extends CI_Controller
         redirect('laporan/labarugi'); 
     }
     
-    public function hapus($date_created)
+    public function hapus($id)
     {
-        $this->Laporan_model->hapusLaporan($date_created);
+        $this->Laporan_model->hapusLaporan($id);
         $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
             Data Dihapus!
           </div>');

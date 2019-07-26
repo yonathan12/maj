@@ -30,8 +30,9 @@
             <tr>
                 <th>No</th>
                 <th>Total Laba</th>
-                <th>Date Created</th>
-                <th>Action</th>
+                <th>Tanggal Laporan</th>
+                <th>Tanggal Dibuat</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -42,9 +43,10 @@
                         <tr>
                             <td><?php echo $no++;?></td>
                             <td><?php  echo "IDR ".number_format($s['Total']);?></td>
+                            <td><?php echo $s['tgl_laporan']; ?></td> 
                             <td><?php echo $s['date_created']; ?></td> 
-                            <td><a href="<?= base_url(); ?>laporan/hapus/<?= $s['date_created']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a>
-                            <a href="<?= base_url(); ?>laporan/detail/<?= $s['date_created']; ?>" class="fas fa-info" ></a></td>
+                            <td><a href="<?= base_url(); ?>laporan/detail/<?= $s['tgl_laporan']; ?>" class="fas fa-info" >&nbsp
+                            <a href="<?= base_url(); ?>laporan/hapus/<?= $s['tgl_laporan']; ?>" class="fas fa-trash-alt" onclick="return confirm('Yakin');"></a></td>
                         </tr>
                         <?php }?>
         </tbody>

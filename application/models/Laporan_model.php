@@ -5,10 +5,10 @@ class Laporan_model extends CI_Model
 {
     public function getLaporanLaba()
     {
-        $query = "SELECT SUM(laba.total) as Total, laba.date_created, valas.valas
+        $query = "SELECT SUM(laba.total) as Total, laba.date_created,laba.tgl_laporan, valas.valas
         FROM laba JOIN valas
         ON laba.id_valas = valas.Id_valas
-        GROUP BY  laba.date_created";
+        GROUP BY  laba.tgl_laporan";
         return $this->db->query($query)->result_array();
     }
 
@@ -51,7 +51,7 @@ class Laporan_model extends CI_Model
             $result = $totalY;
         }
 
-        $reportResult['dataReport'] = $this->db->query("SELECT * FROM `laba` WHERE id_valas = '$valas' AND date_created = '$tanggal'")->row_array();
+        $reportResult['dataReport'] = $this->db->query("SELECT * FROM `laba` WHERE id_valas = '$valas' AND tgl_laporan = '$tanggal'")->row_array();
         $dataReport = $reportResult['dataReport'];
         $lapLaba = $dataReport['id_valas'];
 
@@ -110,6 +110,7 @@ class Laporan_model extends CI_Model
         [
             'id_valas' => $valas,
             'total' => $total,
+            'tgl_laporan' => $tanggal,
             'date_created' => date('Y-m-d')
         ];
         $this->db->insert('laba',$data);        
@@ -120,13 +121,13 @@ class Laporan_model extends CI_Model
         $query = "SELECT laba.*, valas.valas
         FROM laba JOIN valas
         ON laba.id_valas = valas.Id_valas
-        WHERE laba.date_created = '$id' ";
+        WHERE laba.tgl_laporan = '$id' ";
         return $this->db->query($query)->result_array();       
     }
 
-    public function hapusLaporan($date_created)
+    public function hapusLaporan($id)
     {
-        $this->db->where('date_created', $date_created);
+        $this->db->where('tgl_laporan', $id);
         $this->db->delete('laba');
     }
 

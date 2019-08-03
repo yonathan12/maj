@@ -68,7 +68,7 @@ class Transaksi extends CI_Controller
         $data['temp'] = $this->db->query($tempTransaksi)->result_array();
         
         $this->form_validation->set_rules('valas','Valas','required|trim|is_unique[temp_transaksi.id_valas]',[
-            'is_unique' => 'This valas has been registered!']);
+            'is_unique' => 'Valas Required']);
         $this->form_validation->set_rules('rate_valas','Rate Valas','required');
         $this->form_validation->set_rules('jumlah','Jumlah','required');
         $this->form_validation->set_rules('total','Total','required'); 

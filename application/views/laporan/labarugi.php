@@ -1,6 +1,6 @@
 <div class="container-fluid">
 
-<div class="col-lg-3">
+    <div class="col-lg-3">
     <?= $this->session->flashdata('message');?>    
     </div>
     <?= validation_errors(); ?>

@@ -45,6 +45,7 @@
         </button>
       </div>
       <form action="<?= base_url()?>admin/stock" method="POST" name="stock">
+      <input type="text" class="form-control" id="kdaddstock" name="kdaddstock" hidden value="<?=$kode;?>">
         <div class="form-group">
             <label for="exampleFormControlInput1">Valas</label>
             <select name="valas" class="form-control">

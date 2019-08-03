@@ -71,7 +71,7 @@ class Void_model extends CI_Model
         $dataSSY = $SSY['data'];
         $stockSSY = $dataSSY['stock_akhir'];            
 
-        $TY['data'] = $this->db->query("SELECT nr * jumlah AS total FROM stock WHERE id_valas = '$valas'  AND status = 1 AND date_created != '$hariini'  ORDER BY date_created DESC, time_created DESC LIMIT 1")->row_array();
+        $TY['data'] = $this->db->query("SELECT total FROM stock WHERE id_valas = '$valas'  AND status = 1 AND date_created != '$hariini'  ORDER BY date_created DESC, time_created DESC LIMIT 1")->row_array();
         $dataTY = $TY['data'];
         $totalY = $dataTY['total'];
 
@@ -81,7 +81,7 @@ class Void_model extends CI_Model
             $dataSSY = $SSY['data'];
             $stockSSYR = $dataSSY['stock_akhir'];            
 
-            $TY['data'] = $this->db->query("SELECT nr * jumlah AS total FROM stock WHERE id_valas = '$valas'  AND status = 1 AND trx = 0 ORDER BY time_created DESC")->row_array();
+            $TY['data'] = $this->db->query("SELECT total FROM stock WHERE id_valas = '$valas'  AND status = 1 AND trx = 0 ORDER BY time_created DESC")->row_array();
             $dataTY = $TY['data'];
             $totalYR = $dataTY['total'];
 

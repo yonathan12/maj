@@ -19,6 +19,7 @@ class Admin_model extends CI_Model
         $rate = $this->input->post('rate');
         $total = $this->input->post('total');
         $hariini = date('Y-m-d');
+        $kdAddStock = $this->input->post('kdaddstock');
 
         $queryStock = "SELECT * FROM stock WHERE id_valas = '$valas' ORDER BY stock.time_created DESC  ";
         $dataStock['data'] = $this->db->query($queryStock)->row();                
@@ -86,6 +87,7 @@ class Admin_model extends CI_Model
             'nr' => $newRate,
             'id_valas' => $valas,
             'stock_awal' => $stockAwal,
+            'kd_trx' => $kdAddStock,
             'trx' => 1,
             'jumlah' => $addStock,
             'total' => $totalStock,
@@ -96,7 +98,7 @@ class Admin_model extends CI_Model
         ];
 
         $hasil = [ 
-            'kd_trx' => 'Add Stock',
+            'kd_trx' => $kdAddStock,
             'id_valas' => $valas,
             'rate_valas' => $rate,
             'jumlah' => $addStock,

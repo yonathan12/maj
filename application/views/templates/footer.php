@@ -1,12 +1,3 @@
- <!-- Footer -->
- <!-- <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Yonathan Rizky <?= date('Y');?></span>
-          </div>
-        </div>
-      </footer> -->
-      <!-- End of Footer -->
 
     </div>
     <!-- End of Content Wrapper -->
@@ -38,6 +29,8 @@
     </div>
   </div>
 
+
+  <!-- Import Data Customer-->
   <div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document" style="margin-top:100px;">
 		<div class="modal-content">
@@ -64,6 +57,8 @@
 		</div>
 	</div>
 </div>
+
+  <!-- Modal export laporan -->
 
   <!-- Bootstrap core JavaScript-->
   <script src="<?= base_url();?>assets/vendor/jquery/jquery.min.js"></script>

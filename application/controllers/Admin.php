@@ -181,7 +181,7 @@ class Admin extends CI_Controller
             $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
             $data['title'] = 'Stock';
 
-            // $data['valas'] = $this->db->get('valas')->result_array();
+            $data['kode'] = $this->kode->getKodeAddStock();
             $data['valas'] = $this->Admin_model->getStock();
 
             $this->form_validation->set_rules('valas','Valas','required');

@@ -6,8 +6,7 @@
           <h1 class="h3 mb-4 text-gray-800"><?= $title;?></h1>
         
         <div class="row">
-        <div class="col-lg-12">
-        
+        <div class="col-lg-12">        
        
         <?= $this->session->flashdata('message');?>
         <a href="#" class="btn btn-primary mb-3" data-toggle="modal" data-target="#exampleModal">Add New Valas</a>

@@ -86,6 +86,22 @@ class Kode_model extends CI_Model{
         $kodeJadi = "CST".$kodeMax;
         return $kodeJadi;        
     }
+
+    public function getKodeAddStock()
+    {
+        $q = $this->db->query("SELECT MAX(RIGHT(kd_trx,4)) AS kd_max FROM transaksi WHERE DATE(date_created)=CURDATE()");
+        $kd = "";
+        if($q->num_rows()>0){
+            foreach($q->result() as $k){
+                $tmp = ((int)$k->kd_max)+1;
+                $kd = sprintf("%04s", $tmp);
+            }
+        }else{
+            $kd = "0001";
+        }
+        date_default_timezone_set('Asia/Jakarta');
+        return "AS-".date('Y-m-d')."-".$kd;      
+    }
     
 }
 

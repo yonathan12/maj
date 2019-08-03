@@ -117,7 +117,7 @@ class Laporan extends CI_Controller
         $column++;
         }
 
-        $data = $this->Customer_model->exportData();
+        $data = $this->Laporan_model->exportPenjualan();
         $excel_row = 5;
         foreach ($data as $row) {
             $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row->kd_trx);

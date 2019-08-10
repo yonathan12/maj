@@ -67,7 +67,7 @@
         </div>
         <div class="form-group">
             <label for="exampleFormControlInput1">Total</label>
-            <input type="number" class="form-control" id="total" name="total" placeholder="Total">
+            <input type="number" class="form-control" id="total" name="total" placeholder="Total" readonly>
             <?= form_error('total','<small class="text-danger pl-3">','</small>'); ?>
         </div>
         <input type=button name=submit onClick="hitungTotalTambahStock()" class="btn btn-primary" value="Hitung">
@@ -76,5 +76,3 @@
     </div>
   </div>
 </div>
-
-     

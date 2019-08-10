@@ -52,7 +52,7 @@ class Admin_model extends CI_Model
         $dataSSY = $SSY['data'];
         $stockSSY = $dataSSY['stock_akhir'];            
 
-        $TY['data'] = $this->db->query("SELECT nr * jumlah AS total FROM stock WHERE id_valas = '$valas'  AND status = 1 AND date_created != '$hariini'  ORDER BY date_created DESC, time_created DESC LIMIT 1")->row_array();
+        $TY['data'] = $this->db->query("SELECT total FROM stock WHERE id_valas = '$valas'  AND status = 1 AND date_created != '$hariini'  ORDER BY date_created DESC, time_created DESC LIMIT 1")->row_array();
         $dataTY = $TY['data'];
         $totalY = $dataTY['total'];
 
@@ -62,7 +62,7 @@ class Admin_model extends CI_Model
             $dataSSY = $SSY['data'];
             $stockSSYR = $dataSSY['stock_akhir'];            
 
-            $TY['data'] = $this->db->query("SELECT nr * jumlah AS total FROM stock WHERE id_valas = '$valas'  AND status = 1 AND trx = 0 ORDER BY time_created DESC")->row_array();
+            $TY['data'] = $this->db->query("SELECT total FROM stock WHERE id_valas = '$valas'  AND status = 1 AND trx = 0 ORDER BY time_created DESC")->row_array();
             $dataTY = $TY['data'];
             $totalYR = $dataTY['total'];
 
@@ -88,7 +88,7 @@ class Admin_model extends CI_Model
             'id_valas' => $valas,
             'stock_awal' => $stockAwal,
             'kd_trx' => $kdAddStock,
-            'trx' => 1,
+            'trx' => 0,
             'jumlah' => $addStock,
             'total' => $totalStock,
             'stock_akhir' => $sisaStock,
@@ -103,11 +103,12 @@ class Admin_model extends CI_Model
             'rate_valas' => $rate,
             'jumlah' => $addStock,
             'total' => $total,
-            'trx' => 1,
+            'trx' => 0,
             'date_created' => date('Y-m-d'),
             'time_created' => date('H:i:s'),
             'status' => 1
-        ];     
+        ];
+        
         $this->db->insert('stock',$stockValas);
         $this->db->insert('transaksi',$hasil);
 
@@ -116,6 +117,7 @@ class Admin_model extends CI_Model
                 'id_valas' => $valas,
                 'nr' => $rate,
                 'stock_awal' => $stockAwal,
+                'kd_trx' => $kdAddStock,
                 'trx' => 0,
                 'stock_akhir' => $stockAkhir,
                 'jumlah' => $addStock,
@@ -155,5 +157,4 @@ class Admin_model extends CI_Model
         $this->db->delete('user_role');
         redirect('admin/role');
     }
-
 }

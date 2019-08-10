@@ -89,7 +89,7 @@ class Kode_model extends CI_Model{
 
     public function getKodeAddStock()
     {
-        $q = $this->db->query("SELECT MAX(RIGHT(kd_trx,4)) AS kd_max FROM transaksi WHERE DATE(date_created)=CURDATE()");
+        $q = $this->db->query("SELECT MAX(RIGHT(kd_trx,4)) AS kd_max FROM stock WHERE DATE(date_created)=CURDATE()");
         $kd = "";
         if($q->num_rows()>0){
             foreach($q->result() as $k){

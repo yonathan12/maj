@@ -89,6 +89,7 @@ class Admin_model extends CI_Model
             'stock_awal' => $stockAwal,
             'kd_trx' => $kdAddStock,
             'trx' => 0,
+            'rate' => $rate,
             'jumlah' => $addStock,
             'total' => $totalStock,
             'stock_akhir' => $sisaStock,

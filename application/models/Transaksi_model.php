@@ -90,26 +90,35 @@ class Transaksi_model extends CI_Model
         $hariini = date('Y-m-d');
         $waktu = date('H:i:s');
         
-        $queryTemp = $this->db->query("SELECT * FROM temp_transaksi WHERE kd_trx = '$kd_trx' AND trx = 2")->result_array();
+        $cekCustomer['data'] = $this->db->query("SELECT kd_cst FROM customer WHERE kd_cst = '$customer'")->row_array();
+        $cekKode = $cekCustomer['data']['kd_cst'];
 
-        foreach ($queryTemp as $row) {
-            # code...
-           $result = [
-            'kd_trx' => $kode,
-            'customer' => $customer,
-            'trx' => 2,
-            'id_valas' => $row['id_valas'],
-            'rate_valas' => $row['rate_valas'],
-            'jumlah' => $row['jumlah'],
-            'total' => $row['total'],
-            'date_created' => date('Y-m-d'),
-            'time_created' => date('H:i:s'),
-            'status' => 1
-           ];
-           $this->db->insert('transaksi',$result);
+        if ($cekKode == null) {
+            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+            Customer Belum Terdaftar !
+            </div>');
+            redirect('transaksi/jual');
+        } else {
+            $queryTemp = $this->db->query("SELECT * FROM temp_transaksi WHERE kd_trx = '$kd_trx' AND trx = 2")->result_array();
 
-           $this->db->where('kd_trx',$kd_trx);
-           $this->db->delete('temp_transaksi');
+            foreach ($queryTemp as $row) {
+                # code...
+            $result = [
+                'kd_trx' => $kode,
+                'customer' => $customer,
+                'trx' => 2,
+                'id_valas' => $row['id_valas'],
+                'rate_valas' => $row['rate_valas'],
+                'jumlah' => $row['jumlah'],
+                'total' => $row['total'],
+                'date_created' => date('Y-m-d'),
+                'time_created' => date('H:i:s'),
+                'status' => 1
+            ];
+            $this->db->insert('transaksi',$result);
+
+            $this->db->where('kd_trx',$kd_trx);
+            $this->db->delete('temp_transaksi');
 
         }
 
@@ -135,6 +144,7 @@ class Transaksi_model extends CI_Model
            $this->db->where('kd_trx',$kd_trx);
            $this->db->delete('temp_stock');
         }          
+        }
     }
 
     public function getTransaksiPembelian()
@@ -243,52 +253,62 @@ class Transaksi_model extends CI_Model
         $hariini = date('Y-m-d');
         $waktu = date('H:i:s');
         
-        $queryTemp = $this->db->query("SELECT * FROM temp_transaksi WHERE kd_trx = '$kd_trx' AND trx = 1")->result_array();
+        $cekCustomer['data'] = $this->db->query("SELECT kd_cst FROM customer WHERE kd_cst = '$customer'")->row_array();
+        $cekKode = $cekCustomer['data']['kd_cst'];
+
+        if ($cekKode == null) {
+            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+            Customer Belum Terdaftar !
+            </div>');
+            redirect('transaksi/jual');
+        } else {
+            $queryTemp = $this->db->query("SELECT * FROM temp_transaksi WHERE kd_trx = '$kd_trx' AND trx = 1")->result_array();
        
-        foreach ($queryTemp as $row) {
-            # code...
-           $result = [
-            'kd_trx' => $kode,
-            'customer' => $customer,
-            'trx' => 1,
-            'id_valas' => $row['id_valas'],
-            'rate_valas' => $row['rate_valas'],
-            'jumlah' => $row['jumlah'],
-            'total' => $row['total'],
-            'date_created' => date('Y-m-d'),
-            'time_created' => date('H:i:s'),
-            'status' => 1
-           ];
-         
-           $this->db->insert('transaksi',$result);
-
-           $this->db->where('kd_trx',$kd_trx);
-           $this->db->delete('temp_transaksi');
-        }
-
-        $queryTempStock = $this->db->query("SELECT * FROM temp_stock WHERE kd_trx = '$kd_trx' AND trx = 1")->result_array();
-
-           foreach ($queryTempStock as $row) {
-            # code...
-           $tempStock = [
-            'id_valas' => $row['id_valas'],
-            'nr' => $row['nr'],
-            'stock_awal' => $row['stock_awal'],
-            'kd_trx' => $kode,
-            'trx' => 1,                
-            'rate' => $row['rate'],
-            'jumlah' => $row['jumlah'],
-            'total' => $row['total'],
-            'stock_akhir' => $row['stock_akhir'],
-            'date_created' => date('Y-m-d'),
-            'time_created' => date('H:i:s'),
-            'status' => 1
-           ];
-           
-           $this->db->insert('stock',$tempStock);
-           $this->db->where('kd_trx',$kd_trx);
-           $this->db->delete('temp_stock');
-        }            
+            foreach ($queryTemp as $row) {
+                # code...
+               $result = [
+                'kd_trx' => $kode,
+                'customer' => $customer,
+                'trx' => 1,
+                'id_valas' => $row['id_valas'],
+                'rate_valas' => $row['rate_valas'],
+                'jumlah' => $row['jumlah'],
+                'total' => $row['total'],
+                'date_created' => date('Y-m-d'),
+                'time_created' => date('H:i:s'),
+                'status' => 1
+               ];
+             
+               $this->db->insert('transaksi',$result);
+    
+               $this->db->where('kd_trx',$kd_trx);
+               $this->db->delete('temp_transaksi');
+            }
+    
+            $queryTempStock = $this->db->query("SELECT * FROM temp_stock WHERE kd_trx = '$kd_trx' AND trx = 1")->result_array();
+    
+               foreach ($queryTempStock as $row) {
+                # code...
+               $tempStock = [
+                'id_valas' => $row['id_valas'],
+                'nr' => $row['nr'],
+                'stock_awal' => $row['stock_awal'],
+                'kd_trx' => $kode,
+                'trx' => 1,                
+                'rate' => $row['rate'],
+                'jumlah' => $row['jumlah'],
+                'total' => $row['total'],
+                'stock_akhir' => $row['stock_akhir'],
+                'date_created' => date('Y-m-d'),
+                'time_created' => date('H:i:s'),
+                'status' => 1
+               ];
+               
+               $this->db->insert('stock',$tempStock);
+               $this->db->where('kd_trx',$kd_trx);
+               $this->db->delete('temp_stock');
+            }
+        }          
     }
 
     function search_blog($customer){

@@ -23,81 +23,76 @@ class Laporan_model extends CI_Model
 
         $queryCekTglLap['data'] = $this->db->query("SELECT tgl_laporan FROM laba WHERE tgl_laporan = '$tanggal'")->row_array();
         $dataCekLap = $queryCekTglLap['data'];
-        
+
         if ($dataCekLap['tgl_laporan'] == '') {
 
-            $queryValas['data'] = $this->db->query("SELECT Id_valas from valas ")->result_array();
-            $data = $queryValas['data'];
-            foreach ($data as $key => $value) {
-                $v = $value['Id_valas'];
-                $queryTotalStock = "SELECT total FROM stock WHERE id_valas = '$v' AND status = 1 AND date_created = '$tanggal' ORDER BY date_created DESC, time_created DESC";
-                $dataStock['data'] = $this->db->query($queryTotalStock)->row_array();                
-                $dts = $dataStock['data'];
-                $Total = $dts['total'];         
+            $queryTotalStock = "SELECT total FROM stock WHERE id_valas = '$valas' AND status = 1 AND date_created = '$tanggal' ORDER BY date_created DESC, time_created DESC";
+            $dataStock['data'] = $this->db->query($queryTotalStock)->row();                
+            $dts = $dataStock['data'];
+            $Total = $dts->total;         
 
-                $queryTotalJual = "SELECT SUM(total) TTL FROM transaksi WHERE date_created='$tanggal' AND trx = 2 AND id_valas = '$v' AND status = 1";
-                $dataJual['data'] = $this->db->query($queryTotalJual)->row_array();                
-                $dtj = $dataJual['data'];
-                $jual = $dtj['TTL'];       
+            $queryTotalJual = "SELECT SUM(total) TTL FROM transaksi WHERE date_created='$tanggal' AND trx = 2 AND id_valas = '$valas' AND status = 1";
+            $dataJual['data'] = $this->db->query($queryTotalJual)->row();                
+            $dtj = $dataJual['data'];
+            $jual = $dtj->TTL;       
 
-                $queryTotalVoidJual = "SELECT SUM(total) TTL FROM transaksi WHERE date_created='$tanggal' AND trx = 4 AND id_valas = '$v' AND status = 1";
-                $dataVoidJual['data'] = $this->db->query($queryTotalVoidJual)->row_array();                
-                $dtvj = $dataVoidJual['data'];
-                $voidjual = $dtvj['TTL'];       
-                
-                $TY['data'] = $this->db->query("SELECT total,date_created FROM stock WHERE id_valas = '$v' AND date_created != '$tanggal' AND status = 1 ORDER BY date_created DESC, time_created DESC")->row_array();
-                $dataTY = $TY['data'];
-                $totalY = $dataTY['total'];
-
-                $TY['data'] = $this->db->query("SELECT total FROM stock WHERE id_valas = '$v' AND date_created = '$tanggal' AND status = 1 AND trx = 0 ORDER BY time_created DESC")->row_array();
-                $dataTY = $TY['data'];
-                $totalYR = $dataTY['total'];
-
-                    if ($totalYR == '') {
-                            $TY['data'] = $this->db->query("SELECT total,date_created FROM stock WHERE id_valas = '$v' AND date_created != '$tanggal' AND status = 1 ORDER BY date_created DESC, time_created DESC")->row_array();
-                            $dataTY = $TY['data'];
-                            $totalY = $dataTY['total'];
-                            $result = $totalY;
-                    } else {
-                        # code...
-                        $result = $totalYR;
-                    }
-
-                $totalBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$tanggal' AND trx = 1 or trx = 5 AND id_valas = '$v' AND status = 1")->row_array();
-                $dataTotalBeli = $totalBeli['data'];
-                $totalPembelian = $dataTotalBeli['TBeli'];
-
-                $totalVoidBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$tanggal' AND trx = 3 AND id_valas = '$v' AND status = 1")->row_array();
-                $dataTotalVoidBeli = $totalVoidBeli['data'];
-                $totalVoidPembelian = $dataTotalVoidBeli['TBeli'];
+            $queryTotalVoidJual = "SELECT SUM(total) TTL FROM transaksi WHERE date_created='$tanggal' AND trx = 4 AND id_valas = '$valas' AND status = 1";
+            $dataVoidJual['data'] = $this->db->query($queryTotalVoidJual)->row();                
+            $dtvj = $dataVoidJual['data'];
+            $voidjual = $dtvj->TTL;       
             
-                
-                    # code...
-                    $x = $result + $totalPembelian + $totalVoidPembelian;
-                    $hitungLaba = ($jual + $voidjual + $Total) - $x;
+            $TY['data'] = $this->db->query("SELECT total,date_created FROM stock WHERE id_valas = '$valas' AND date_created != '$tanggal' AND status = 1 ORDER BY date_created DESC, time_created DESC")->row_array();
+            $dataTY = $TY['data'];
+            $totalY = $dataTY['total'];
 
-                    if ($hitungLaba <= 0) {
-                        # code...
-                        $laba['hasil'] = '0';
-                        $laba['valas'] = $valas = $this->input->post('valas');
-                    } else {
-                        # code...
-                        $laba['hasil'] = round($hitungLaba);
-                        $laba['valas'] = $valas = $this->input->post('valas');
-                    }   
-                    $data = 
-                    [
-                        'id_valas' => $v,
-                        'total' => $laba['hasil'],
-                        'tgl_laporan' => $tanggal,
-                        'date_created' => date('Y-m-d')
-                    ];
-                    $this->db->insert('laba',$data);  
+            $TY['data'] = $this->db->query("SELECT total FROM stock WHERE id_valas = '$valas' AND date_created = '$tanggal' AND status = 1 AND trx = 0 ORDER BY time_created DESC")->row_array();
+            $dataTY = $TY['data'];
+            $totalYR = $dataTY['total'];
+                if ($totalYR == '') {
+                        $TY['data'] = $this->db->query("SELECT total,date_created FROM stock WHERE id_valas = '$valas' AND date_created != '$tanggal' AND status = 1 ORDER BY date_created DESC, time_created DESC")->row_array();
+                        $dataTY = $TY['data'];
+                        $totalY = $dataTY['total'];
+                        $result = $totalY;                               
+                } else {
+                    # code...
+                    $result = $totalYR;
+                }
+
+            $totalBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$tanggal' AND trx = 1 AND id_valas = '$valas' AND status = 1")->row_array();
+            $dataTotalBeli = $totalBeli['data'];
+            $totalPembelian = $dataTotalBeli['TBeli'];
+
+            $totalVoidBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$tanggal' AND trx = 3 AND id_valas = '$valas' AND status = 1")->row_array();
+            $dataTotalVoidBeli = $totalVoidBeli['data'];
+            $totalVoidPembelian = $dataTotalVoidBeli['TBeli'];
+        
+            if ($totalPembelian == '' && $jual == '') {
+                $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
+                Data Tidak Ada!
+                </div>');
+                redirect('laporan/labarugi'); 
+            } else {
+                # code...
+                $x = $result + $totalPembelian + $totalVoidPembelian;
+                $hitungLaba = ($jual + $voidjual + $Total) - $x;
+
+                if ($hitungLaba <= 0) {
+                    # code...
+                    $laba['hasil'] = '0';
+                    $laba['valas'] = $valas = $this->input->post('valas');
+                } else {
+                    # code...
+                    $laba['hasil'] = round($hitungLaba);
+                    $laba['valas'] = $valas = $this->input->post('valas');
+                }   
+                $data['title'] = 'Laba Rugi';
+                $data['tanggal'] = $this->input->post('tanggal');
+                $this->load->view('templates/header',$data);
+                $this->load->view('templates/sidebar',$data);
+                $this->load->view('templates/topbar',$data);
+                $this->load->view('laporan/hasil',$laba);
+                $this->load->view('templates/footer');
             }
-            $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
-            Data Berhasil Di Simpan!
-            </div>');
-            redirect('laporan/labarugi'); 
         }else {
             $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
             Data Sudah Ada!

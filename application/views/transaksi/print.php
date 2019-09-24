@@ -18,7 +18,8 @@
         <div class="col-sm-6">
             <h6 class="mb-3">Customer:</h6>
             <div>Nama : <?= $inv['nama'];?></div>
-            <div>NPWP : <?= $inv['no_npwp'];?></div>
+            <div>No Phone : </div>
+            <div>Alamat : </div>
         </div>
 </div>
 
@@ -59,10 +60,20 @@
 
 </div>
 
-    <div class="col-lg-4 col-sm-5 ml-auto">
+    <div class="col-lg-12 col-sm-5 ml-auto">
     <table class="table table-clear">
         <tbody>
         <tr>
+
+        <td class="left">
+                <p>Dibuat Oleh</p>
+            </td>
+            <td class="left">
+                <p>Di Setujui Oleh</p>
+            </td>
+            <td class="left">
+                <p>Di Terima Oleh</p>
+            </td>
         <td class="left">
             <strong>Total</strong>
             </td>

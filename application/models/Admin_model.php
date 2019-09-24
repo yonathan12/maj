@@ -88,7 +88,7 @@ class Admin_model extends CI_Model
             'id_valas' => $valas,
             'stock_awal' => $stockAwal,
             'kd_trx' => $kdAddStock,
-            'trx' => 0,
+            'trx' => 5,
             'rate' => $rate,
             'jumlah' => $addStock,
             'total' => $totalStock,
@@ -104,7 +104,7 @@ class Admin_model extends CI_Model
             'rate_valas' => $rate,
             'jumlah' => $addStock,
             'total' => $total,
-            'trx' => 0,
+            'trx' => 5,
             'date_created' => date('Y-m-d'),
             'time_created' => date('H:i:s'),
             'status' => 1

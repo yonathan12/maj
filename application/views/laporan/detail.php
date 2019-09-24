@@ -10,7 +10,7 @@
             </tr>
         </thead>
         <tbody>
-        <?
+        <?php
         $no = 1;
                         foreach($detail as $row){
                     ?>

@@ -6,21 +6,11 @@
     <?= validation_errors(); ?>
     <form action="<?= base_url('laporan/labarugi')?>" method="POST">
     <div class="form-group row">
-        <label for="Valas" class="col-sm-2 col-form-label">Valas</label>
-        <div class="col-sm-2">
-            <select name="valas" class="form-control">
-                <option value="">Pilih Valas</option>
-                <?php foreach ($valas as $v) : ?> 
-                <option value="<?= $v['Id_valas'] ?>"><?= $v['valas'] ?></option>
-                <?php endforeach; ?>
-            </select>
-         <?= form_error('valas','<small class="text-danger pl-3">','</small>'); ?>
-        </div>
         <div class="col-sm-3">
             <input type="date" class="form-control" name="tanggal">
-         <?= form_error('valas','<small class="text-danger pl-3">','</small>'); ?>
+         <?= form_error('tanggal','<small class="text-danger pl-3">','</small>'); ?>
         </div>
-        <button type="submit" class="btn btn-primary col-sm-2">Simpan</button>
+        <button type="submit" class="btn btn-primary col-sm-2">Buat Laporan</button>
     </div>
     </form>
     <hr class="sidebar-divider">
@@ -36,7 +26,7 @@
             </tr>
         </thead>
         <tbody>
-        <?
+        <?php
         $no = 1;
                         foreach($laba as $s){
                     ?>

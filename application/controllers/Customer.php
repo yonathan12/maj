@@ -59,14 +59,6 @@ class Customer extends CI_Controller
         $data['kode'] = $this->Kode_model->get_kodeCustomer();
 
         $this->form_validation->set_rules('nama','Nama','required|trim');
-        $this->form_validation->set_rules('tempat_lhr','Tempat Lahir','required|trim');
-        $this->form_validation->set_rules('tgl_lhr','Tanggal Lahir','required|trim');
-        $this->form_validation->set_rules('ktp','No KTP','required|trim|numeric');
-        $this->form_validation->set_rules('npwp','No NPWP','trim|numeric');
-        $this->form_validation->set_rules('alamat','Alamat','required|trim');        
-        $this->form_validation->set_rules('pekerjaan','Pekerjaan','required|trim');
-        $this->form_validation->set_rules('kewarganegaraan','Kewarganegaraan','required|trim');
-        $this->form_validation->set_rules('telp','Telp','trim|numeric');
 
         if ($this->form_validation->run()== FALSE) {
             # code...

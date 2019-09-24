@@ -20,7 +20,7 @@ class Laporan extends CI_Controller
 
         $data['laba'] = $this->Laporan_model->getLaporanLaba();
 
-        $this->form_validation->set_rules('valas','Valas','required');
+        $this->form_validation->set_rules('tanggal','Tanggal','required');
         if ($this->form_validation->run() == FALSE ) {
             # code...
             $data['title'] = 'Laba Rugi';

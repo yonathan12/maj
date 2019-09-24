@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.0.1
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 10, 2019 at 04:48 PM
--- Server version: 10.1.32-MariaDB
--- PHP Version: 5.6.36
+-- Generation Time: Sep 14, 2019 at 02:36 PM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 7.0.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -1056,7 +1056,8 @@ INSERT INTO `customer` (`Id`, `kd_cst`, `nama`, `tempat_lahir`, `tgl_lahir`, `al
 (8803, 'CST000999', 'Tarah Devin', 'Leexo', '1996-01-01', '160 Utah Junction', '217-66-4605', '380-40-9614', 'tdevinro@upenn.edu', '328-647-5063', 'Executive Secretary', 'Bengali', 1, '2019-06-19', ''),
 (8804, 'CST001000', 'Toma Malthus', 'Agivu', '1996-01-01', '6128 Del Sol Hill', '458-09-2168', '331-66-6497', 'tmalthusrp@vk.com', '187-630-2879', 'General Manager', 'Polish', 1, '2019-06-19', ''),
 (8805, 'CST001001', 'Lambert Wrangle', 'Voolia', '1996-01-01', '326 Johnson Circle', '101-21-8557', '423-86-3843', 'lwranglerq@cnet.com', '787-218-0281', 'Recruiting Manager', 'Danish', 1, '2019-06-19', ''),
-(8806, 'CST001002', 'Shandy Sherebrooke', 'Skippad', '1996-01-01', '67159 Farwell Avenue', '443-65-6951', '310-08-8141', 'ssherebrookerr@ocn.ne.jp', '953-972-5773', 'Dental Hygienist', 'Hungarian', 1, '2019-06-19', '');
+(8806, 'CST001002', 'Shandy Sherebrooke', 'Skippad', '1996-01-01', '67159 Farwell Avenue', '443-65-6951', '310-08-8141', 'ssherebrookerr@ocn.ne.jp', '953-972-5773', 'Dental Hygienist', 'Hungarian', 1, '2019-06-19', ''),
+(8807, 'CST001003', 'yusup', '', '', '', '', '', '', '', '', '', 1, '2019-09-14', '');
 
 -- --------------------------------------------------------
 
@@ -1068,6 +1069,7 @@ CREATE TABLE `laba` (
   `Id_laba` int(11) NOT NULL,
   `id_valas` varchar(150) NOT NULL,
   `total` text NOT NULL,
+  `tgl_laporan` varchar(150) NOT NULL,
   `date_created` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -1075,9 +1077,9 @@ CREATE TABLE `laba` (
 -- Dumping data for table `laba`
 --
 
-INSERT INTO `laba` (`Id_laba`, `id_valas`, `total`, `date_created`) VALUES
-(5, 'VLS001', '4345588', '2019-06-25'),
-(6, 'VLS002', '750000', '2019-06-25');
+INSERT INTO `laba` (`Id_laba`, `id_valas`, `total`, `tgl_laporan`, `date_created`) VALUES
+(26, 'VLS001', '141667', '2019-09-14', '2019-09-14'),
+(27, 'VLS002', '75000', '2019-09-14', '2019-09-14');
 
 -- --------------------------------------------------------
 
@@ -1106,18 +1108,13 @@ CREATE TABLE `stock` (
 --
 
 INSERT INTO `stock` (`Id`, `id_valas`, `nr`, `stock_awal`, `kd_trx`, `trx`, `rate`, `jumlah`, `total`, `stock_akhir`, `date_created`, `time_created`, `status`) VALUES
-(182, 'VLS001', '', '0', '', 0, '0', '', '', '0', '2019-06-24', '06:46:21', '1'),
-(183, 'VLS001', '14000', '0', '', 0, '', '5000', '70000000', '5000', '2019-06-24', '06:46:39', '1'),
-(188, 'VLS001', '14115.384615385', '5000', '2019-06-25-0001', 1, '14500', '1500', '91750000', '6500', '2019-06-25', '08:22:58', '1'),
-(189, 'VLS001', '14201.388888889', '6500', '2019-06-25-0002', 1, '15000', '700', '102250000', '7200', '2019-06-25', '08:23:20', '1'),
-(190, 'VLS001', '14233.695652174', '7200', '2019-06-25-0003', 1, '14350', '2000', '130950000', '9200', '2019-06-25', '08:23:43', '1'),
-(191, 'VLS001', '14170.588235294', '9200', 'V-2019-06-25-0004', 3, '15000', '-700', '120450000', '8500', '2019-06-25', '08:24:38', '1'),
-(192, 'VLS001', '14170.588235294', '8500', '2019-06-25-0005', 2, '14750', '7500', '14170588.235294', '1000', '2019-06-25', '08:26:28', '1'),
-(193, 'VLS002', '', '0', '', 0, '0', '', '', '0', '2019-06-25', '03:29:53', '1'),
-(194, 'VLS002', '10500', '0', '', 0, '', '3000', '31500000', '3000', '2019-06-25', '03:30:13', '1'),
-(195, 'VLS002', '10500', '3000', '2019-06-25-0006', 2, '11000', '1500', '15750000', '1500', '2019-06-25', '08:33:16', '1'),
-(202, 'VLS002', '10675', '1500', '', 1, '', '3500', '53375000', '5000', '2019-06-28', '07:29:30', '1'),
-(203, 'VLS002', '10675', '5000', '2019-06-28-0001', 2, '11500', '2500', '26687500', '2500', '2019-06-28', '12:30:11', '1');
+(216, 'VLS001', '', '0', '', 0, '0', '', '', '0', '2019-09-14', '13:46:09', '1'),
+(217, 'VLS002', '', '0', '', 0, '0', '', '', '0', '2019-09-14', '13:46:15', '1'),
+(218, 'VLS001', '14000', '0', 'AS-2019-09-14-0001', 0, '', '1000', '14000000', '1000', '2019-09-14', '18:53:27', '1'),
+(219, 'VLS002', '10150', '0', 'AS-2019-09-14-0002', 0, '', '1000', '10150000', '1000', '2019-09-14', '18:53:55', '1'),
+(220, 'VLS001', '14000', '1000', '2019-09-14-0001', 2, '14300', '500', '7000000', '500', '2019-09-14', '18:56:45', '1'),
+(221, 'VLS001', '14016.666666667', '500', 'AS-2019-09-14-0003', 5, '14050', '500', '14016666.666667', '1000', '2019-09-14', '18:57:14', '1'),
+(222, 'VLS002', '10150', '1000', '2019-09-14-0004', 2, '10300', '500', '5075000', '500', '2019-09-14', '19:00:42', '1');
 
 -- --------------------------------------------------------
 
@@ -1179,14 +1176,9 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`Id`, `kd_trx`, `customer`, `trx`, `id_valas`, `rate_valas`, `jumlah`, `total`, `date_created`, `time_created`, `status`) VALUES
-(180, '2019-06-25-0001', 'CST000882', '1', 'VLS001', '14500', '1500', '21750000', '2019-06-25', '08:22:58', 1),
-(181, '2019-06-25-0002', 'CST000811', '1', 'VLS001', '15000', '700', '10500000', '2019-06-25', '08:23:20', 1),
-(182, '2019-06-25-0003', 'CST000882', '1', 'VLS001', '14350', '2000', '28700000', '2019-06-25', '08:23:43', 1),
-(183, 'V-2019-06-25-0004', '2019-06-25-0002', '3', 'VLS001', '15000', '-700', '-10500000', '2019-06-25', '08:24:38', 1),
-(184, '2019-06-25-0005', 'CST000103', '2', 'VLS001', '14750', '7500', '110625000', '2019-06-25', '08:26:28', 1),
-(185, '2019-06-25-0006', 'CST000499', '2', 'VLS002', '11000', '1500', '16500000', '2019-06-25', '08:33:16', 1),
-(188, 'Add Stock', '', '1', 'VLS002', '10750', '3500', '37625000', '2019-06-28', '07:29:30', 1),
-(189, '2019-06-28-0001', 'CST000624', '2', 'VLS002', '11500', '2500', '28750000', '2019-06-28', '12:30:11', 1);
+(196, '2019-09-14-0001', 'CST000761', '2', 'VLS001', '14300', '500', '7150000', '2019-09-14', '18:56:45', 1),
+(197, 'AS-2019-09-14-0003', '', '5', 'VLS001', '14050', '500', '7025000', '2019-09-14', '18:57:14', 1),
+(198, '2019-09-14-0004', 'CST000144', '2', 'VLS002', '10300', '500', '5150000', '2019-09-14', '19:00:42', 1);
 
 -- --------------------------------------------------------
 
@@ -1358,8 +1350,8 @@ CREATE TABLE `valas` (
 --
 
 INSERT INTO `valas` (`Id_valas`, `valas`, `description`, `date_created`, `time_created`, `status`) VALUES
-('VLS001', 'USD', 'Dollar Amerika', '2019-06-24', '06:46:21', 1),
-('VLS002', 'SGD', 'Dollar Singapore', '2019-06-25', '03:29:53', 1);
+('VLS001', 'USD', 'Dollar Amerika', '2019-09-14', '13:46:09', 1),
+('VLS002', 'SGD', 'Dollar Singapura', '2019-09-14', '13:46:15', 1);
 
 --
 -- Indexes for dumped tables
@@ -1445,37 +1437,37 @@ ALTER TABLE `valas`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8807;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8808;
 
 --
 -- AUTO_INCREMENT for table `laba`
 --
 ALTER TABLE `laba`
-  MODIFY `Id_laba` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id_laba` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=204;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=223;
 
 --
 -- AUTO_INCREMENT for table `temp_stock`
 --
 ALTER TABLE `temp_stock`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `temp_transaksi`
 --
 ALTER TABLE `temp_transaksi`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=190;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=199;
 
 --
 -- AUTO_INCREMENT for table `user`

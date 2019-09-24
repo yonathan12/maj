@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-        <?
+        <?php
         $no = 1;
                         foreach($pembelian as $beli){
                     ?>

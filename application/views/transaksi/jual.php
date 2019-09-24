@@ -16,14 +16,14 @@
                 <?= form_error('valas','<small class="text-danger pl-3">','</small>'); ?>
             </div>
             <div class="form-group">
-                <label for="exampleFormControlInput1">Rate Valas</label>
-                <input type="number" class="form-control" id="rate_valas" name="rate_valas" placeholder="Rate Valas">
-                <?= form_error('rate_valas','<small class="text-danger pl-3">','</small>'); ?>
-            </div>
-            <div class="form-group">
                 <label for="exampleFormControlInput1">Jumlah</label>
                 <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Jumlah">
                 <?= form_error('jumlah','<small class="text-danger pl-3">','</small>'); ?>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Rate Valas</label>
+                <input type="number" class="form-control" id="rate_valas" name="rate_valas" placeholder="Rate Valas">
+                <?= form_error('rate_valas','<small class="text-danger pl-3">','</small>'); ?>
             </div>
             <div class="form-group">
                 <label for="exampleFormControlInput1">Total</label>

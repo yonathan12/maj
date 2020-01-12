@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 31, 2019 at 09:30 PM
+-- Generation Time: Jan 12, 2020 at 03:15 PM
 -- Server version: 10.1.21-MariaDB
 -- PHP Version: 5.6.30
 
@@ -29,6 +29,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `customer` (
   `Id` int(11) NOT NULL,
   `kd_cst` varchar(10) NOT NULL,
+  `tipe_nasabah` varchar(10) NOT NULL,
   `nama` varchar(150) NOT NULL,
   `tempat_lahir` varchar(150) DEFAULT NULL,
   `tgl_lahir` varchar(50) DEFAULT NULL,
@@ -50,11 +51,12 @@ CREATE TABLE `customer` (
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`Id`, `kd_cst`, `nama`, `tempat_lahir`, `tgl_lahir`, `alamat`, `no_ktp`, `no_npwp`, `email`, `telp`, `pekerjaan`, `kewarganegaraan`, `status`, `date_created`, `date_changed`, `user_id_created`, `user_id_changed`) VALUES
-(1, 'CST000001', 'Yonathan Rizky Nathanael', '', '1996-08-05', 'Tangerang', '3603120508960011', '', NULL, '', '', 'Indonesia', 1, '2019-11-16', '2019-11-16', 0, 0),
-(2, 'CST000002', 'Rojul Dwi', '', '', '', '123', '', NULL, '', '', 'Indonesia', 1, '2019-11-17', '', 0, 0),
-(3, 'CST000003', 'Jonathan', '', '', '', '12831283912831', '', NULL, '', '', '', 1, '2019-11-27', '2019-11-27', 0, 7),
-(4, 'CST000004', 'ambar', '', '', '', '123123', '', NULL, '12391802938012890312', '', '', 1, '2019-11-27', '2019-11-27', 7, 7);
+INSERT INTO `customer` (`Id`, `kd_cst`, `tipe_nasabah`, `nama`, `tempat_lahir`, `tgl_lahir`, `alamat`, `no_ktp`, `no_npwp`, `email`, `telp`, `pekerjaan`, `kewarganegaraan`, `status`, `date_created`, `date_changed`, `user_id_created`, `user_id_changed`) VALUES
+(1, 'CST000001', '', 'Yonathan Rizky Nathanael', '', '1996-08-05', 'Tangerang', '3603120508960011', '', NULL, '', '', 'Indonesia', 1, '2019-11-16', '2019-11-16', 0, 0),
+(2, 'CST000002', '', 'Rojul Dwi', '', '', '', '123', '', NULL, '', '', 'Indonesia', 1, '2019-11-17', '', 0, 0),
+(3, 'CST000003', '', 'Jonathan', '', '', '', '12831283912831', '', NULL, '', '', '', 1, '2019-11-27', '2019-11-27', 0, 7),
+(4, 'CST000004', '', 'ambar', '', '', '', '123123', '', NULL, '12391802938012890312', '', '', 1, '2019-11-27', '2019-11-27', 7, 7),
+(5, 'CST000005', 'B', 'PT Bsa Mau', '', '', '', '', '', NULL, '', '', '', 1, '2020-01-12', '2020-01-12', 7, 7);
 
 -- --------------------------------------------------------
 
@@ -70,14 +72,6 @@ CREATE TABLE `laba` (
   `date_created` varchar(150) NOT NULL,
   `user_id_created` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `laba`
---
-
-INSERT INTO `laba` (`Id_laba`, `id_valas`, `total`, `tgl_laporan`, `date_created`, `user_id_created`) VALUES
-(5, '1', '2166667', '2019-11-24', '2019-11-24', NULL),
-(6, '2', '0', '2019-11-24', '2019-11-24', NULL);
 
 -- --------------------------------------------------------
 
@@ -101,19 +95,6 @@ CREATE TABLE `stock` (
   `time_created` varchar(150) NOT NULL,
   `status` varchar(150) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `stock`
---
-
-INSERT INTO `stock` (`Id`, `id_valas`, `nr`, `stock_awal`, `kd_trx`, `trx`, `rate`, `user_id_created`, `jumlah`, `total`, `stock_akhir`, `date_created`, `time_created`, `status`) VALUES
-(228, '1', '', '0', '', 0, '0', 0, '', '', '0', '2019-11-24', '12:12:16', '1'),
-(229, '2', '', '0', '', 0, '0', 0, '', '', '0', '2019-11-24', '12:22:11', '1'),
-(231, '1', '15000', '0', 'AS-2019-11-24-0001', 0, '', 0, '1000', '15000000', '1000', '2019-11-24', '19:07:02', '1'),
-(232, '1', '15600', '1000', 'AS-2019-11-24-0002', 5, '16000', 0, '1500', '39000000', '2500', '2019-11-24', '19:07:59', '1'),
-(233, '1', '15833.333333333', '2500', '2019-11-24-0003', 1, '17000', 0, '500', '47500000', '3000', '2019-11-24', '20:32:06', '1'),
-(234, '1', '15833.333333333', '3000', '2019-11-24-0004', 2, '18000', 0, '1000', '31666666.666666', '2000', '2019-11-24', '20:40:37', '1'),
-(235, '1', '15756.084157638', '2000', '2020-01-01-0001', 1, '14500', 0, '123', '33450166.666666', '2123', '2020-01-01', '03:11:45', '1');
 
 -- --------------------------------------------------------
 
@@ -170,16 +151,6 @@ CREATE TABLE `transaksi` (
   `time_created` varchar(150) NOT NULL,
   `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `transaksi`
---
-
-INSERT INTO `transaksi` (`Id`, `kd_trx`, `customer`, `trx`, `id_valas`, `rate_valas`, `jumlah`, `total`, `user_id_created`, `date_created`, `time_created`, `status`) VALUES
-(202, 'AS-2019-11-24-0002', '', '5', '1', '16000', '1500', '24000000', 0, '2019-11-24', '19:07:59', 1),
-(203, '2019-11-24-0003', 'CST000001', '1', '1', '17000', '500', '8500000', 0, '2019-11-24', '20:32:06', 1),
-(204, '2019-11-24-0004', 'CST000002', '2', '1', '18000', '1000', '18000000', 0, '2019-11-24', '20:40:37', 1),
-(205, '2020-01-01-0001', 'CST000003', '1', '1', '14500', '123', '1783500', 0, '2020-01-01', '03:11:45', 1);
 
 -- --------------------------------------------------------
 
@@ -386,14 +357,6 @@ CREATE TABLE `valas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `valas`
---
-
-INSERT INTO `valas` (`Id`, `kd_valas`, `valas`, `description`, `date_created`, `time_created`, `user_id_created`, `user_id_update`, `date_update`, `time_update`, `status`) VALUES
-(1, 'VLS001', 'USD', 'Dollar Amerika', '2019-11-24', '12:12:16', 0, 0, '2019-11-24', '12:30:33', 1),
-(2, 'VLS002', 'SGD', 'Dollar Singapura', '2019-11-24', '12:22:11', 0, 0, '2019-11-24', '12:27:34', 1);
-
---
 -- Indexes for dumped tables
 --
 
@@ -477,32 +440,32 @@ ALTER TABLE `valas`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `laba`
 --
 ALTER TABLE `laba`
-  MODIFY `Id_laba` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `Id_laba` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=236;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `temp_stock`
 --
 ALTER TABLE `temp_stock`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `temp_transaksi`
 --
 ALTER TABLE `temp_transaksi`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=206;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `user`
 --
@@ -532,7 +495,7 @@ ALTER TABLE `user_sub_menu`
 -- AUTO_INCREMENT for table `valas`
 --
 ALTER TABLE `valas`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -76,6 +76,7 @@ class Customer_model extends CI_Model
     public function addCustomer()
     {
         $user_id = $this->input->post('user_id');
+        $tipe_nasabah = $this->input->post('tipe_nasabah');
         $kode = $this->input->post('kode');
         $nama = $this->input->post('nama');
         $tempat_lahir = $this->input->post('tempat_lhr');
@@ -90,6 +91,7 @@ class Customer_model extends CI_Model
 
         $data = [
             'kd_cst' => $kode,
+            'tipe_nasabah' => $tipe_nasabah,
             'nama' => $nama,
             'tempat_lahir' => $tempat_lahir,
             'tgl_lahir' => $tgl_lhr,
@@ -116,6 +118,7 @@ class Customer_model extends CI_Model
     function editCustomer()
     {
         $user_id = $this->input->post('user_id');
+        $tipe_nasabah = $this->input->post('tipe_nasabah');
         $Id = $this->input->post('id');
         $nama = $this->input->post('nama');
         $tempat_lahir = $this->input->post('tempat_lhr');
@@ -129,6 +132,7 @@ class Customer_model extends CI_Model
         $tgl = date('Y-m-d');
 
         $data = [
+            'tipe_nasabah' => $tipe_nasabah,
             'nama' => $nama,
             'tempat_lahir' => $tempat_lahir,
             'tgl_lahir' => $tgl_lhr,

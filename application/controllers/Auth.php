@@ -39,7 +39,8 @@ class Auth extends CI_Controller {
                     $data = [
                         'email' => $user['email'],
                         'role_id' => $user['role_id'],
-                        'id' => $user['Id']
+                        'id' => $user['Id'],
+                        'nama' => $user['nama']
                     ];
                     $this->session->set_userdata($data);
                     $this->session->set_flashdata('message',', Selamat Datang '.$user['nama']);

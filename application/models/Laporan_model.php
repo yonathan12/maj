@@ -7,7 +7,7 @@ class Laporan_model extends CI_Model
     {
         $query = "SELECT SUM(laba.total) as Total, laba.date_created,laba.tgl_laporan, valas.valas
         FROM laba JOIN valas
-        ON laba.id_valas = valas.Id_valas
+        ON laba.id_valas = valas.Id
         GROUP BY  laba.tgl_laporan";
         return $this->db->query($query)->result_array();
     }
@@ -19,17 +19,15 @@ class Laporan_model extends CI_Model
         $valas = $this->input->post('valas');
         $tanggal = $this->input->post('tanggal');                
 
-        // Validasi tgl laporan dibuat
-
         $queryCekTglLap['data'] = $this->db->query("SELECT tgl_laporan FROM laba WHERE tgl_laporan = '$tanggal'")->row_array();
         $dataCekLap = $queryCekTglLap['data'];
         
         if ($dataCekLap['tgl_laporan'] == '') {
 
-            $queryValas['data'] = $this->db->query("SELECT Id_valas from valas ")->result_array();
+            $queryValas['data'] = $this->db->query("SELECT Id from valas ")->result_array();
             $data = $queryValas['data'];
             foreach ($data as $key => $value) {
-                $v = $value['Id_valas'];
+                $v = $value['Id'];
                 $queryTotalStock = "SELECT total FROM stock WHERE id_valas = '$v' AND status = 1 AND date_created = '$tanggal' ORDER BY date_created DESC, time_created DESC";
                 $dataStock['data'] = $this->db->query($queryTotalStock)->row_array();                
                 $dts = $dataStock['data'];
@@ -59,7 +57,6 @@ class Laporan_model extends CI_Model
                             $totalY = $dataTY['total'];
                             $result = $totalY;
                     } else {
-                        # code...
                         $result = $totalYR;
                     }
 
@@ -71,8 +68,6 @@ class Laporan_model extends CI_Model
                 $dataTotalVoidBeli = $totalVoidBeli['data'];
                 $totalVoidPembelian = $dataTotalVoidBeli['TBeli'];
             
-                
-                    # code...
                     $x = $result + $totalPembelian + $totalVoidPembelian;
                     $hitungLaba = ($jual + $voidjual + $Total) - $x;
 
@@ -94,41 +89,19 @@ class Laporan_model extends CI_Model
                     ];
                     $this->db->insert('laba',$data);  
             }
-            $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
-            Data Berhasil Di Simpan!
-            </div>');
+            $this->session->set_flashdata('message','Menyimpan Laporan');
             redirect('laporan/labarugi'); 
         }else {
-            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-            Data Sudah Ada!
-            </div>');
+            $this->session->set_flashdata('message1','Laporan Sudah Ada');
             redirect('laporan/labarugi'); 
         }
-
-        // akhir Validasi Laporan
-    }
-
-    public function simpanLaporan()
-    {
-        $valas = $this->input->post('valas');
-        $total = $this->input->post('total');
-        $tanggal = $this->input->post('tanggal');
-
-        $data = 
-        [
-            'id_valas' => $valas,
-            'total' => $total,
-            'tgl_laporan' => $tanggal,
-            'date_created' => date('Y-m-d')
-        ];
-        $this->db->insert('laba',$data);        
     }
 
     public function detailLaporan($id)
     {
         $query = "SELECT laba.*, valas.valas
         FROM laba JOIN valas
-        ON laba.id_valas = valas.Id_valas
+        ON laba.id_valas = valas.Id
         WHERE laba.tgl_laporan = '$id' ";
         return $this->db->query($query)->result_array();       
     }
@@ -143,7 +116,7 @@ class Laporan_model extends CI_Model
     {        
         $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,transaksi.jumlah,transaksi.total,transaksi.date_created , valas.valas, customer.nama
         FROM transaksi JOIN valas
-        ON transaksi.id_valas = valas.Id_valas
+        ON transaksi.id_valas = valas.Id
         JOIN customer 
         ON transaksi.customer = customer.kd_cst
         WHERE transaksi.trx = 2 AND transaksi.status = 1 ORDER BY transaksi.date_created DESC";
@@ -157,7 +130,7 @@ class Laporan_model extends CI_Model
 
         $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,transaksi.jumlah,transaksi.total,transaksi.date_created , valas.valas, customer.nama
         FROM transaksi JOIN valas
-        ON transaksi.id_valas = valas.Id_valas
+        ON transaksi.id_valas = valas.Id
         JOIN customer 
         ON transaksi.customer = customer.kd_cst
         WHERE transaksi.trx = 2 AND transaksi.status = 1 AND transaksi.date_created BETWEEN '$tanggal1' AND '$tanggal2'";
@@ -171,7 +144,7 @@ class Laporan_model extends CI_Model
 
         $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,transaksi.jumlah,transaksi.total,transaksi.date_created , valas.valas, customer.nama
         FROM transaksi JOIN valas
-        ON transaksi.id_valas = valas.Id_valas
+        ON transaksi.id_valas = valas.Id
         JOIN customer 
         ON transaksi.customer = customer.kd_cst
         WHERE transaksi.trx = 2 AND transaksi.status = 1 AND transaksi.date_created BETWEEN '$tanggal1' AND '$tanggal2' ORDER BY transaksi.date_created DESC";
@@ -182,7 +155,7 @@ class Laporan_model extends CI_Model
     {        
         $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,transaksi.jumlah,transaksi.total,transaksi.date_created , valas.valas, customer.nama
         FROM transaksi JOIN valas
-        ON transaksi.id_valas = valas.Id_valas
+        ON transaksi.id_valas = valas.Id
         JOIN customer 
         ON transaksi.customer = customer.kd_cst
         WHERE transaksi.trx = 1 AND transaksi.status = 1 ORDER BY transaksi.date_created DESC";
@@ -196,7 +169,7 @@ class Laporan_model extends CI_Model
 
         $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,transaksi.jumlah,transaksi.total,transaksi.date_created , valas.valas, customer.nama
         FROM transaksi JOIN valas
-        ON transaksi.id_valas = valas.Id_valas
+        ON transaksi.id_valas = valas.Id
         JOIN customer 
         ON transaksi.customer = customer.kd_cst
         WHERE transaksi.trx = 1 AND transaksi.status = 1 AND transaksi.date_created BETWEEN '$tanggal1' AND '$tanggal2'";
@@ -210,7 +183,7 @@ class Laporan_model extends CI_Model
 
         $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,transaksi.jumlah,transaksi.total,transaksi.date_created , valas.valas, customer.nama
         FROM transaksi JOIN valas
-        ON transaksi.id_valas = valas.Id_valas
+        ON transaksi.id_valas = valas.Id
         JOIN customer 
         ON transaksi.customer = customer.kd_cst
         WHERE transaksi.trx = 1 AND transaksi.status = 1 AND transaksi.date_created BETWEEN '$tanggal1' AND '$tanggal2' ORDER BY transaksi.date_created DESC";

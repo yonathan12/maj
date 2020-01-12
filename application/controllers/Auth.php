@@ -33,43 +33,27 @@ class Auth extends CI_Controller {
         $password =$this->input->post('password');
 
         $user = $this->db->get_where('user',['email' => $email])->row_array();
-        //jika user ada
-        if($user)
-        {
-            //jika usernya tidak aktif
+        if($user){
             if($user['is_active']== 1){
-                //cek password
                 if(password_verify($password,$user['password'])){
                     $data = [
                         'email' => $user['email'],
-                        'role_id' => $user['role_id']
+                        'role_id' => $user['role_id'],
+                        'id' => $user['Id']
                     ];
                     $this->session->set_userdata($data);
-                    if ($user['role_id'] == 1) {
-                        redirect('admin');
-                    } else {
-                        redirect('user');
-                    }
-                    
-                    
+                    $this->session->set_flashdata('message',', Selamat Datang '.$user['nama']);
+                    redirect('dashboard');
                 }else{
-                    $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-                    Wrong Password!
-                  </div>');
+                    $this->session->set_flashdata('message','Password Salah');
                     redirect('auth');        
                 }
-
             }else{
-                $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-            Email is not active!
-          </div>');
+                $this->session->set_flashdata('message','Email Tidak Aktif');
             redirect('auth');    
             }
-
         }else{
-            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-            Email is not registered!
-          </div>');
+            $this->session->set_flashdata('message','Email Tidak Terdaftar');
             redirect('auth');
         }
 
@@ -254,10 +238,7 @@ class Auth extends CI_Controller {
     {
         $this->session->unset_userdata('email');
         $this->session->unset_userdata('role_id');
-        $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
-            You has been logout!
-          </div>');
-            redirect('auth');
+        redirect('auth');
     }
 
     public function blocked()

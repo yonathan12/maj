@@ -15,6 +15,8 @@ class Customer extends CI_Controller
     public function index()
     {
         $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
+        $data['kode'] = $this->Kode_model->get_kodeCustomer();
+        $data['customer'] = $this->db->get('customer')->result_array();       
         
         $data['title'] = 'Customer';
         $this->load->view('templates/header',$data);
@@ -35,12 +37,13 @@ class Customer extends CI_Controller
 			$no++;
             $row = array();
             $row[] = $no;
+            $row[] = $field->kd_cst;
             $row[] = $field->nama;
             $row[] = $field->no_ktp;
 			$row[] = $field->telp;
             $row[] = '
-            <a href="customer/detail/'.$field->Id.'" class="btn btn-success">Detail</a> <a href="customer/edit/'.$field->Id.'" class="btn btn-primary">Edit</a>
-            <button type="button" name="delete" id="'.$field->Id.'" class="btn btn-danger btn-xs delete">Delete</button> ';  
+            <a href="customer/detail/'.$field->Id.'" class="btn btn-success">Detail</a> 
+            <a href="#" data-toggle="modal" data-target="#modal_edit'.$field->Id.'" class="btn btn-primary">Edit</a>';  
             $data[] = $row;
         }
  
@@ -56,12 +59,10 @@ class Customer extends CI_Controller
     public function addCustomer()
     {
         $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
-        $data['kode'] = $this->Kode_model->get_kodeCustomer();
 
         $this->form_validation->set_rules('nama','Nama','required|trim');
 
         if ($this->form_validation->run()== FALSE) {
-            # code...
             $data['title'] = 'Customer';
             $this->load->view('templates/header',$data);
             $this->load->view('templates/sidebar',$data);
@@ -69,12 +70,15 @@ class Customer extends CI_Controller
             $this->load->view('customer/addcustomer',$data);
             $this->load->view('templates/footer');
         } else {
-            # code...
-            $this->Customer_model->addCustomer();
-            $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
-            Customer Added!
-            </div>');
-            redirect('customer');
+            $checkNik = $this->db->get_where('customer',['no_ktp' => $this->input->post('ktp')])->result_array()[0]['no_ktp'];
+            if($checkNik){
+                $this->session->set_flashdata('message1','Data Nasabah Sudah Terdaftar');
+                redirect('customer');
+            }else{
+                $this->Customer_model->addCustomer();
+                $this->session->set_flashdata('message','Menambahkan Data Nasabah');
+                redirect('customer');
+            }
         }              
     }
 
@@ -102,37 +106,14 @@ class Customer extends CI_Controller
         redirect('customer');             
     }
 
-    function edit($Id)
+    public function edit($Id)
     {
         $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
         $data['customer'] = $this->db->get_where('customer',['Id' => $Id])->row_array();       
 
-        $this->form_validation->set_rules('nama','Nama','required|trim');
-        $this->form_validation->set_rules('tempat_lhr','Tempat Lahir','required|trim');
-        $this->form_validation->set_rules('tgl_lhr','Tanggal Lahir','required|trim');
-        $this->form_validation->set_rules('ktp','No KTP','required|trim|numeric');
-        $this->form_validation->set_rules('npwp','No NPWP','trim|numeric');
-        $this->form_validation->set_rules('alamat','Alamat','required|trim');        
-        $this->form_validation->set_rules('pekerjaan','Pekerjaan','required|trim');
-        $this->form_validation->set_rules('kewarganegaraan','Kewarganegaraan','required|trim');
-        $this->form_validation->set_rules('telp','Telp','trim|numeric');
-
-        if ($this->form_validation->run()== FALSE) {
-            # code...
-            $data['title'] = 'Customer';
-            $this->load->view('templates/header',$data);
-            $this->load->view('templates/sidebar',$data);
-            $this->load->view('templates/topbar',$data);
-            $this->load->view('customer/editCustomer',$data);
-            $this->load->view('templates/footer');
-        } else {
-            # code...
-            $this->Customer_model->editCustomer();
-            $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
-            Customer Edited!
-            </div>');
-            redirect('customer');
-        }              
+        $this->Customer_model->editCustomer();
+        $this->session->set_flashdata('message','Mengubah Data Nasabah!');
+        redirect('customer');
     }
 
     function upload() {
@@ -155,7 +136,6 @@ class Customer extends CI_Controller
                     $endid++;
                                 
                     $data []= array(                                                     
-                    // Sesuaikan sama nama kolom tabel di database
                                 "kd_cst" => $id_daftar,
                                 "nama" => $worksheet->getCellByColumnAndRow(0, $row)->getValue(),
                                 "tempat_lahir" => $worksheet->getCellByColumnAndRow(1, $row)->getValue(),
@@ -174,6 +154,7 @@ class Customer extends CI_Controller
                 }
                     $this->Customer_model->uploadCustomer($data);
             }
+            $this->session->set_flashdata('message','Berhasil Mengimport Data Nasabah!');
             redirect(base_url('customer'));
         }
     }

@@ -9,18 +9,16 @@ class Kode_model extends CI_Model{
 
     public function get_kode()
     {
-        $this->db->select('RIGHT(valas.Id_valas,3) as kode',FALSE);
-        $this->db->order_by('Id_valas','DESC');
+        $this->db->select('RIGHT(valas.kd_valas,3) as kode',FALSE);
+        $this->db->order_by('kd_valas','DESC');
         $this->db->limit(1);
 
         $query = $this->db->get('valas');
 
         if ($query->num_rows()<> 0) {
-            # code...
             $data = $query->row();
             $kode = intval($data->kode)+1;
         } else {
-            # code...
             $kode = 1;
         }
 
@@ -44,7 +42,7 @@ class Kode_model extends CI_Model{
         date_default_timezone_set('Asia/Jakarta');
         return date('Y-m-d')."-".$kd;
 
-        $kodeMax = str_pad($kode,3,"0",STR_PAD_LEFT);
+        $kodeMax = str_pad($kd,3,"0",STR_PAD_LEFT);
         $kodeJadi = "TRX".$kodeMax;
         return $kodeJadi;        
     }
@@ -74,11 +72,9 @@ class Kode_model extends CI_Model{
         $query = $this->db->get('customer');
 
         if ($query->num_rows()<> 0) {
-            # code...
             $data = $query->row();
             $kode = intval($data->kode)+1;
         } else {
-            # code...
             $kode = 1;
         }
 

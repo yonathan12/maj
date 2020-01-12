@@ -6,9 +6,9 @@ class Transaksi_model extends CI_Model
     public function getTransaksiPenjualan()
     {
         $tanggal = date('Y-m-d');
-        $query = "SELECT transaksi.kd_trx,transaksi.rate_valas,SUM(transaksi.total) AS Total,transaksi.jumlah,transaksi.total,transaksi.date_created, valas.valas, valas.Id_valas, customer.nama as customer
+        $query = "SELECT transaksi.kd_trx,transaksi.rate_valas,SUM(transaksi.total) AS Total,transaksi.jumlah,transaksi.total,transaksi.date_created, valas.valas, valas.Id, customer.nama as customer
         FROM transaksi JOIN valas
-        ON transaksi.id_valas = valas.Id_valas
+        ON transaksi.id_valas = valas.Id
         JOIN customer 
         ON transaksi.customer = customer.kd_cst
         WHERE transaksi.status = 1 AND transaksi.trx = 2 AND transaksi.date_created = '$tanggal'
@@ -94,15 +94,12 @@ class Transaksi_model extends CI_Model
         $cekKode = $cekCustomer['data']['kd_cst'];
 
         if ($cekKode == null) {
-            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-            Customer Belum Terdaftar !
-            </div>');
+            $this->session->set_flashdata('message1','Customer Belum Terdaftar');
             redirect('transaksi/jual');
         } else {
             $queryTemp = $this->db->query("SELECT * FROM temp_transaksi WHERE kd_trx = '$kd_trx' AND trx = 2")->result_array();
 
             foreach ($queryTemp as $row) {
-                # code...
             $result = [
                 'kd_trx' => $kode,
                 'customer' => $customer,
@@ -115,6 +112,7 @@ class Transaksi_model extends CI_Model
                 'time_created' => date('H:i:s'),
                 'status' => 1
             ];
+            
             $this->db->insert('transaksi',$result);
 
             $this->db->where('kd_trx',$kd_trx);
@@ -125,7 +123,6 @@ class Transaksi_model extends CI_Model
         $queryTempStock = $this->db->query("SELECT * FROM temp_stock WHERE kd_trx = '$kd_trx' AND trx = 2")->result_array();
 
            foreach ($queryTempStock as $row) {
-            # code...
            $tempStock = [
             'id_valas' => $row['id_valas'],
             'nr' => $row['nr'],
@@ -150,9 +147,9 @@ class Transaksi_model extends CI_Model
     public function getTransaksiPembelian()
     {
         $tanggal = date('Y-m-d');
-        $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,transaksi.jumlah,SUM(transaksi.total) AS Total,transaksi.date_created, valas.valas, valas.Id_valas, customer.nama
+        $query = "SELECT transaksi.kd_trx,transaksi.customer,transaksi.rate_valas,transaksi.jumlah,SUM(transaksi.total) AS Total,transaksi.date_created, valas.valas, valas.Id, customer.nama
         FROM transaksi JOIN valas
-        ON transaksi.id_valas = valas.Id_valas
+        ON transaksi.id_valas = valas.Id
         JOIN customer
        	ON transaksi.customer = customer.kd_cst
         WHERE transaksi.status= 1 AND transaksi.trx = 1  AND transaksi.date_created = '$tanggal'
@@ -187,7 +184,7 @@ class Transaksi_model extends CI_Model
         $stockAwal = $stock->stock_akhir;
         $sisaStock = $stockAwal + $jumlah;
 
-        $totalBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$hariini' AND trx = 1 AND id_valas = '$valas' AND status = 1 ")->row();
+        $totalBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$hariini' AND trx IN (1) AND id_valas = '$valas' AND status = 1 ")->row();
         $dataTotalBeli = $totalBeli['data'];
         $totalPembelian = $dataTotalBeli->TBeli;
         $jumlahPembelian = $dataTotalBeli->JBeli;
@@ -202,19 +199,17 @@ class Transaksi_model extends CI_Model
         $totalY = $dataTY['total'];
 
         if ($totalY == '') {
-            # code...
-            $SSY['data'] = $this->db->query("SELECT SUM(stock_akhir - stock_awal) AS stock_akhir FROM stock WHERE id_valas = '$valas' AND status = 1 AND trx = 0 ORDER BY time_created DESC")->row_array();
+            $SSY['data'] = $this->db->query("SELECT SUM(stock_akhir - stock_awal) AS stock_akhir FROM stock WHERE id_valas = '$valas' AND status = 1 AND trx IN (0,5) ORDER BY time_created DESC")->row_array();
             $dataSSY = $SSY['data'];
             $stockSSYR = $dataSSY['stock_akhir'];            
 
-            $TY['data'] = $this->db->query("SELECT total FROM stock WHERE id_valas = '$valas'  AND status = 1 AND trx = 0 ORDER BY time_created DESC")->row_array();
+            $TY['data'] = $this->db->query("SELECT total FROM stock WHERE id_valas = '$valas'  AND status = 1 AND trx IN (0,5) ORDER BY time_created DESC")->row_array();
             $dataTY = $TY['data'];
             $totalYR = $dataTY['total'];
 
             $resultTotal = $totalYR;
             $resultStock = $stockSSYR;
         } else {
-            # code...
             $resultTotal = $totalY;
             $resultStock = $stockSSY;
         }           
@@ -224,7 +219,6 @@ class Transaksi_model extends CI_Model
 
         $Rate = $x / $y;         
         $newRate = $Rate;
-
         $totalStock = $newRate * $sisaStock;
 
         // insert ke database stock
@@ -257,9 +251,7 @@ class Transaksi_model extends CI_Model
         $cekKode = $cekCustomer['data']['kd_cst'];
 
         if ($cekKode == null) {
-            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-            Customer Belum Terdaftar !
-            </div>');
+            $this->session->set_flashdata('message','Customer Tidak Terdaftar');
             redirect('transaksi/jual');
         } else {
             $queryTemp = $this->db->query("SELECT * FROM temp_transaksi WHERE kd_trx = '$kd_trx' AND trx = 1")->result_array();

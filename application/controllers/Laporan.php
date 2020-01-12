@@ -22,7 +22,6 @@ class Laporan extends CI_Controller
 
         $this->form_validation->set_rules('tanggal','Tanggal','required');
         if ($this->form_validation->run() == FALSE ) {
-            # code...
             $data['title'] = 'Laba Rugi';
             $this->load->view('templates/header',$data);
             $this->load->view('templates/sidebar',$data);
@@ -30,7 +29,6 @@ class Laporan extends CI_Controller
             $this->load->view('laporan/labarugi',$data);
             $this->load->view('templates/footer');
         } else {
-            # code...
             $this->Laporan_model->labaRugi();        
         }
     }
@@ -243,9 +241,7 @@ class Laporan extends CI_Controller
     public function hapus($id)
     {
         $this->Laporan_model->hapusLaporan($id);
-        $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
-            Data Dihapus!
-          </div>');
+        $this->session->set_flashdata('message','Menghapus Laporan');
         redirect('laporan/labarugi'); 
     }
 

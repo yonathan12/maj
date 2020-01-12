@@ -3,6 +3,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Menu_model extends CI_Model
 {
+
+    public function editMenu(){
+        $data = [
+            'menu' => $this->input->post('menu'),
+            'user_id_updated' => $this->input->post('user_id'),
+            'date_updated' => date('Y-m-d')
+        ];
+        $this->db->where('Id',$this->input->post('id'));
+        $this->db->update('user_menu',$data);
+    }
+
     public function getSubMenu()
     {
         $query = "  SELECT user_sub_menu.*, user_menu.menu 
@@ -18,13 +29,17 @@ class Menu_model extends CI_Model
         $url = $this->input->post('url');
         $icon = $this->input->post('icon');
         $active = $this->input->post('is_active');
+        $user_id = $this->input->post('user_id');
+        $tgl = date('Y-m-d');
 
         $data = [
             'menu_id' => $menu_id,
             'title' => $title,
             'url' => $url,
             'icon' => $icon,
-            'is_active' => $active
+            'is_active' => $active,
+            'user_id_created' => $user_id,
+            'date_created' => $tgl
         ];
         $this->db->insert('user_sub_menu',$data);
     }
@@ -37,15 +52,18 @@ class Menu_model extends CI_Model
         $url = $this->input->post('url');
         $icon = $this->input->post('icon');
         $active = $this->input->post('is_active');
+        $user_id = $this->input->post('user_id');
+        $tgl = date('Y-m-d');
 
         $data = [
             'menu_id' => $menu_id,
             'title' => $title,
             'url' => $url,
             'icon' => $icon,
-            'is_active' => $active
+            'is_active' => $active,
+            'user_id_updated' => $user_id,
+            'date_update' => $tgl
         ];
-
         $this->db->where('Id',$id);
         $this->db->update('user_sub_menu',$data);
     }

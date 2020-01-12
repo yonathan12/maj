@@ -9,7 +9,7 @@ class Transaksi extends CI_Controller
         is_logged_in();
         $this->load->library('Pdf');
         $this->load->model('Kode_model','kode');
-        $this->load->model('Admin_model');
+        $this->load->model('Master_model');
         $this->load->model('Transaksi_model');
     }
 
@@ -23,7 +23,7 @@ class Transaksi extends CI_Controller
 
         $data['penjualan'] = $this->Transaksi_model->getTransaksiPenjualan();
 
-        $data['stock'] = $this->Admin_model->getStock();
+        $data['stock'] = $this->Master_model->getStock();
         $this->load->view('templates/header',$data);
         $this->load->view('templates/sidebar',$data);
         $this->load->view('templates/topbar',$data);
@@ -41,7 +41,7 @@ class Transaksi extends CI_Controller
 
         $data['pembelian'] = $this->Transaksi_model->getTransaksiPembelian();
         
-        $data['stock'] = $this->Admin_model->getStock();
+        $data['stock'] = $this->Master_model->getStock();
 
         $data['title'] = 'Transaksi Pembelian';        
         
@@ -62,7 +62,7 @@ class Transaksi extends CI_Controller
         $kd_trx = $this->session->userdata('email');
         $tempTransaksi = "SELECT temp_transaksi.*, valas.* 
         FROM temp_transaksi JOIN valas
-        ON temp_transaksi.id_valas = valas.Id_valas
+        ON temp_transaksi.id_valas = valas.Id
         WHERE kd_trx = '$kd_trx' AND temp_transaksi.trx = 1";
         
         $data['temp'] = $this->db->query($tempTransaksi)->result_array();
@@ -74,14 +74,12 @@ class Transaksi extends CI_Controller
         $this->form_validation->set_rules('total','Total','required'); 
 
         if ($this->form_validation->run() == FALSE) {
-            # code...
             $this->load->view('templates/header',$data);
             $this->load->view('templates/sidebar',$data);
             $this->load->view('templates/topbar',$data);
             $this->load->view('transaksi/beli',$data);
             $this->load->view('templates/footer');
         } else {
-            # code...
             $this->Transaksi_model->tempBeli();
             $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
             Data Tersimpan!
@@ -100,7 +98,7 @@ class Transaksi extends CI_Controller
         $kd_trx = $this->session->userdata('email');
         $tempTransaksi = "SELECT temp_transaksi.*, valas.* 
         FROM temp_transaksi JOIN valas
-        ON temp_transaksi.id_valas = valas.Id_valas
+        ON temp_transaksi.id_valas = valas.Id
         WHERE kd_trx = '$kd_trx' AND temp_transaksi.trx = 2";
         
         $data['temp'] = $this->db->query($tempTransaksi)->result_array();
@@ -113,14 +111,12 @@ class Transaksi extends CI_Controller
         $this->form_validation->set_rules('total','Total','required');            
 
         if ($this->form_validation->run() == FALSE) {
-            # code...
             $this->load->view('templates/header',$data);
             $this->load->view('templates/sidebar',$data);
             $this->load->view('templates/topbar',$data);
             $this->load->view('transaksi/jual',$data);
             $this->load->view('templates/footer');
         } else {
-            # code...
             $this->Transaksi_model->tempJual();
         }      
     }
@@ -135,7 +131,7 @@ class Transaksi extends CI_Controller
         $kd_trx = $this->session->userdata('email');
         $tempTransaksi = "SELECT temp_transaksi.*, valas.* 
         FROM temp_transaksi JOIN valas
-        ON temp_transaksi.id_valas = valas.Id_valas
+        ON temp_transaksi.id_valas = valas.Id
         WHERE kd_trx = '$kd_trx' AND temp_transaksi.trx = 2 ";
         
         $data['temp'] = $this->db->query($tempTransaksi)->result_array();
@@ -143,14 +139,12 @@ class Transaksi extends CI_Controller
         $this->form_validation->set_rules('customer','Customer','required');
 
         if ($this->form_validation->run() == FALSE) {
-            # code...
             $this->load->view('templates/header',$data);
             $this->load->view('templates/sidebar',$data);
             $this->load->view('templates/topbar',$data);
             $this->load->view('transaksi/jual',$data);
             $this->load->view('templates/footer');
         } else {
-            # code...
            $this->Transaksi_model->prosesTransaksiPenjualan();
            
             $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
@@ -182,7 +176,7 @@ class Transaksi extends CI_Controller
         $kd_trx = $this->session->userdata('email');
         $tempTransaksi = "SELECT temp_transaksi.*, valas.* 
         FROM temp_transaksi JOIN valas
-        ON temp_transaksi.id_valas = valas.Id_valas
+        ON temp_transaksi.id_valas = valas.Id
         WHERE kd_trx = '$kd_trx'";
         
         $data['temp'] = $this->db->query($tempTransaksi)->result_array();
@@ -190,16 +184,13 @@ class Transaksi extends CI_Controller
         $this->form_validation->set_rules('customer','Customer','required');
 
         if ($this->form_validation->run() == FALSE) {
-            # code...
             $this->load->view('templates/header',$data);
             $this->load->view('templates/sidebar',$data);
             $this->load->view('templates/topbar',$data);
             $this->load->view('transaksi/beli',$data);
             $this->load->view('templates/footer');
         } else {
-            # code...
             $this->Transaksi_model->prosesTransaksiPembelian();
-            
             $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
             Data Tersimpan!
           </div>');

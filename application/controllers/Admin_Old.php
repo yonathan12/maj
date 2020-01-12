@@ -16,7 +16,7 @@ class Admin extends CI_Controller
     {
         $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
         
-        $data['title'] = 'Hak Akses Menu';
+        $data['title'] = 'Role';
 
         $data['role'] = $this->db->get('user_role')->result_array();
 
@@ -37,7 +37,7 @@ class Admin extends CI_Controller
     {
         $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
         
-        $data['title'] = 'Hak Akses Menu';
+        $data['title'] = 'Role';
 
         $data['role'] = $this->db->get_where('user_role',['Id' => $role_id])->row_array();
 
@@ -105,25 +105,100 @@ class Admin extends CI_Controller
                 $this->load->view('admin/user',$data);
                 $this->load->view('templates/footer');
             }else{
-                $this->Admin_model->addUser();
-                $this->session->set_flashdata('message','Menambahkan User Baru');
+                $data = [
+                    'name' => htmlspecialchars($this->input->post('name',true)),
+                    'email' => htmlspecialchars($this->input->post('email',true)),
+                    'image' => 'default.jpg',
+                    'password' => password_hash($this->input->post('password'),PASSWORD_DEFAULT),
+                    'role_id' => $this->input->post('role_id'),
+                    'is_active' => 1,
+                    'date_created' => time()
+                ];
+    
+                $this->db->insert('user',$data);
+                $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
+                Your account has been created!
+              </div>');
                 redirect('admin/user');
             }               
     }
 
-    public function editUser()
+    public function valas()
     {
-        $this->Admin_model->editUser();
-        $this->session->set_flashdata('message','Mengubah User');
-        redirect('admin/user');
+        $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
+        
+        $this->db->where('status',1);
+        $data['valas'] = $this->db->get('valas')->result_array();
+
+        $data['kode'] = $this->kode->get_kode();
+
+        $this->form_validation->set_rules('valas','Valas','required|trim|is_unique[valas.valas]',[
+            'is_unique' => 'This valas has been registered!']);
+        $this->form_validation->set_rules('description','Description','required');
+
+        if ($this->form_validation->run()== FALSE) {
+            $data['title'] = 'Valas';
+            $this->load->view('templates/header',$data);
+            $this->load->view('templates/sidebar',$data);
+            $this->load->view('templates/topbar',$data);
+            $this->load->view('admin/valas',$data);
+            $this->load->view('templates/footer');
+        } else {
+            $this->Valas_model->addValas();
+
+            $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
+                    New Valas Added!
+                  </div>');
+                    redirect('admin/valas');   
+        }             
     }
+
+    public function deleteValas($id)
+    {
+        $this->Valas_model->hapusValas($id);
+        $this->session->set_flashdata('message','DiHapus');
+        redirect('admin/valas');
+    }    
+
+    public function stock()
+    {
+            $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
+            $data['title'] = 'Stock';
+
+            $data['kode'] = $this->kode->getKodeAddStock();
+            $data['valas'] = $this->Admin_model->getStock();
+
+            $this->form_validation->set_rules('valas','Valas','required');
+            $this->form_validation->set_rules('stock','Stock','required');
+            $this->form_validation->set_rules('rate','Rate','required');
+            $this->form_validation->set_rules('total','Total','required');
+
+            if ($this->form_validation->run() == FALSE) {
+                $this->load->view('templates/header',$data);
+                $this->load->view('templates/sidebar',$data);
+                $this->load->view('templates/topbar',$data);
+                $this->load->view('admin/stock',$data);
+                $this->load->view('templates/footer');
+            } else {
+                
+                $this->Admin_model->addStock();
+
+                $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
+                Stock Added!
+                </div>');
+                redirect('admin/stock');
+            }         
+    }
+
 
     public function hapusUser($id)
     {
-        $this->Admin_model->hapusUser($id,$this->session->userdata('id'));
+        $this->Admin_model->hapusUser($id);
 
-        $this->session->set_flashdata('message','Menonaktifkan User');
-        redirect('admin/user');
+        $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
+            Account has been delete!
+          </div>');
+            redirect('admin/user');
     }
 }
 ?>

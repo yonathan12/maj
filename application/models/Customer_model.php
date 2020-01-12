@@ -75,6 +75,7 @@ class Customer_model extends CI_Model
 
     public function addCustomer()
     {
+        $user_id = $this->input->post('user_id');
         $kode = $this->input->post('kode');
         $nama = $this->input->post('nama');
         $tempat_lahir = $this->input->post('tempat_lhr');
@@ -99,7 +100,8 @@ class Customer_model extends CI_Model
             'pekerjaan' => $pekerjaan,
             'kewarganegaraan' => $warganegara,
             'status' => 1,
-            'date_created' => $tgl
+            'date_created' => $tgl,
+            'user_id_created' => $user_id
         ];
 
         $this->db->insert('customer',$data);
@@ -110,9 +112,10 @@ class Customer_model extends CI_Model
            $this->db->where("Id", $Id);  
            $this->db->delete("customer");
       }
-
-    function editCustomer($Id)
+    
+    function editCustomer()
     {
+        $user_id = $this->input->post('user_id');
         $Id = $this->input->post('id');
         $nama = $this->input->post('nama');
         $tempat_lahir = $this->input->post('tempat_lhr');
@@ -136,7 +139,8 @@ class Customer_model extends CI_Model
             'pekerjaan' => $pekerjaan,
             'kewarganegaraan' => $warganegara,
             'status' => 1,
-            'date_changed' => $tgl
+            'date_changed' => $tgl,
+            'user_id_changed' => $user_id
         ];
 
         $this->db->where('Id',$Id);

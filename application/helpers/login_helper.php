@@ -5,7 +5,6 @@ function is_logged_in()
     if (!$lib->session->userdata('email')) {
         redirect('auth');
     } else {
-        # code...
         $role_id = $lib->session->userdata('role_id');
         $menu = $lib->uri->segment(1);
 
@@ -16,6 +15,7 @@ function is_logged_in()
             'role_id' => $role_id, 
             'menu_id' => $menuId
             ]);
+            // die(print_r([$menu],1));
         if ($userAccess->num_rows() < 1) {
             redirect('auth/blocked');
         }

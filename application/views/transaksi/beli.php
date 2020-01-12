@@ -8,9 +8,9 @@
             <div class="form-group">
                 <label for="exampleFormControlInput1">Valas</label>
                 <select name="valas" class="form-control">
-                <option value="">Select Menu</option>
+                <option value="">Select Valas</option>
                 <?php foreach ($valas as $v) : ?> 
-                <option value="<?= $v['Id_valas'] ?>"><?= $v['valas'] ?></option>
+                <option value="<?= $v['Id'] ?>"><?= $v['valas'] ?></option>
                 <?php endforeach; ?>
                 </select>
                 <?= form_error('valas','<small class="text-danger pl-3">','</small>'); ?>
@@ -22,7 +22,7 @@
             </div>
             <div class="form-group">
                 <label for="exampleFormControlInput1">Rate Valas</label>
-                <input type="number" class="form-control" id="rate_valas" name="rate_valas" placeholder="Rate Valas">
+                <input type="number" class="form-control" id="rate_valas" name="rate_valas" placeholder="Rate Valas" step="0.01" min="0.00">
                 <?= form_error('rate_valas','<small class="text-danger pl-3">','</small>'); ?>
             </div>
             <div class="form-group">

@@ -24,7 +24,7 @@ class Valas_model extends CI_Model
             $valas = $this->input->post('valas');
             $description = $this->input->post('description');
             $data = [
-                'Id_valas' => $kode,
+                'kd_valas' => $kode,
                 'valas' => $valas,
                 'description' => $description,
                 'date_created' => date('Y-m-d'),
@@ -32,8 +32,11 @@ class Valas_model extends CI_Model
                 'status' => 1
             ];
 
+            $this->db->insert('valas',$data);
+            $idValas = $this->db->insert_id();
+
             $dataStock = [
-                'id_valas' => $kode,
+                'id_valas' => $idValas,
                 'stock_awal' => 0,
                 'stock_akhir' => 0,
                 'rate' => 0,
@@ -42,7 +45,21 @@ class Valas_model extends CI_Model
                 'status' => 1
             ];
 
-            $this->db->insert('valas',$data);
             $this->db->insert('stock',$dataStock);
+    }
+
+    public function editValas(){
+        $id = $this->input->post('id');
+        $valas = $this->input->post('valas');
+        $description = $this->input->post('description');
+        $data = [
+            'valas' => $valas,
+            'description' => $description,
+            'date_update' => date('Y-m-d'),
+            'time_update' => date('H:i:s')
+        ];
+
+        $this->db->where('Id',$id);
+        $this->db->update('valas',$data);
     }
 }

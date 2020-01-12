@@ -1,6 +1,10 @@
 <div class="container">
     <div class="col-lg-3">
-    <?= $this->session->flashdata('message');?>    
+    <div class="flash-data" data-flashdata="<?= $this->session->flashdata('message');?>"> </div>
+    <?php $this->session->flashdata('message')?$this->session->flashdata('message'):''?>
+
+    <div class="flash-data1" data-flashdata="<?= $this->session->flashdata('message1');?>"> </div>
+    <?php $this->session->flashdata('message1')?$this->session->flashdata('message1'):''?>   
     </div>
     <div class="col lg-5">
     <form name="hitungRateBeli" action="<?= base_url('transaksi/jual')?>" method="POST" >
@@ -10,7 +14,7 @@
                 <select name="valas" class="form-control">
                 <option value="">Select Menu</option>
                 <?php foreach ($valas as $v) : ?> 
-                <option value="<?= $v['Id_valas'] ?>"><?= $v['valas'] ?></option>
+                <option value="<?= $v['Id'] ?>"><?= $v['valas'] ?></option>
                 <?php endforeach; ?>
                 </select>
                 <?= form_error('valas','<small class="text-danger pl-3">','</small>'); ?>
@@ -22,7 +26,7 @@
             </div>
             <div class="form-group">
                 <label for="exampleFormControlInput1">Rate Valas</label>
-                <input type="number" class="form-control" id="rate_valas" name="rate_valas" placeholder="Rate Valas">
+                <input type="number" class="form-control" id="rate_valas" name="rate_valas" placeholder="Rate Valas" step="0.01" min="0.00">
                 <?= form_error('rate_valas','<small class="text-danger pl-3">','</small>'); ?>
             </div>
             <div class="form-group">

@@ -27,6 +27,7 @@ class Valas_model extends CI_Model
                 'kd_valas' => $kode,
                 'valas' => $valas,
                 'description' => $description,
+                'user_id_created' => $this->session->userdata('id'),
                 'date_created' => date('Y-m-d'),
                 'time_created' => date('H:i:s'),
                 'status' => 1
@@ -40,6 +41,7 @@ class Valas_model extends CI_Model
                 'stock_awal' => 0,
                 'stock_akhir' => 0,
                 'rate' => 0,
+                'user_id_created' => $this->session->userdata('id'),
                 'date_created' => date('Y-m-d'),
                 'time_created' => date('H:i:s'),
                 'status' => 1
@@ -55,6 +57,7 @@ class Valas_model extends CI_Model
         $data = [
             'valas' => $valas,
             'description' => $description,
+            'user_id_update' => $this->session->userdata('id'),
             'date_update' => date('Y-m-d'),
             'time_update' => date('H:i:s')
         ];

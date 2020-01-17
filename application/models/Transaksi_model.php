@@ -67,17 +67,13 @@ class Transaksi_model extends CI_Model
                 $this->db->insert('temp_stock',$stockValas);
 
                 $this->db->insert('temp_transaksi',$hasil);
-                $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
-                Data Tersimpan!
-            </div>');
+                $this->session->set_flashdata('message','Data Tersimpan!');
                 redirect('transaksi/jual'); 
 
             
             } else {
                 # code...
-            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-            Stock Kurang !
-          </div>');
+            $this->session->set_flashdata('message1','Stock Kurang !');
             redirect('transaksi/jual');
             }                
     }
@@ -251,7 +247,7 @@ class Transaksi_model extends CI_Model
         $cekKode = $cekCustomer['data']['kd_cst'];
 
         if ($cekKode == null) {
-            $this->session->set_flashdata('message','Customer Tidak Terdaftar');
+            $this->session->set_flashdata('message1','Customer Tidak Terdaftar');
             redirect('transaksi/jual');
         } else {
             $queryTemp = $this->db->query("SELECT * FROM temp_transaksi WHERE kd_trx = '$kd_trx' AND trx = 1")->result_array();

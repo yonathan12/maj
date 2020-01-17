@@ -5,16 +5,17 @@
 <div class="flash-data1" data-flashdata="<?= $this->session->flashdata('message1');?>"> </div>
 <?php $this->session->flashdata('message1')?$this->session->flashdata('message1'):''?> 
 </div>
-<?= validation_errors(); ?>
     <form action="<?= base_url('laporan/labarugi')?>" method="POST">
     <div class="form-group row">
         <div class="col-sm-3">
             <input type="date" class="form-control" name="tanggal">
-            <?= form_error('tanggal','<small class="text-danger pl-3">','</small>'); ?>
         </div>
             <button type="submit" class="btn btn-primary col-sm-2">Buat Laporan</button>
+            &nbsp;
+            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal">Export Laporan Laba Rugi</a>
     </div>
     </form>
+    
 <hr class="sidebar-divider">
 <h3 text-align="center">Laba Rugi</h3>
     <table id="table2" class="table table-striped table-bordered" style="width:100%">
@@ -44,4 +45,33 @@
             <?php }?>
         </tbody>
     </table>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Export Data Laba Rugi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="<?= base_url();?>laporan/exportLabarugi" method="POST">
+      <div class="modal-body">
+      <div class="col-sm-6">
+            <input type="date" class="form-control" name="tanggal1">         
+        </div>
+      </div>
+      <div class="modal-body">
+      <div class="col-sm-6">
+            <input type="date" class="form-control" name="tanggal2">         
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Export</button>
+      </div>
+      </form>
+    </div>
+  </div>
 </div>

@@ -85,7 +85,8 @@ class Laporan_model extends CI_Model
                         'id_valas' => $v,
                         'total' => $laba['hasil'],
                         'tgl_laporan' => $tanggal,
-                        'date_created' => date('Y-m-d')
+                        'date_created' => date('Y-m-d'),
+                        'user_id_created' => $this->session->userdata('id')
                     ];
                     $this->db->insert('laba',$data);  
             }
@@ -187,6 +188,20 @@ class Laporan_model extends CI_Model
         JOIN customer 
         ON transaksi.customer = customer.kd_cst
         WHERE transaksi.trx = 1 AND transaksi.status = 1 AND transaksi.date_created BETWEEN '$tanggal1' AND '$tanggal2' ORDER BY transaksi.date_created DESC";
+        return $this->db->query($query)->result();
+    }
+
+    public function exportlabaRugi()
+    {
+        $tanggal1 = $this->input->post('tanggal1');
+        $tanggal2 = $this->input->post('tanggal2');
+
+        $query = "SELECT b.valas, b.description, a.total, a.tgl_laporan, a.date_created, c.nama FROM laba a
+        LEFT JOIN valas b
+        ON a.id_valas = b.Id
+        LEFT JOIN user c
+        ON a.user_id_created = c.Id
+        WHERE a.tgl_laporan BETWEEN '$tanggal1' AND '$tanggal2'";
         return $this->db->query($query)->result();
     }
 }

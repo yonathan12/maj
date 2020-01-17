@@ -23,6 +23,7 @@ class Laporan extends CI_Controller
         $this->form_validation->set_rules('tanggal','Tanggal','required');
         if ($this->form_validation->run() == FALSE ) {
             $data['title'] = 'Laba Rugi';
+            $this->session->set_flashdata('message1','Tanggal Belum Dipilih!');
             $this->load->view('templates/header',$data);
             $this->load->view('templates/sidebar',$data);
             $this->load->view('templates/topbar',$data);
@@ -67,9 +68,7 @@ class Laporan extends CI_Controller
         $this->form_validation->set_rules('tanggal2','Tanggal Kedua','required|trim');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-            Tanggal Belum Dipilih!
-            </div>');
+            $this->session->set_flashdata('message1','Tanggal Belum Dipilih!');
             redirect('laporan/penjualan');
         } else {
         $object = new PHPExcel();
@@ -165,9 +164,7 @@ class Laporan extends CI_Controller
         $this->form_validation->set_rules('tanggal2','Tanggal Kedua','required|trim');
 
         if ($this->form_validation->run() == FALSE) {
-            $this->session->set_flashdata('message','<div class="alert alert-danger" role="alert">
-            Tanggal Belum Dipilih!
-            </div>');
+            $this->session->set_flashdata('message1','Tanggal Belum Dipilih!');
             redirect('laporan/pembelian');
         } else {
         $object = new PHPExcel();
@@ -229,12 +226,76 @@ class Laporan extends CI_Controller
         }
     }
 
+    public function exportLabarugi()
+    {
+        $this->form_validation->set_rules('tanggal1','Tanggal Pertama','required|trim');
+        $this->form_validation->set_rules('tanggal2','Tanggal Kedua','required|trim');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('message1','Tanggal Belum Dipilih!');
+            redirect('laporan/labarugi');
+        } else {
+        $object = new PHPExcel();
+
+        $table_columns = array(
+            "Valas",
+            "Deskripsi",
+            "Total",
+            "Tanggal Laporan",
+            "Tanggal Dibuat",
+            "Dibuat Oleh"
+        );
+
+        $column = 0;
+        for ($col='A'; $col !=='F' ; $col++) { 
+            $object->getActiveSheet()->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        $object->getActiveSheet()->mergeCells('A1:F1');
+        $object->getActiveSheet()->mergeCells('A2:F2');
+        $object->getActiveSheet()->getStyle("A1:A2")->getFont()->setSize(14);
+ 
+
+        $object->getActiveSheet()->getStyle( "A1" )->getFont()->setBold( true );
+        $object->getActiveSheet()->getStyle( "A2" )->getFont()->setBold( true );
+
+        $object->getActiveSheet()->setCellValueByColumnAndRow("A1", 1, "Data Laba Rugi");
+        $object->getActiveSheet()->setCellValueByColumnAndRow("A2", 2, "PT Muchad Artha Jaya");
+
+        $object->getActiveSheet()->getStyle('A4:F4')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('F28A8C'); 
+        
+        $row_judul = 4;
+
+        foreach($table_columns as $field)
+        {
+        $object->getActiveSheet()->setCellValueByColumnAndRow($column, $row_judul, $field);
+        $column++;
+        }
+
+        $data = $this->Laporan_model->exportlabaRugi();
+        $excel_row = 5;
+        foreach ($data as $row) {
+            $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row->valas);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->description);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $row->total);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $row->tgl_laporan);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row->date_created);            
+            $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row->nama);
+
+            $excel_row++;
+        }
+        $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="Export Data Laba Rugi.xls"');
+        $object_writer->save('php://output');
+        redirect('laporan/labarugi');
+        }
+    }
+
     public function laporanlaba()
     {
         $this->Laporan_model->simpanLaporan();
-        $this->session->set_flashdata('message','<div class="alert alert-success" role="alert">
-            Data Tersimpan!
-          </div>');
+        $this->session->set_flashdata('message','Data Tersimpan!');
         redirect('laporan/labarugi'); 
     }
     

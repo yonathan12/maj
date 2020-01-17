@@ -19,16 +19,16 @@ class Laporan extends CI_Controller
         $data['valas'] = $this->db->get('valas')->result_array();
 
         $data['laba'] = $this->Laporan_model->getLaporanLaba();
+        $data['title'] = 'Laba Rugi';
+        
+        $this->load->view('templates/header',$data);
+        $this->load->view('templates/sidebar',$data);
+        $this->load->view('templates/topbar',$data);
+        $this->load->view('laporan/labarugi',$data);
+        $this->load->view('templates/footer');
 
-        $this->form_validation->set_rules('tanggal','Tanggal','required');
-        if ($this->form_validation->run() == FALSE ) {
-            $data['title'] = 'Laba Rugi';
-            $this->session->set_flashdata('message1','Tanggal Belum Dipilih!');
-            $this->load->view('templates/header',$data);
-            $this->load->view('templates/sidebar',$data);
-            $this->load->view('templates/topbar',$data);
-            $this->load->view('laporan/labarugi',$data);
-            $this->load->view('templates/footer');
+        if (!$this->input->post('tanggal')) {
+            $this->session->set_flashdata('message1','Tanggal Belum Dipilih!');    
         } else {
             $this->Laporan_model->labaRugi();        
         }

@@ -11,6 +11,10 @@
                     <td><?= $detail['kd_cst']; ?></td>
                 </tr>
                 <tr>
+                    <td>Tipe Nasabah :</td>
+                    <td><?= $detail['tipe_nasabah']=="P"?"Perorangan":"Badan Usaha"; ?></td>
+                </tr>
+                <tr>
                     <td>Nama :</td>
                     <td><?= $detail['nama']; ?></td>
                 </tr>

@@ -1,8 +1,10 @@
 <div class="container">
 <h2>Void Transaksi Penjualan</h2>
-    <div class="col-lg-3">
-    <?= $this->session->flashdata('message');?>    
-    </div>
+<div class="flash-data" data-flashdata="<?= $this->session->flashdata('message'); ?>"> </div>
+  <?php $this->session->flashdata('message') ? $this->session->flashdata('message') : '' ?>
+
+  <div class="flash-data1" data-flashdata="<?= $this->session->flashdata('message1'); ?>"> </div>
+  <?php $this->session->flashdata('message1') ? $this->session->flashdata('message1') : '' ?>
     <div class="col lg-5">
     <form name="hitungRateBeli" action="<?= base_url('void/jual')?>" method="POST" >
             <div class="form-group">

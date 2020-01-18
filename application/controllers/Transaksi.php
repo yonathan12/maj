@@ -66,9 +66,9 @@ class Transaksi extends CI_Controller
         WHERE kd_trx = '$kd_trx' AND temp_transaksi.trx = 1";
 
         $data['temp'] = $this->db->query($tempTransaksi)->result_array();
-
+        
         $this->form_validation->set_rules('valas', 'Valas', 'required|trim|is_unique[temp_transaksi.id_valas]', [
-            'is_unique' => 'Valas Required'
+            'is_unique' => 'Ada Transaksi '.$this->db->get_where('valas',array('id' => $this->input->post('valas')))->row_array()['valas']. ' Yang Belum Diselesaikan'
         ]);
         $this->form_validation->set_rules('rate_valas', 'Rate Valas', 'required');
         $this->form_validation->set_rules('jumlah', 'Jumlah', 'required');
@@ -82,9 +82,7 @@ class Transaksi extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->Transaksi_model->tempBeli();
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Data Tersimpan!
-          </div>');
+            $this->session->set_flashdata('message', 'Data Tersimpan!');
             redirect('transaksi/beli');
         }
     }
@@ -104,9 +102,8 @@ class Transaksi extends CI_Controller
 
         $data['temp'] = $this->db->query($tempTransaksi)->result_array();
 
-
         $this->form_validation->set_rules('valas', 'Valas', 'required|trim|is_unique[temp_transaksi.id_valas]', [
-            'is_unique' => 'This valas has been registered!'
+            'is_unique' => 'Ada Transaksi '.$this->db->get_where('valas',array('id' => $this->input->post('valas')))->row_array()['valas']. ' Yang Belum Diselesaikan'
         ]);
         $this->form_validation->set_rules('rate_valas', 'Rate Valas', 'required');
         $this->form_validation->set_rules('jumlah', 'Jumlah', 'required');
@@ -212,9 +209,8 @@ class Transaksi extends CI_Controller
         $this->db->where('id_valas', $id);
         $this->db->delete('temp_stock');
 
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Data Dihapus!
-          </div>');
+        $this->session->set_flashdata('message', '
+            Data Dihapus!');
         redirect('transaksi/beli');
     }
 
@@ -230,9 +226,7 @@ class Transaksi extends CI_Controller
         $this->db->where('id_valas', $id);
         $this->db->delete('temp_stock');
 
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Data Dihapus!
-          </div>');
+        $this->session->set_flashdata('message', 'Data Dihapus!');
         redirect('transaksi/jual');
     }
 
@@ -284,9 +278,10 @@ class Transaksi extends CI_Controller
         ON transaksi.customer = customer.kd_cst
         WHERE transaksi.kd_trx = '$id'";
 
-        $queryINV = "SELECT transaksi.*,SUM(transaksi.total) AS TTL, customer.nama, customer.no_npwp
+        $queryINV = "SELECT transaksi.*,SUM(transaksi.total) AS TTL, customer.nama, customer.no_npwp, d.nama as user_id_created
         FROM transaksi JOIN customer
         ON transaksi.customer = customer.kd_cst
+        LEFT JOIN user AS d ON transaksi.user_id_created = d.id
         WHERE kd_trx = '$id' ";
 
         $trx['data'] = $this->db->query($query)->result_array();
@@ -295,8 +290,6 @@ class Transaksi extends CI_Controller
         $this->load->view('templates/header', $data);
         $this->load->view('transaksi/print', $trx);
     }
-
-
 
     function cetak($id)
     {

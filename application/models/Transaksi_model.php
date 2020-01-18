@@ -103,6 +103,7 @@ class Transaksi_model extends CI_Model
                 'id_valas' => $row['id_valas'],
                 'rate_valas' => $row['rate_valas'],
                 'jumlah' => $row['jumlah'],
+                'user_id_created' => $this->session->userdata('id'),
                 'total' => $row['total'],
                 'date_created' => date('Y-m-d'),
                 'time_created' => date('H:i:s'),
@@ -242,14 +243,15 @@ class Transaksi_model extends CI_Model
         $customer = substr($this->input->post('customer'),-9);
         $hariini = date('Y-m-d');
         $waktu = date('H:i:s');
-        
+                        
         $cekCustomer['data'] = $this->db->query("SELECT kd_cst FROM customer WHERE kd_cst = '$customer'")->row_array();
         $cekKode = $cekCustomer['data']['kd_cst'];
 
         if ($cekKode == null) {
             $this->session->set_flashdata('message1','Customer Tidak Terdaftar');
-            redirect('transaksi/jual');
-        } else {
+            redirect('transaksi/beli');
+            
+        }else {
             $queryTemp = $this->db->query("SELECT * FROM temp_transaksi WHERE kd_trx = '$kd_trx' AND trx = 1")->result_array();
        
             foreach ($queryTemp as $row) {
@@ -262,6 +264,7 @@ class Transaksi_model extends CI_Model
                 'rate_valas' => $row['rate_valas'],
                 'jumlah' => $row['jumlah'],
                 'total' => $row['total'],
+                'user_id_created' => $this->session->userdata('id'),
                 'date_created' => date('Y-m-d'),
                 'time_created' => date('H:i:s'),
                 'status' => 1

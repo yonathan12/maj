@@ -50,7 +50,7 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th class="center"><?= $this->session->userdata('nama'); ?></th>
+                            <th class="center"><?= $inv['user_id_created'] ?></th>
                             <th></th>
                             <th></th>
                             <th class="right"></th>

@@ -137,6 +137,7 @@ class Admin_model extends CI_Model
             'jumlah' => $addStock,
             'total' => $total,
             'trx' => 5,
+            'user_id_created' => $this->session->userdata('id'),
             'date_created' => date('Y-m-d'),
             'time_created' => date('H:i:s'),
             'status' => 1
@@ -165,7 +166,6 @@ class Admin_model extends CI_Model
     
     public function hapusUser($id, $user_id)
     {
-        die(print_r($id,1));
         $data = array
         (
             'date_update' => time(),
@@ -181,7 +181,9 @@ class Admin_model extends CI_Model
     {
         $role = $this->input->post('role');
         $data = [
-            'role' => $role
+            'role' => $role,
+            'date_created' => date('Y-m-d'),
+            'user_id_created' => $this->session->userdata('id')
         ];
         $this->db->insert('user_role',$data);
         redirect('admin/role');

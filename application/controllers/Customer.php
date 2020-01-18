@@ -147,9 +147,10 @@ class Customer extends CI_Controller
                                 "telp" => $worksheet->getCellByColumnAndRow(7, $row)->getValue(),
                                 "pekerjaan" => $worksheet->getCellByColumnAndRow(8, $row)->getValue(),
                                 "kewarganegaraan" => $worksheet->getCellByColumnAndRow(9, $row)->getValue(),
+                                "tipe_nasabah" => $worksheet->getCellByColumnAndRow(10, $row)->getValue(),
                                 "status" => 1,
+                                "user_id_created" => $this->session->userdata('id'),
                                 "date_created" => date("Y-m-d")
-                                
                             );
                 }
                     $this->Customer_model->uploadCustomer($data);
@@ -175,7 +176,8 @@ class Customer extends CI_Controller
             "Telp",
             "Pekerjaan",
             "Kewarganegaraan",
-            "Tanggal Dibuat"
+            "Tanggal Dibuat",
+            "Tipe Nasabah"
         );
 
         $column = 0;
@@ -183,8 +185,8 @@ class Customer extends CI_Controller
             $object->getActiveSheet()->getColumnDimension($col)->setAutoSize(true);
         }
 
-        $object->getActiveSheet()->mergeCells('A1:L1');
-        $object->getActiveSheet()->mergeCells('A2:L2');
+        $object->getActiveSheet()->mergeCells('A1:K1');
+        $object->getActiveSheet()->mergeCells('A2:K2');
         $object->getActiveSheet()->getStyle("A1:A2")->getFont()->setSize(14);
  
 
@@ -194,7 +196,7 @@ class Customer extends CI_Controller
         $object->getActiveSheet()->setCellValueByColumnAndRow("A1", 1, "Data Customer");
         $object->getActiveSheet()->setCellValueByColumnAndRow("A2", 2, "PT Muchad Artha Jaya");
 
-        $object->getActiveSheet()->getStyle('A4:L4')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('F28A8C'); 
+        $object->getActiveSheet()->getStyle('A4:K4')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('F28A8C'); 
         
         $row_judul = 4;
 
@@ -219,6 +221,7 @@ class Customer extends CI_Controller
             $object->getActiveSheet()->setCellValueByColumnAndRow(9, $excel_row, $row->pekerjaan);
             $object->getActiveSheet()->setCellValueByColumnAndRow(10, $excel_row, $row->kewarganegaraan);
             $object->getActiveSheet()->setCellValueByColumnAndRow(11, $excel_row, $row->date_created);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(12, $excel_row, $row->tipe_nasabah);
 
             $excel_row++;
         }

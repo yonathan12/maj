@@ -64,7 +64,9 @@ class Admin extends CI_Controller
 
         $data = [
             'role_id' => $role_id,
-            'menu_id' => $menu_id
+            'menu_id' => $menu_id,
+            'date_created' => date('Y-m-d'),
+            'user_id_created' => $this->session->userdata('id')
         ];
 
         $result = $this->db->get_where('user_access_menu',$data);

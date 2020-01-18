@@ -5,10 +5,10 @@
 <div class="flash-data1" data-flashdata="<?= $this->session->flashdata('message1');?>"> </div>
 <?php $this->session->flashdata('message1')?$this->session->flashdata('message1'):''?> 
 </div>
-    <form action="<?= base_url('laporan/labarugi')?>" method="POST">
+    <form action="<?= base_url('laporan/labarugi')?>" method="POST" onsubmit="return validasi(this)">
     <div class="form-group row">
-        <div class="col-sm-3">
-            <input type="date" class="form-control" name="tanggal">
+        <div class="col-sm-2">
+            <input type="date" class="form-control" id="tanggal" name="tanggal">
         </div>
             <button type="submit" class="btn btn-primary col-sm-2">Buat Laporan</button>
             &nbsp;
@@ -75,3 +75,19 @@
     </div>
   </div>
 </div>
+<script>
+function validasi(form){
+  var tanggal = form.tanggal.value;
+  
+    if (!tanggal) {
+      Swal.fire(
+        'Pesan',
+        'Tanggal Wajib Diisi',
+        'warning'
+      )
+      return false;
+    }
+    return true;
+  
+}
+</script>

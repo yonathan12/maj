@@ -1,7 +1,9 @@
 <div class="container">
-    <div class="col-lg-3">
-        <?= $this->session->flashdata('message'); ?>
-    </div>
+<div class="flash-data" data-flashdata="<?= $this->session->flashdata('message'); ?>"> </div>
+  <?php $this->session->flashdata('message') ? $this->session->flashdata('message') : '' ?>
+
+  <div class="flash-data1" data-flashdata="<?= $this->session->flashdata('message1'); ?>"> </div>
+  <?php $this->session->flashdata('message1') ? $this->session->flashdata('message1') : '' ?>
     <div class="col lg-5">
         <form name="hitungRateBeli" action="<?= base_url('transaksi/beli') ?>" method="POST">
             <input type="text" value="<?= $this->session->userdata('email'); ?>" hidden name="kode">
@@ -35,14 +37,12 @@
         </form>
     </div>
     <br />
-    <form class="form-inline float-right" method="POST" action="<?= base_url(); ?>transaksi/prosesPembelian">
-        <div class="form-group mb-2">
-            <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="Customer">
-        </div>
+    <form class="form-inline float-right" method="POST" action="<?= base_url(); ?>transaksi/prosesPembelian" onsubmit="return validasi(this)">
         <div class="form-group">
             <input type="text" value="<?= $kode; ?>" hidden name="kode">
             <input type="text" class="form-control" id="customer" placeholder="Customer" name="customer">
         </div>
+        &nbsp;
         <button type="submit" class="btn btn-primary mb-2">Simpan</button>
     </form>
     <table class="table table-striped table-bordered" style="width:100%">
@@ -75,3 +75,19 @@
         </tbody>
     </table>
 </div>
+<script>
+function validasi(form){
+  var customer = form.customer.value;
+  
+    if (!customer) {
+      Swal.fire(
+        'Pesan',
+        'Customer Wajib Diisi',
+        'warning'
+      )
+      return false;
+    }
+    return true;
+  
+}
+</script>

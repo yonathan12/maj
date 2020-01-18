@@ -26,12 +26,8 @@ class Laporan extends CI_Controller
         $this->load->view('templates/topbar',$data);
         $this->load->view('laporan/labarugi',$data);
         $this->load->view('templates/footer');
-
-        if (!$this->input->post('tanggal')) {
-            $this->session->set_flashdata('message1','Tanggal Belum Dipilih!');    
-        } else {
-            $this->Laporan_model->labaRugi();        
-        }
+        if($this->input->post('tanggal'))
+            $this->Laporan_model->labaRugi();
     }
 
     public function penjualan()

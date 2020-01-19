@@ -40,9 +40,6 @@
     </div>
     <br/>
     <form class="form-inline float-right" method="POST" action="<?= base_url();?>transaksi/prosesPenjualan" onsubmit="return validasi(this)">
-    <div class="form-group mb-2">
-        <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="Customer" >
-    </div>
     <div class="form-group mx-sm-3 mb-2">
         <label for="inputPassword2" class="sr-only">Customer</label>
         <input type="text" class="form-control" id="customer" placeholder="Customer" name="customer">        

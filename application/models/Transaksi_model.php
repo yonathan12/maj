@@ -196,11 +196,11 @@ class Transaksi_model extends CI_Model
         $totalY = $dataTY['total'];
 
         if ($totalY == '') {
-            $SSY['data'] = $this->db->query("SELECT SUM(stock_akhir - stock_awal) AS stock_akhir FROM stock WHERE id_valas = '$valas' AND status = 1 AND trx IN (0,5) ORDER BY time_created DESC")->row_array();
+            $SSY['data'] = $this->db->query("SELECT SUM(stock_akhir - stock_awal) AS stock_akhir FROM stock WHERE id_valas = '$valas' AND status = 1 AND trx IN (0,5) ORDER BY date_created DESC, time_created DESC")->row_array();
             $dataSSY = $SSY['data'];
             $stockSSYR = $dataSSY['stock_akhir'];            
 
-            $TY['data'] = $this->db->query("SELECT total FROM stock WHERE id_valas = '$valas'  AND status = 1 AND trx IN (0,5) ORDER BY time_created DESC")->row_array();
+            $TY['data'] = $this->db->query("SELECT total FROM stock WHERE id_valas = '$valas'  AND status = 1 AND trx IN (0,5) ORDER BY date_created DESC, time_created DESC")->row_array();
             $dataTY = $TY['data'];
             $totalYR = $dataTY['total'];
 

@@ -43,9 +43,9 @@ class Laporan_model extends CI_Model
                 $dtvj = $dataVoidJual['data'];
                 $voidjual = $dtvj['TTL'];       
                 
-                $TY['data'] = $this->db->query("SELECT total,date_created FROM stock WHERE id_valas = '$v' AND date_created != '$tanggal' AND status = 1 ORDER BY date_created DESC, time_created DESC")->row_array();
-                $dataTY = $TY['data'];
-                $totalY = $dataTY['total'];
+                // $TY['data'] = $this->db->query("SELECT total,date_created FROM stock WHERE id_valas = '$v' AND date_created != '$tanggal' AND status = 1 ORDER BY date_created DESC, time_created DESC")->row_array();
+                // $dataTY = $TY['data'];
+                // $totalY = $dataTY['total'];
 
                 $TY['data'] = $this->db->query("SELECT total FROM stock WHERE id_valas = '$v' AND date_created = '$tanggal' AND status = 1 AND trx = 0 ORDER BY time_created DESC")->row_array();
                 $dataTY = $TY['data'];

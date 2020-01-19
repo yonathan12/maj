@@ -91,6 +91,7 @@ class Master_model extends CI_Model
                 'jumlah' => $addStock,
                 'total' => $totalStock,
                 'stock_akhir' => $sisaStock,
+                'user_id_crated' => $this->session->userdata('id'),
                 'date_created' => date('Y-m-d'),
                 'time_created' => date('H:i:s'),
                 'status' => 1
@@ -121,6 +122,7 @@ class Master_model extends CI_Model
                 'stock_akhir' => $stockAkhir,
                 'jumlah' => $addStock,
                 'total' => $total,
+                'user_id_created' => $this->session->userdata('id'),
                 'date_created' => date('Y-m-d'),
                 'time_created' => date('H:i:s'),
                 'status' => 1

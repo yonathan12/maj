@@ -9,6 +9,13 @@ class Master_model extends CI_Model
             FROM stock JOIN valas
             WHERE stock.id_valas = valas.Id AND stock.status = 1
             GROUP BY stock.id_valas ORDER BY stock.time_created";
+
+            $queryNewRate = "SELECT * FROM(
+                SELECT nr, id_valas, date_created, time_created
+                FROM stock
+                ORDER BY date_created DESC, time_created DESC, id DESC) AS t GROUP BY id_valas";
+            $newRate = $this->db->query($queryNewRate)->result_array();
+            // die(print_r($newRate,1));
             return $this->db->query($queryDataStock)->result_array();
     }
 

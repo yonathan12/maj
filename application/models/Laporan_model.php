@@ -204,4 +204,29 @@ class Laporan_model extends CI_Model
         WHERE a.tgl_laporan BETWEEN '$tanggal1' AND '$tanggal2'";
         return $this->db->query($query)->result();
     }
+
+    public function exportSipesat()
+    {
+        $periode = $this->input->post('periode');
+        $tahun = $this->input->post('tahun');
+
+        if($periode == "1"){
+            $dateStart = $tahun.'-01-01';
+            $dateEnd = $tahun.'-03-31';
+        }else if($periode == "2"){
+            $dateStart = $tahun.'-04-01';
+            $dateEnd = $tahun.'-06-30';
+        }else if($periode == "3"){
+            $dateStart = $tahun.'-07-01';
+            $dateEnd = $tahun.'-09-30';
+        }else if($periode == "4"){
+            $dateStart = $tahun.'-10-01';
+            $dateEnd = $tahun.'-12-31';
+        }
+
+        $query = "
+            SELECT * FROM customer WHERE date_created BETWEEN '$dateStart' AND '$dateEnd'
+        ";
+        return $this->db->query($query)->result();
+    }
 }

@@ -314,4 +314,74 @@ class Laporan extends CI_Controller
         $this->load->view('laporan/detail',$data);
         $this->load->view('templates/footer');
     }
+
+    public function sipesat()
+    {
+        $data['user'] = $this->db->get_where('user',['email' => $this->session->userdata('email')])->row_array();
+        $data['title'] = 'Laporan Sipesat';
+        $this->load->view('templates/header',$data);
+        $this->load->view('templates/sidebar',$data);
+        $this->load->view('templates/topbar',$data);
+        $this->load->view('laporan/sipesat',$data);
+        $this->load->view('templates/footer');
+    }
+
+    public function exportSipesat()
+    {
+        $object = new PHPExcel();
+
+        $table_columns = array(
+            "No Nasabah",
+            "Nama Nasabah",
+            "Tempat Lahir",
+            "Tanggal Lahir",
+            "Alamat",
+            "No KTP / No NPWP"
+        );
+
+        $column = 0;
+        for ($col='A'; $col !=='F' ; $col++) { 
+            $object->getActiveSheet()->getColumnDimension($col)->setAutoSize(true);
+        }
+
+        $object->getActiveSheet()->mergeCells('A1:F1');
+        $object->getActiveSheet()->mergeCells('A2:F2');
+        $object->getActiveSheet()->getStyle("A1:A2")->getFont()->setSize(14);
+ 
+
+        $object->getActiveSheet()->getStyle( "A1" )->getFont()->setBold( true );
+        $object->getActiveSheet()->getStyle( "A2" )->getFont()->setBold( true );
+
+        $object->getActiveSheet()->setCellValueByColumnAndRow("A1", 1, "SiPesat");
+        $object->getActiveSheet()->setCellValueByColumnAndRow("A2", 2, "PT Muchad Artha Jaya");
+
+        $object->getActiveSheet()->getStyle('A4:F4')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('F28A8C'); 
+        
+        $row_judul = 4;
+
+        foreach($table_columns as $field)
+        {
+        $object->getActiveSheet()->setCellValueByColumnAndRow($column, $row_judul, $field);
+        $column++;
+        }
+
+        $data = $this->Laporan_model->exportSipesat();
+        $excel_row = 5;
+        foreach ($data as $row) {
+            $object->getActiveSheet()->setCellValueByColumnAndRow(0, $excel_row, $row->kd_cst);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(1, $excel_row, $row->nama);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(2, $excel_row, $row->tempat_lahir);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(3, $excel_row, $row->tgl_lahir);
+            $object->getActiveSheet()->setCellValueByColumnAndRow(4, $excel_row, $row->alamat);            
+            $object->getActiveSheet()->setCellValueByColumnAndRow(5, $excel_row, $row->no_ktp);
+
+            $excel_row++;
+        }
+        $object_writer = PHPExcel_IOFactory::createWriter($object, 'Excel5');
+        header('Content-Type: application/vnd.ms-excel');
+        header('Content-Disposition: attachment;filename="Export Data Sipesat.xls"');
+        $object_writer->save('php://output');
+        redirect('laporan/sipesat');
+        
+    }
 }

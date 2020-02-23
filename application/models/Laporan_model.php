@@ -60,7 +60,7 @@ class Laporan_model extends CI_Model
                         $result = $totalYR;
                     }
 
-                $totalBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$tanggal' AND trx = 1 AND id_valas = '$v' AND status = 1 or date_created='$tanggal' AND trx = 5 AND id_valas = '$v' AND status = 1")->row_array();
+                $totalBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$tanggal' AND trx = 1 or trx = 5 AND id_valas = '$v' AND status = 1")->row_array();
                 $dataTotalBeli = $totalBeli['data'];
                 $totalPembelian = $dataTotalBeli['TBeli'];
 
@@ -68,11 +68,8 @@ class Laporan_model extends CI_Model
                 $dataTotalVoidBeli = $totalVoidBeli['data'];
                 $totalVoidPembelian = $dataTotalVoidBeli['TBeli'];
             
-                    // $x = $result + $totalPembelian + $totalVoidPembelian;
-                    // $hitungLaba = ($jual + $voidjual + $Total) - $x;
-                    $x = $totalPembelian + $totalVoidPembelian;
-                    $hitungLaba = ($jual + $voidjual) - $x;
-                    // die(print_r($hitungLaba,1));
+                    $x = $result + $totalPembelian + $totalVoidPembelian;
+                    $hitungLaba = ($jual + $voidjual + $Total) - $x;
 
                     if ($hitungLaba <= 0) {
                         # code...
@@ -205,6 +202,31 @@ class Laporan_model extends CI_Model
         LEFT JOIN user c
         ON a.user_id_created = c.Id
         WHERE a.tgl_laporan BETWEEN '$tanggal1' AND '$tanggal2'";
+        return $this->db->query($query)->result();
+    }
+
+    public function exportSipesat()
+    {
+        $periode = $this->input->post('periode');
+        $tahun = $this->input->post('tahun');
+
+        if($periode == "1"){
+            $dateStart = $tahun.'-01-01';
+            $dateEnd = $tahun.'-03-31';
+        }else if($periode == "2"){
+            $dateStart = $tahun.'-04-01';
+            $dateEnd = $tahun.'-06-30';
+        }else if($periode == "3"){
+            $dateStart = $tahun.'-07-01';
+            $dateEnd = $tahun.'-09-30';
+        }else if($periode == "4"){
+            $dateStart = $tahun.'-10-01';
+            $dateEnd = $tahun.'-12-31';
+        }
+
+        $query = "
+            SELECT * FROM customer WHERE date_created BETWEEN '$dateStart' AND '$dateEnd'
+        ";
         return $this->db->query($query)->result();
     }
 }

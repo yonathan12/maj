@@ -6,7 +6,7 @@ class Customer_model extends CI_Model
     var $table = 'customer';
     var $column_order = array(null, 'nama','alamat','telp','no_ktp');
     var $column_search = array('nama','alamat','telp','no_ktp','email');
-    var $order = array('nama' => 'ASC');
+    var $order = array('kd_cst' => 'ASC');
 
     public function __construct()
     {

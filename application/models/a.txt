@@ -24,7 +24,7 @@ class Laporan_model extends CI_Model
         
         if ($dataCekLap['tgl_laporan'] == '') {
 
-            $queryValas['data'] = $this->db->query("SELECT Id from valas")->result_array();
+            $queryValas['data'] = $this->db->query("SELECT Id from valas ")->result_array();
             $data = $queryValas['data'];
             foreach ($data as $key => $value) {
                 $v = $value['Id'];
@@ -67,14 +67,19 @@ class Laporan_model extends CI_Model
                 $totalVoidBeli['data'] = $this->db->query("SELECT SUM(total) AS TBeli, SUM(jumlah) AS JBeli FROM transaksi WHERE date_created='$tanggal' AND trx = 3 AND id_valas = '$v' AND status = 1")->row_array();
                 $dataTotalVoidBeli = $totalVoidBeli['data'];
                 $totalVoidPembelian = $dataTotalVoidBeli['TBeli'];
+            
+                    // $x = $result + $totalPembelian + $totalVoidPembelian;
+                    // $hitungLaba = ($jual + $voidjual + $Total) - $x;
+                    $x = $totalPembelian + $totalVoidPembelian;
+                    $hitungLaba = ($jual + $voidjual) - $x;
+                    // die(print_r($hitungLaba,1));
 
-                    $x = $totalPembelian + $totalVoidPembelian + $result;
-                    $hitungLaba = ($jual + $voidjual + $Total) - $x;
-                    
                     if ($hitungLaba <= 0) {
+                        # code...
                         $laba['hasil'] = '0';
                         $laba['valas'] = $valas = $this->input->post('valas');
                     } else {
+                        # code...
                         $laba['hasil'] = round($hitungLaba);
                         $laba['valas'] = $valas = $this->input->post('valas');
                     }   

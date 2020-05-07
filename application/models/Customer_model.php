@@ -4,8 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Customer_model extends CI_Model 
 {
     var $table = 'customer';
-    var $column_order = array(null, 'nama','alamat','telp','no_ktp');
-    var $column_search = array('nama','alamat','telp','no_ktp','email');
+    var $column_order = array(null, 'kd_cst','nama','no_ktp','telp');
+    var $column_search = array('nama','alamat','telp','no_ktp','email','kd_cst');
     var $order = array('kd_cst' => 'ASC');
 
     public function __construct()

@@ -39,8 +39,8 @@
           <label for="exampleFormControlInput1">Tipe Nasabah</label>
           <select class="custom-select" name="tipe_nasabah" id="tipe_nasabah">
             <option selected value="">Tipe Nasabah</option>
-                <option value="P">Perorangan</option>
-                <option value="B">Badan Usaha</option>
+            <option value="P">Perorangan</option>
+            <option value="B">Badan Usaha</option>
           </select>
         </div>
         <div class="form-group">
@@ -93,100 +93,78 @@
   </div>
 </div>
 
-
 <!-- Modal Edit Data Nasabah -->
-<?php
-foreach ($customer as $key => $value) :
-  $id = $value['Id'];
-  $nama = $value['nama'];
-  $tipe = $value['tipe_nasabah'];
-  $tempat_lahir = $value['tempat_lahir'];
-  $tgl_lahir = $value['tgl_lahir'];
-  $alamat = $value['alamat'];
-  $no_ktp = $value['no_ktp'];
-  $no_npwp = $value['no_npwp'];
-  $email = $value['email'];
-  $telp = $value['telp'];
-  $pekerjaan = $value['pekerjaan'];
-  $kewarganegaraan = $value['kewarganegaraan'];
-?>
-  <div class="modal fade" id="modal_edit<?= $id; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Edit Data Nasabah</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <form name="" action="<?= base_url('customer/edit') ?>" method="POST" onsubmit="return validasi(this)">
+<div class="modal fade" id="modal_edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edit Data Nasabah</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form name="" action="<?= base_url('customer/edit') ?>" method="POST" onsubmit="return validasi(this)">
         <div class="form-group">
           <label for="exampleFormControlInput1">Tipe Nasabah</label>
-          <select class="custom-select" name="tipe_nasabah" id="tipe_nasabah">
-            <?php
-              if($tipe === "P"){
-                echo '<option value="P" checked>Perorangan</option>';
-              }else{
-                echo '<option value="B" checked>Badan Usaha</option>';
-              }
-            ?>
+          <select class="custom-select" name="tipe_nasabah" id="tipe_nasabah_edit">
+            <option value="P">Perorangan</option>
+            <option value="B">Badan Usaha</option>
           </select>
         </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Nama</label>
-            <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" value="<?= $nama; ?>">
-            <input type="text" value="<?= $this->session->userdata('id'); ?>" hidden name="user_id">
-            <input type="text" hidden="" name="id" value="<?= $id; ?>">
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Tempat Lahir</label>
-            <input type="text" class="form-control" id="tempat_lhr" name="tempat_lhr" placeholder="Tempat Lahir" value="<?= $tempat_lahir ?>">
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Tanggal Lahir</label>
-            <input type="date" class="form-control" id="tgl_lhr" name="tgl_lhr" value="<?= $tgl_lahir ?>">
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">No Ktp</label>
-            <input type="number" class="form-control" id="ktp" name="ktp" placeholder="No KTP" value="<?= $no_ktp ?>">
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Alamat</label>
-            <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Alamat" value="<?= $alamat; ?>">
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Telp</label>
-            <input type="number" class="form-control" id="telp" placeholder="Telp" name="telp" value="<?= $telp; ?>">
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">No NPWP</label>
-            <input type="number" class="form-control" id="npwp" name="npwp" placeholder="No NPWP" value="<?= $no_npwp; ?>">
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Pekerjaan</label>
-            <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" placeholder="Pekerjaan" value="<?= $pekerjaan; ?>">
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Kewarganegaraan</label>
-            <input type="text" class="form-control" id="kewarganegaraan" name="kewarganegaraan" placeholder="Kewarganegaraan" value="<?= $kewarganegaraan ?>">
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-success">Simpan</button>
-            <button type="reset" class="btn btn-primary">Reset</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-          </div>
-        </form>
-      </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Nama</label>
+          <input type="text" class="form-control" id="nama_edit" name="nama" placeholder="Nama">
+          <input type="text" value="<?= $this->session->userdata('id'); ?>" hidden name="user_id">
+          <input type="text" hidden="" name="id" id="id_edit">
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Tempat Lahir</label>
+          <input type="text" class="form-control" id="tempat_lhr_edit" name="tempat_lhr" placeholder="Tempat Lahir"></div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Tanggal Lahir</label>
+          <input type="date" class="form-control" id="tgl_lhr_edit" name="tgl_lhr">
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">No Ktp</label>
+          <input type="number" class="form-control" id="ktp_edit" name="ktp" placeholder="No KTP">
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Alamat</label>
+          <input type="text" class="form-control" id="alamat_edit" name="alamat" placeholder="Alamat">
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Telp</label>
+          <input type="number" class="form-control" id="telp_edit" placeholder="Telp" name="telp">
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">No NPWP</label>
+          <input type="number" class="form-control" id="npwp_edit" name="npwp" placeholder="No NPWP">
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Pekerjaan</label>
+          <input type="text" class="form-control" id="pekerjaan_edit" name="pekerjaan" placeholder="Pekerjaan">
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Kewarganegaraan</label>
+          <input type="text" class="form-control" id="kewarganegaraan_edit" name="kewarganegaraan" placeholder="Kewarganegaraan">
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Simpan</button>
+          <button type="reset" class="btn btn-primary">Reset</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+        </div>
+      </form>
     </div>
   </div>
-<?php endforeach; ?>
+</div>
+
 
 <script type="text/javascript">
   function validasi(form) {
     var nama = form.nama.value;
     var ktp = form.ktp.value;
     var tipe = form.tipe_nasabah.value;
-    
+
     if (!nama) {
       Swal.fire(
         'Pesan',
@@ -213,5 +191,37 @@ foreach ($customer as $key => $value) :
     }
 
     return true;
+  }
+
+  function editData(e) {
+
+    $('#modal_edit').modal('hide');
+    var id = e.id;
+    $.ajax({
+      url: "<?= base_url('customer/getDetail/'); ?>" + id,
+      type: 'GET',
+      data: {
+        id: id
+      },
+      success: function(rsp) {
+        var data = rsp.data;
+        $('#form').trigger("reset");
+        if (data.status === true) {
+
+          $('#id_edit').val(data.data.Id);
+          $('#tipe_nasabah_edit').val(data.data.tipe_nasabah);
+          $('#nama_edit').val(data.data.nama);
+          $('#tempat_lhr_edit').val(data.data.tempat_lhr);
+          $('#tgl_lhr_edit').val(data.data.tgl_lhr);
+          $('#ktp_edit').val(data.data.no_ktp);
+          $('#alamat_edit').val(data.data.alamat);
+          $('#telp_edit').val(data.data.telp);
+          $('#npwp_edit').val(data.data.no_npwp);
+          $('#pekerjaan_edit').val(data.data.pekerjaan);
+          $('#kewarganegaraan_edit').val(data.data.kewarganegaraan);
+          $('#modal_edit').modal('show');
+        }
+      }
+    });
   }
 </script>

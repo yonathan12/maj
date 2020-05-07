@@ -39,7 +39,7 @@
 					<div class="col-md-12">
 						<label for="exampleInputFile">Pilih File Excel</label>
 							<?= form_upload(array('id' => 'txtFileImport', 'name' => 'file'))?>
-							<small id="fileImport" class="form-text text-muted">Import Data Customer Via Excel, Format File Harus .XLS (Excel 2003-2007).</small>
+							<small id="fileImport" class="form-text text-muted">Import Data Customer Via Excel, Format File Harus .XLSX</small>
 					</div>
 					</div>
 				</div>

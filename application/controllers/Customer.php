@@ -21,7 +21,6 @@ class Customer extends CI_Controller
     {
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['kode'] = $this->Kode_model->get_kodeCustomer();
-        $data['customer'] = $this->db->get('customer')->result_array();
 
         $data['title'] = 'Customer';
         $this->load->view('templates/header', $data);
@@ -48,7 +47,8 @@ class Customer extends CI_Controller
             $row[] = $field->telp;
             $row[] = '
             <a href="customer/detail/' . $field->Id . '" class="btn btn-success">Detail</a> 
-            <a href="#" data-toggle="modal" data-target="#modal_edit' . $field->Id . '" class="btn btn-primary">Edit</a>';
+            <a href="#" data-toggle="modal" data-target="#modal_edit" id="'.$field->Id.'"
+            onclick="return editData(this)" class="btn btn-primary">Edit</a>';
             $data[] = $row;
         }
 
@@ -101,6 +101,14 @@ class Customer extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function getDetail($id)
+    {
+        header('Content-Type: application/json');
+        $getData = $this->db->get_where('customer',['Id' => $id])->row_array();
+        $data = ['data' => ['status' => true, 'data' => $getData]];
+        echo json_encode($data);
+    }
+
     function delete()
     {
         $Id = $this->input->post('Id');
@@ -114,8 +122,9 @@ class Customer extends CI_Controller
         redirect('customer');
     }
 
-    public function edit($Id)
+    public function edit()
     {
+        $Id = $this->input->post('id');
         $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
         $data['customer'] = $this->db->get_where('customer', ['Id' => $Id])->row_array();
 
@@ -160,7 +169,6 @@ class Customer extends CI_Controller
                     }
                 }
             }
-            
             $this->Customer_model->uploadCustomer($data);
             $reader->close();
         }

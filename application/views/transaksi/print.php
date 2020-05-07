@@ -8,7 +8,6 @@
             <div class="row mb-4">
                 <div class="col-sm-6">
                     <h6 class="mb-3">PT Muchad Artha Jaya</h6>
-
                     <div>Jl Senayan 49 RT 001/02, Gunung, Kebayoran Baru, Jakarta 12120
                     </div>
                     <div>021 7205879</div>
@@ -50,26 +49,44 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th class="center"><?= $inv['user_id_created'] ?></th>
-                            <th></th>
-                            <th></th>
-                            <th class="right"></th>
                             <th class="center"></th>
-                            <th class="right"></th>
-                        </tr>
-                    </tfoot>
-                    <tfoot>
-                        <tr>
-                            <th class="center">Dibuat Oleh</th>
                             <th></th>
-                            <th>Disetujui Oleh</th>
-                            <th class="right">Diterima Oleh</th>
+                            <th></th>
+                            <th class="right"></th>
                             <th class="center">Jumlah</th>
                             <th class="right"><?= "Rp " . number_format($inv['TTL']); ?></th>
                         </tr>
                     </tfoot>
                     <tbody>
                 </table>
+                <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th class="center" width="455px">Dibuat Oleh</th>
+                        <th class="center" width="325px">Disetujui Oleh</th>
+                        <th class="center">Diterima Oleh</th>
+                        <th class="center">&nbsp;</th>
+                        <th class="right">&nbsp;</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th class="center"><?= $inv['user_id_created'] ?></th>
+                        <th>&nbsp;</th>
+                        <th><?= $inv['nama']; ?></th>
+                        <th class="right">&nbsp;</th>
+                        <th class="center">&nbsp;</th>
+                        <th class="right">&nbsp;</th>
+                    </tr>
+                </tfoot>
+                <tfoot>
+                    <tr>
+                    <tr>
+                        <th class="center"></th>
+                    </tr>
+                    </tr>
+                </tfoot>
+            </table>
             </div>
         </div>
     </div>

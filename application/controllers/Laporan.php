@@ -4,6 +4,7 @@ require_once APPPATH . '/third_party/spout/src/Spout/Autoloader/autoload.php';
 
 use Box\Spout\Writer\WriterFactory;
 use Box\Spout\Common\Type;
+use Box\Spout\Writer\Style\StyleBuilder;
 
 class Laporan extends CI_Controller
 {
@@ -73,12 +74,12 @@ class Laporan extends CI_Controller
             $data = $this->Laporan_model->exportPenjualan();
             foreach ($data as $row) {
                 $rows[] = [
-                    $row->kd_trx, $row->nama, 
+                    $row->kd_trx, $row->nama,
                     $row->valas, $row->rate_valas,
                     $row->jumlah, $row->total, $row->date_created
                 ];
             }
-            
+
             $writer = WriterFactory::create(Type::XLSX);
             $writer->openToBrowser("Export Data Penjualan.xlsx");
 
@@ -94,8 +95,8 @@ class Laporan extends CI_Controller
                 "Total",
                 "Tanggal Transaksi"
             );
-            $writer->addRow($header); 
-            $writer->addRow($sub_header); 
+            $writer->addRow($header);
+            $writer->addRow($sub_header);
             $writer->addRows($rows);
 
             $writer->close();
@@ -142,12 +143,12 @@ class Laporan extends CI_Controller
             $data = $this->Laporan_model->exportPembelian();
             foreach ($data as $row) {
                 $rows[] = [
-                    $row->kd_trx, $row->nama, 
+                    $row->kd_trx, $row->nama,
                     $row->valas, $row->rate_valas,
                     $row->jumlah, $row->total, $row->date_created
                 ];
             }
-            
+
             $writer = WriterFactory::create(Type::XLSX);
             $writer->openToBrowser("Export Data Pembelian.xlsx");
 
@@ -163,8 +164,8 @@ class Laporan extends CI_Controller
                 "Total",
                 "Tanggal Transaksi"
             );
-            $writer->addRow($header); 
-            $writer->addRow($sub_header); 
+            $writer->addRow($header);
+            $writer->addRow($sub_header);
             $writer->addRows($rows);
 
             $writer->close();
@@ -180,21 +181,19 @@ class Laporan extends CI_Controller
             $this->session->set_flashdata('message1', 'Tanggal Belum Dipilih!');
             redirect('laporan/labarugi');
         } else {
-            $data = $this->Laporan_model->exportlabaRugi();
-            foreach ($data as $row) {
+            $data_laba_rugi = $this->Laporan_model->exportlabaRugi();
+            foreach ($data_laba_rugi as $row) {
                 $rows[] = [
-                    $row->valas, $row->description, 
+                    $row->valas, $row->description,
                     $row->total, $row->tgl_laporan,
                     $row->date_created, $row->nama
                 ];
             }
-            
-            $writer = WriterFactory::create(Type::XLSX);
-            $writer->openToBrowser("Export Data Laba Rugi.xlsx");
 
             $header = [
                 'PT Muchad Artha Jaya'
             ];
+
             $sub_header = array(
                 "Valas",
                 "Deskripsi",
@@ -203,9 +202,62 @@ class Laporan extends CI_Controller
                 "Tanggal Dibuat",
                 "Dibuat Oleh"
             );
-            $writer->addRow($header); 
-            $writer->addRow($sub_header); 
+
+            $sub_header_penjualan = array(
+                "Kode Transaksi",
+                "Customer",
+                "Valas",
+                "Rate Valas",
+                "Jumlah",
+                "Total",
+                "Tanggal Transaksi"
+            );
+
+            $sub_header_pembelian = array(
+                "Kode Transaksi",
+                "Customer",
+                "Valas",
+                "Rate Valas",
+                "Jumlah",
+                "Total",
+                "Tanggal Transaksi"
+            );
+
+            $data_penjualan = $this->Laporan_model->exportPenjualan();
+            foreach ($data_penjualan as $row) {
+                $rows_penjualan[] = [
+                    $row->kd_trx, $row->nama,
+                    $row->valas, $row->rate_valas,
+                    $row->jumlah, $row->total, $row->date_created
+                ];
+            }
+
+            $data_pembelian = $this->Laporan_model->exportPembelian();
+            foreach ($data_pembelian as $row) {
+                $rows_pembelian[] = [
+                    $row->kd_trx, $row->nama,
+                    $row->valas, $row->rate_valas,
+                    $row->jumlah, $row->total, $row->date_created
+                ];
+            }
+
+            $writer = WriterFactory::create(Type::XLSX);
+            $writer->openToBrowser("Export Data Laba Rugi.xlsx");
+
+            $writer->getCurrentSheet()->setName('Laporan Laba Rugi');
+            $writer->addRow($header);
+            $writer->addRow($sub_header);
             $writer->addRows($rows);
+
+            $writer->addNewSheetAndMakeItCurrent()->setName('Laporan Penjualan');
+            $writer->addRow($header);
+            $writer->addRow($sub_header_penjualan);
+            $writer->addRows($rows_penjualan);
+
+            $writer->addNewSheetAndMakeItCurrent()->setName('Laporan Pembelian');
+            $writer->addRow($header);
+            $writer->addRow($sub_header_pembelian);
+            $writer->addRows($rows_pembelian);
 
             $writer->close();
         }
@@ -252,32 +304,32 @@ class Laporan extends CI_Controller
     public function exportSipesat()
     {
         $data = $this->Laporan_model->exportSipesat();
-            foreach ($data as $row) {
-                $rows[] = [
-                    $row->kd_cst, $row->nama, 
-                    $row->tempat_lahir, $row->tgl_lahir,
-                    $row->alamat, $row->no_ktp
-                ];
-            }
-            
-            $writer = WriterFactory::create(Type::XLSX);
-            $writer->openToBrowser("Data Sipesat.xlsx");
-
-            $header = [
-                'PT Muchad Artha Jaya'
+        foreach ($data as $row) {
+            $rows[] = [
+                $row->kd_cst, $row->nama,
+                $row->tempat_lahir, $row->tgl_lahir,
+                $row->alamat, $row->no_ktp
             ];
-            $sub_header = array(
-                "No Nasabah",
-                "Nama Nasabah",
-                "Tempat Lahir",
-                "Tanggal Lahir",
-                "Alamat",
-                "No KTP / No NPWP"
-            );
-            $writer->addRow($header); 
-            $writer->addRow($sub_header); 
-            $writer->addRows($rows);
+        }
 
-            $writer->close();
+        $writer = WriterFactory::create(Type::XLSX);
+        $writer->openToBrowser("Data Sipesat.xlsx");
+
+        $header = [
+            'PT Muchad Artha Jaya'
+        ];
+        $sub_header = array(
+            "No Nasabah",
+            "Nama Nasabah",
+            "Tempat Lahir",
+            "Tanggal Lahir",
+            "Alamat",
+            "No KTP / No NPWP"
+        );
+        $writer->addRow($header);
+        $writer->addRow($sub_header);
+        $writer->addRows($rows);
+
+        $writer->close();
     }
 }
